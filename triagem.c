@@ -4,9 +4,9 @@
 int main (){
     float temperatura, i =0, pacientes = 2;
     char tosse, febre, ar;
-    char* lixo;
+
     for (i=0; i<pacientes; i++){
-        printf("\nO usuario deve respontes S (sim) ou N (não) para as seguintes perguntas:");
+        printf("\nO usuario deve respontes S (sim) ou N (nÃ£o) para as seguintes perguntas:");
 
         printf("\nTosse? ");
         scanf("%c", &tosse);
