@@ -1,8 +1,12 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+float percentual (float parcial, float total){
+    float porcento = 100*parcial/total;
+    return porcento;
+}
+
 int main (){
-    fflush(stdin);
     float temperatura, i =0, pacientes = 3, gripario = 0, geral= 0;
     char tosse, febre, ar;
 
@@ -10,6 +14,7 @@ int main (){
         printf("\nO usuario deve respontes S (sim) ou N (nao) para as seguintes perguntas:");
 
         printf("\nTosse? Febre? Falta de Ar? \n");
+        fflush(stdin);
         scanf("%c %c %c", &tosse, &febre, &ar);
         fflush(stdin);
 
@@ -27,7 +32,7 @@ int main (){
         printf("\n");
     }
 
-    printf("\nGripario = %.2f \nGeral=%.2f", (100*gripario/pacientes), (100*geral/pacientes) );
+    printf("\nGripario = %.2f \nGeral=%.2f", percentual(gripario, pacientes), percentual(geral, pacientes) );
 
 return 0;
 }
