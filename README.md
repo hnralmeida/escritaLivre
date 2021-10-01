@@ -33,3 +33,5 @@
   <img src="https://img.shields.io/badge/-Instagram-DF0174?style=flat-square&labelColor=DF0174&logo=instagram&logoColor=white&link=intagram.com/hnralmeida"/></a>
 </p>  
 
+
+##### Esse template de arquivo pertence a [iuricode](https://github.com/iuricode/readme-template/blob/main/README-profile/iuricode.md).
