@@ -8,11 +8,11 @@
 </p>
 
 <p align="left">
-  🦄 Linguagens: **C**, VBA and Python.
+  🦄 Linguagens: <strong>C</strong>, VBA and Python.
 </p>
 
 <p align="left">
-  💼 Ferramentas: <strong>Visual Studio and Microsoft Office.</strong>
+  💼 Ferramentas: <strong>Visual Studio</strong> and <strong>Microsoft Office.</strong>
 </p>
 
 <p align="left">
