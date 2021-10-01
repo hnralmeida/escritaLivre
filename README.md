@@ -34,6 +34,4 @@
 </p>  
 
 
-<p align="left">
-  ##### Esse template de arquivo pertence a [iuricode](https://github.com/iuricode/readme-template/blob/main/README-profile/iuricode.md).
-</p>
+>>  Esse template de arquivo pertence a [iuricode](https://github.com/iuricode/readme-template/blob/main/README-profile/iuricode.md).
