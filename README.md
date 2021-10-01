@@ -3,7 +3,7 @@
 <img src="https://raw.githubusercontent.com/MicaelliMedeiros/micaellimedeiros/master/image/computer-illustration.png" min-width="400px" max-width="400px" width="400px" align="right" alt="Computador iuriCode">
 
 <p align="left"> 
-  A series of unrelated files, just for testing and/or made during classes, bootcamps and others. 
+  A series of unrelated files, just for testing and/or made during classes, bootcamps and others. <br>
   Currently Informational Systems Bachelor Student at IFES - Campus Colatina.
 </p>
 
@@ -31,15 +31,9 @@
 
   <a href="#" alt="Instagram">
   <img src="https://img.shields.io/badge/-Instagram-DF0174?style=flat-square&labelColor=DF0174&logo=instagram&logoColor=white&link=intagram.com/hnralmeida"/></a>
+  <br>
+  <br>
+  <br>
 </p>  
-
-
-
-
-
-
-
-
-
 
 >  Esse template de arquivo pertence a [iuricode](https://github.com/iuricode/readme-template/blob/main/README-profile/iuricode.md).
