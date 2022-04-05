@@ -137,10 +137,10 @@ void menu(fila *f){
 	string nome;
 
 	while(loop){
-		printf("\n_____________________________\nSelecione uma opção");
+		printf("\n_____________________________\nSelecione uma opÃ§Ã£o");
 		printf("\n_____________________________");
 		printf("\n0- Sair\n1- Inserir na fila\n2- Remover");
-		printf("\n3- Exibir\n4- Exibir 6 Próximos");
+		printf("\n3- Exibir\n4- Exibir 6 PrÃ³ximos");
 		printf("\n_____________________________\nEntrada: ");
 		scanf("%d", &number);
 
