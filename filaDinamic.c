@@ -4,6 +4,8 @@
 #include <locale.h>
 typedef char string[40];
 
+string vNames[6] = {"Aaron", "Deonhad", "Ervan", "Luidevue", "Keboa", "Roebo"};
+
 typedef struct elem {
 	struct elem *prox;
 	string nome;
@@ -31,10 +33,10 @@ void limparBuffer(){
     while((c= getchar()) != '\n' && c != EOF);
 }
 
-void inserir (fila *f, int numero, string nome, int priv){
+void inserir (fila *f, string nome, int priv){
 	elem *novo = (elem*)malloc (sizeof(elem));
 	strcpy (novo->nome, nome);
-	novo->priv= priv; 
+	novo->priv= priv;
 	novo -> prox = NULL;
 	if (f->inicio == NULL) {
 		f-> inicio = novo;
@@ -46,70 +48,75 @@ void inserir (fila *f, int numero, string nome, int priv){
 	f->quant++;
 }
 
-/*string removerMesmo (fila *f){
-	string resposta;
+char* retirarElem (fila *f, string resposta){
 	elem *remov = f->inicio;
 	f->inicio = remov -> prox;
+	f->quant--;
 	if (f->inicio == NULL) f-> fim == NULL;
 	strcpy(resposta, remov->nome);
-	free(atual);
+	free(remov);
 	return resposta;
-}*/
+}
 
-int remover(fila *f){
+void remover(fila *f){
 	string resposta;
-	
+	int prioridade, atend=1;
+	prioridade = f->quant>6 ? 6 : f->quant;
+	elem *aux = f->inicio;
+
 	if(f-> inicio == NULL){
-		printf("\nNull?");
-		return 0;
+		printf("\nFila Vazia");
 	} else {
-		printf("\nEntrando no if...");
-		if (f->inicio->priv == 3 ){
-			if(f->validador[0] > 0 ) {
-				string resposta;
-				elem *remov = f->inicio;
-				f->inicio = remov -> prox;
-				if (f->inicio == NULL) f-> fim == NULL;
-				strcpy(resposta, remov->nome);
-				free(remov);
-				f->validador[2]--;
-			}
-		}else if(f->inicio->priv == 2){
-			if(!f->validador[1]){
-				if ( !f->validador [2]) f->validador[2] = 3;
-				f->validador[1] = 1;
-			}
-			string resposta;
-			elem *remov = f->inicio;
-			f->inicio = remov -> prox;
-			if (f->inicio == NULL) f-> fim == NULL;
-			strcpy(resposta, remov->nome);
-			free(remov);
-			f->validador[1]--;
-		}else if(f->inicio->priv == 1){
-			if(!f->validador[0]){
-				if ( !f->validador [2]) f->validador[2] = 3;
-				f->validador[0] = 2;
-			}
-			printf("\nRemovendo...");
-			string resposta;
-			elem *remov = f->inicio;
-			f->inicio = remov -> prox;
-			if (f->inicio == NULL) f-> fim == NULL;
-			strcpy(resposta, remov->nome);
-			free(remov);
-			f->validador[0]--;
-		}
+	    while(prioridade){
+	        if(aux->priv==atend){
+                prioridade = 0;
+	        }else{
+                aux = aux->prox;
+                prioridade--;
+	        }
+	        if(prioridade==1){
+                atend++;
+                aux = f->inicio;
+            }
+	    }
+	    if(f->inicio->prox!=NULL){
+            elem* troca = aux->prox;
+            aux->prox = f->inicio->prox;
+            elem* init = f->inicio;
+            f->inicio = aux;
+            init->prox = troca;
+            printf("Trocar %s por %s", aux->nome, troca->nome);
+	    }
+
+        if (aux->priv == 3 ){
+            if(f->validador[0] > 0 ) {
+                strcpy(resposta, retirarElem(f, resposta));
+                f->validador[2]--;
+            }
+        }else if(aux->priv == 2){
+            if(!f->validador[1]){
+                if ( !f->validador [2]) f->validador[2] = 3;
+                f->validador[1] = 1;
+            }
+            strcpy(resposta, retirarElem(f, resposta));
+            f->validador[1]--;
+        }else if(aux->priv == 1){
+            if(!f->validador[0]){
+                if ( !f->validador [2]) f->validador[2] = 3;
+                f->validador[0] = 2;
+            }
+            strcpy(resposta, retirarElem(f, resposta));
+            f->validador[0]--;
+        }
 	}
 	printf("\n%s Removido", resposta);
-	return 1;
 }
 
 void exibir (fila f){
 	elem* aux;
 	aux = f.inicio;
 	int i, q = f.quant;
-	
+
 	for (i=0; i<q;i++){
 		if (aux->priv==1)
 			printf("Nome: %s, Prioridade: %d\n", aux->nome, aux->priv);
@@ -137,30 +144,36 @@ void menu(fila *f){
 	string nome;
 
 	while(loop){
-		printf("\n_____________________________\nSelecione uma opção");
+		printf("\n_____________________________\nSelecione uma opcao");
 		printf("\n_____________________________");
 		printf("\n0- Sair\n1- Inserir na fila\n2- Remover");
-		printf("\n3- Exibir\n4- Exibir 6 Próximos");
+		printf("\n3- Exibir\n4- Exibir 6 Proximos");
 		printf("\n_____________________________\nEntrada: ");
 		scanf("%d", &number);
 
 		switch(number){
             case 0:
-                printf("Saindo do Programa");
+                printf("Saindo do Programa\n\n");
                 loop = 0;
                 return;
 
             case 1:
-            	printf("Digite um nome: ");
+            	/*printf("Digite um nome: ");
             	scanf(" %40[^\n]s", nome);
             	do{
             	printf("Coloque a prioridade (1 a 3) de %s: ", nome);
             	scanf("%d", &priv);
 				}while(priv < 0 || priv > 3);
-				
-            	inserir(f, number, nome, priv);
+
+            	inserir(f, nome, priv);*/
+            	inserir(f, vNames[0], 3);
+            	inserir(f, vNames[1], 2);
+            	inserir(f, vNames[2], 1);
+            	inserir(f, vNames[3], 3);
+            	inserir(f, vNames[4], 2);
+            	inserir(f, vNames[5], 1);
                 break;
-                
+
 
             case 2:
             	remover(f);
@@ -188,10 +201,10 @@ int main(){
 	setlocale(LC_ALL, "");
 	fila queue;
 	criarFila(&queue);
-	
+
 	int nr;
 	menu(&queue);
-	
+
 	system("Pause");
 	printf("\n");
 }
