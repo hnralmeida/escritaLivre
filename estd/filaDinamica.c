@@ -1,5 +1,6 @@
 /*
 	HENRIQUE ALMEIDA DE OLIVEIRA
+	LUIZ EDUARDO MARCHIORI
 
 		07-04-2022
 
@@ -11,6 +12,7 @@
 #include <locale.h>
 typedef char string[40];
 
+//Existe uma função secreta ao apertar 150 durante o menu que inicia uma fila com os elementos abaixo
 string vNames[8] = {"Aaron", "Deonhad", "Ervan", "Luidevue", "Keboa", "Roebo", "Luca", "Mariella"};
 
 typedef struct elem {
@@ -235,7 +237,7 @@ void menu(fila *f){
 		printf("\n_____________________________\nSelecione uma opcao");
 		printf("\n_____________________________");
 		printf("\n0- Sair\n1- Inserir na fila\n2- Remover");
-		printf("\n3- Exibir\n4- Exibir 6 Proximos\n5- Iniciar Exemplo");
+		printf("\n3- Exibir\n4- Exibir 6 Proximos\n");
 		printf("\n_____________________________\nEntrada: ");
 		scanf("%d", &number);
 
@@ -269,7 +271,7 @@ void menu(fila *f){
                 proximos(*f);
                 break;
 
-            case 5:
+            case 150:
                 inserir(f, vNames[0], 3);
             	inserir(f, vNames[1], 2);
             	inserir(f, vNames[2], 1);
