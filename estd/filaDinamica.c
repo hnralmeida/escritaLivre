@@ -1,68 +1,98 @@
-/*
-	HENRIQUE ALMEIDA DE OLIVEIRA
-	LUIZ EDUARDO MARCHIORI
-
-		07-04-2022
-
-		ESTRUTURA DE DADOS - V02 - VANDERSON
-*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
+
 typedef char string[40];
 
-//Existe uma função secreta ao apertar 150 durante o menu que inicia uma fila com os elementos abaixo
-string vNames[8] = {"Aaron", "Deonhad", "Ervan", "Luidevue", "Keboa", "Roebo", "Luca", "Mariella"};
+typedef struct tipoNo TNo;
 
-typedef struct elem {
-	struct elem *prox;
+typedef struct tipoNo {
+	TNo *prox;
 	string nome;
-	int priv; //prioridade do elemento, de nivel 1 a 3
-}elem;
+	char sexo;
+	float salario;	
+}TNo;
 
-typedef struct fila {
-	elem *inicio;
-	elem *fim;
-	int quant; //quantidade de elementos existentes na fila
-	int validador[3];
-}fila;
+typedef struct tipoLista TLista;
 
-void criarFila(fila *f);
+typedef struct tipoLista {
+	int total;
+	TNo *inicio;
+	TNo *fim;
+}TLista;
 
-void limparBuffer();
-
-void inserir (fila *f, string nome, int priv);
-
-char* retirarElem (fila *f, string resposta);
-
-void remover(fila *f);
-
-void proximos(fila f);
-
-void exibir (fila f);
-
-void menu(fila *f);
+void inicializa(TLista *L);
+int menu();
+void insere(TLista *L);
+void automatico(TLista *L);
+void exibe(TNo *atual);
+void mostraLista(TLista *L);
+void remover(TLista *L);
+void reordenarSalario(TLista *L);
 
 int main(){
+	
 	setlocale(LC_ALL, "");
-	fila queue;
-	criarFila(&queue);
-
-	int nr;
-	menu(&queue);
-
-	system("Pause");
-	printf("\n");
+	
+	int op;
+	
+	TLista lista;
+	
+	inicializa(&lista);
+	
+	do {
+		op = menu();
+		
+		switch(op){
+		   case 1: insere(&lista); break;
+		   case 2: mostraLista(&lista); break;
+		   case 3: remover(&lista); break;	
+		   case 4: reordenarSalario(&lista); break;
+		   case 235: automatico(&lista); break;
+		}//switch
+		
+	} while(op != 0);
+	
 }
 
-void criarFila(fila *f){
-	f -> inicio = NULL;
-	f ->fim = NULL;
-	f -> quant = 0;
-	f->validador[0] = 2;
-	f->validador[1] = 1;
-	f->validador[2] = 3;
+void inicializa(TLista *L){
+	L->inicio = NULL;
+	L->fim = NULL;
+	L->total = 0;
+}
+
+int menu(){
+	int opcao;
+	system("CLS"); //Limpa a Tela e posiciona o 
+	               //CURSOR no canto esquerdo superior da mesma
+    printf("\n\n\n\t     =====| MENU |=====\n\n");
+    printf("0 - SAIR (Encerrar Programa).\n\n");
+    printf("1 - Inserir.\n");
+    printf("2 - Exibir Lista Completa.\n");
+    printf("3 - Excluir.\n");
+    printf("4 - Ordenar SalÃ¡rio.\n\n");
+    printf("\tInforme OPCAO desejada: ");
+    
+    scanf("%d",&opcao);
+    
+    if (opcao ==235){
+		return opcao;
+	}
+	
+	if ((opcao > 4) || (opcao < 0)){
+		printf("\n\n\n");
+		printf("\t+-------------------------------------------------+");
+		printf("\t|   ERRO:                                         |");
+		printf("\t|                                                 |");
+		printf("\t|   OPCAO INVALIDA!!!                             |");
+		printf("\t|                                                 |");
+		printf("\t|   Tente outra vez.                              |");
+		printf("\t+-------------------------------------------------+\n\n");
+		system("PAUSE");
+	}
+
+	return opcao;
 }
 
 void limparBuffer(){
@@ -70,226 +100,182 @@ void limparBuffer(){
     while((c= getchar()) != '\n' && c != EOF);
 }
 
-elem* iniciaElem (elem* destino, string nome, int priv){
-    elem *novo = (elem*)malloc (sizeof(elem));
-	strcpy (novo->nome, nome);
-	novo->priv= priv;
-	novo -> prox = NULL;
-	return novo;
+void insere(TLista *L){
+   TNo *novo = (TNo *)malloc(sizeof(TNo));
+   int inserido = 0;
+   string nome;
+   char sexo;
+   
+   printf("\n\n\n");
+   printf("\t=====| INSERE NOVO NO |=====\n\n");
+   printf("Informe salÃ¡rio: ");
+   scanf("%f", &novo->salario);
+   limparBuffer();
+   printf("Informe o sexo (F ou M): ");
+   scanf("%c", &novo->sexo);
+   limparBuffer();
+   printf("Informe o nome: ");
+   scanf(" %[^\n40]s", novo->nome ); 
+   
+   
+   novo->prox = NULL;
+   
+   if(L->inicio == NULL){
+   	  //Lista VAZIA: inserir o primeiro N?.
+   	  L->inicio = novo;
+   	  L->fim = novo;
+   } else {
+   	  //Lista possui pelo menos um N?: Inserir dados em
+   	  //ordem crescente.
+   	  TNo *atual = L->inicio;
+   	  TNo *previo = NULL;
+   	  
+   	  //Inserir novo no final da Lista
+	 L->fim->prox = novo;
+	 L->fim = novo;	
+   }//if ... else
+   
+   L->total++;
 }
 
-void copiaElem (elem* destino, elem* origem){
-    strcpy (destino->nome, origem->nome);
-	destino->priv = origem->priv;
-	destino->prox = (elem*)origem->prox;
-}
+void addNoLista(TLista *L, float s, char g, string n){
+	TNo *novo = (TNo *)malloc(sizeof(TNo));
+	int inserido = 0;
+	
+	novo->salario = s;
+	novo->sexo = g;
+	strcpy(novo->nome, n);
+	
+	novo->prox = NULL;
 
-void inserir (fila *f, string nome, int priv){
-	elem *novo = iniciaElem(novo, nome, priv);
-	if (f->inicio == NULL) {
-		f-> inicio = novo;
-		f -> fim = novo;
+	if(L->inicio == NULL){
+		//Lista VAZIA: inserir o primeiro N?.
+		L->inicio = novo;
+		L->fim = novo;
 	} else {
-		f->fim->prox = novo;
-		f -> fim = novo;
+		//Lista possui pelo menos um N?: Inserir dados em
+		//ordem crescente.
+		TNo *atual = L->inicio;
+		TNo *previo = NULL;
+		
+		//Inserir novo no final da Lista
+		L->fim->prox = novo;
+		L->fim = novo;	
+	}//if ... else
+	
+	L->total++;
+}
+
+void automatico(TLista *L){
+	
+	int i;
+	float VSalario[8] = {1720.5, 850.5, 1643.5, 6451.2, 4512.6, 6842.3, 4812.5, 4846.1};
+	char VGender[8] = {'M', 'M', 'F', 'M', 'F', 'M', 'M', 'F'};
+	string VName[8] = {"Aaron", "Deonhad", "Ervan", "Luidevue", "Keboa", "Roebo", "Luca", "Mariella"};
+	
+	for(i=0; i<8; i++){
+		addNoLista(L, VSalario[i], VGender[i], VName[i]);
 	}
-	f->quant++;
 }
 
-char* retirarElem (fila *f, string resposta){
-	elem *remov = iniciaElem(remov, "", 0);
-	copiaElem(remov, f->inicio);
-	copiaElem(f->inicio, remov->prox);
-	f->quant--;
-	if (f->inicio == NULL) f-> fim == NULL;
-	strcpy(resposta, remov->nome);
-	free(remov);
-	return resposta;
+void exibe(TNo *atual){
+	printf("\n+-------------------+");
+	printf("\n%s\tR$%.2f\n", atual->nome,atual->salario);
 }
 
-void remover(fila *f){
-	string resposta;
-	int prioridade, atend=1;
-	prioridade = f->quant>6 ? 6 : f->quant;
-	elem *aux = f->inicio;
+void mostraLista(TLista *L){
+   TNo *atual = L->inicio;
+   
+   printf("\n\n\n");
+   printf("\t=====| EXIBE LISTA COMPLETA |=====\n\n");
+   
+   while(atual != NULL){
+   	   exibe(atual);
+   	   atual = atual->prox;
+   }//while
+   printf("\n\n");
+   system("PAUSE");
+}
 
-	if(f-> inicio == NULL){
-		printf("\nFila Vazia");
+void remover(TLista *L){
+	TNo *atual = L->inicio, *previo = NULL, *proximo;
+	string parametro;
+	
+	int removido = 0;
+	
+	if(L->inicio == NULL) proximo = NULL;
+	else proximo = atual->prox;
+	
+	printf("\n\n\t=====| REMOVER No |=====\n\n");
+	printf("\tInforme VALOR a ser REMOVIDO: ");
+	scanf("%s", &parametro);
+	
+	while(atual != NULL){
+	   if(!strcmp(atual->nome, parametro)){
+	   	  proximo = atual->prox;
+	   	  if(previo == NULL) L->inicio = proximo;
+	   	  else previo->prox = proximo;
+		  free(atual);
+		  L->total--;
+		  removido = 1;
+		  break;
+	   }//if
+	   previo = atual;
+	   atual = atual->prox;
+	   if(atual != NULL) proximo = atual->prox;
+	   else proximo = NULL;
+	}//while
+	
+	if(removido){
+		printf("\n\n\n");
+		printf("+--------------------------------------+\n");
+		printf("|  AVISO:                              |\n");
+		printf("|                                      |\n");
+		printf("|  No REMOVIDO com SUCESSO !!!         |\n");
+		printf("|                                      |\n");
+		printf("+--------------------------------------+\n\n\n");
+		system("PAUSE");
 	} else {
-	    while(prioridade){
-	        if(aux->priv==atend){
-                prioridade = 0;
-	        }else{
-                aux = aux->prox;
-                prioridade--;
-	        }
-	        if(prioridade==1){
-                atend++;
-                aux = f->inicio;
-            }
-	    }
-	    if(f->inicio->prox!=NULL){
-            elem* troca = iniciaElem(troca, "", 0);
-            copiaElem(troca, aux);
-            copiaElem(aux, f->inicio);
-            copiaElem(f->inicio, troca);
-            printf("Trocar %s por %s", aux->nome, troca->nome);
-	    }else{
-	        elem* troca = iniciaElem(troca, "", 0);
-            copiaElem(troca, aux);
-            f->inicio = NULL;
-            f->fim = NULL;
-            free(aux);
-	    }
-
-        if (aux->priv == 3 ){
-            if(f->validador[0] > 0 ) {
-                strcpy(resposta, retirarElem(f, resposta));
-                f->validador[2]--;
-            }
-        }else if(aux->priv == 2){
-            if(!f->validador[1]){
-                if ( !f->validador [2]) f->validador[2] = 3;
-                f->validador[1] = 1;
-            }
-            strcpy(resposta, retirarElem(f, resposta));
-            f->validador[1]--;
-        }else if(aux->priv == 1){
-            if(!f->validador[0]){
-                if ( !f->validador [2]) f->validador[2] = 3;
-                f->validador[0] = 2;
-            }
-            strcpy(resposta, retirarElem(f, resposta));
-            f->validador[0]--;
-        }
-	}
-	printf("\n%s Removido", resposta);
-}
-
-void proximos(fila f){
-	int top, atend=f.quant;
-	top = f.quant>6 ? 6 : f.quant;
-	elem *aux = f.inicio;
-
-
-    while(atend&&top){
-        if (aux->priv==1){
-            printf("Nome: %s, Prioridade: %d\n", aux->nome, aux->priv);
-            top--;
-        }
-        aux = aux->prox;
-        atend--;
-    }
-    aux = f.inicio;
-    atend=f.quant;
-    while(atend&&top){
-        if (aux->priv==2){
-            printf("Nome: %s, Prioridade: %d\n", aux->nome, aux->priv);
-            top--;
-        }
-        aux = aux->prox;
-        atend--;
-    }
-    aux = f.inicio;
-    atend=f.quant;
-    while(atend&&top){
-        if (aux->priv==3){
-            printf("Nome: %s, Prioridade: %d\n", aux->nome, aux->priv);
-            top--;
-        }
-        aux = aux->prox;
-        atend--;
-    }
-}
-
-void exibir (fila f){
-	elem* aux;
-	aux = f.inicio;
-	int i, q = f.quant;
-
-	for (i=0; i<q;i++){
-		if (aux->priv==1)
-			printf("Nome: %s, Prioridade: %d\n", aux->nome, aux->priv);
-		aux = aux->prox;
-	}
-	aux = f.inicio;
-	i=0;
-	for (i=0; i<q;i++){
-		if (aux->priv==2)
-			printf("Nome: %s, Prioridade: %d\n", aux->nome, aux->priv);
-		aux = aux->prox;
-	}
-	aux = f.inicio;
-	i=0;
-	for (i=0; i<q;i++){
-		if (aux->priv==3)
-			printf("Nome: %s, Prioridade: %d\n", aux->nome, aux->priv);
-		aux = aux->prox;
+		printf("\n\n\n");
+		printf("+--------------------------------------+\n");
+		printf("|  ALERTA:                             |\n");
+		printf("|                                      |\n");
+		printf("|  No NAO ENCONTRADO e nem REMOVIDO!!! |\n");
+		printf("|                                      |\n");
+		printf("+--------------------------------------+\n\n\n");
+		system("PAUSE");		
 	}
 }
 
-void menu(fila *f){
+void copiarPara(TNo* destino, TNo* origem){
+	strcpy(destino->nome, origem->nome);
+	destino->sexo = origem->sexo;
+	destino->salario = origem->salario;
+}
 
-	int number, priv, loop =1;
-	string nome;
-
-	while(loop){
-		printf("\n_____________________________\nSelecione uma opcao");
-		printf("\n_____________________________");
-		printf("\n0- Sair\n1- Inserir na fila\n2- Remover");
-		printf("\n3- Exibir\n4- Exibir 6 Proximos\n");
-		printf("\n_____________________________\nEntrada: ");
-		scanf("%d", &number);
-
-		switch(number){
-            case 0:
-                printf("Saindo do Programa\n\n");
-                exit(0);
-
-            case 1:
-            	printf("Digite um nome: ");
-            	scanf(" %40[^\n]s", nome);
-            	do{
-            	printf("Coloque a prioridade (1 a 3) de %s: ", nome);
-            	scanf("%d", &priv);
-				}while(priv < 0 || priv > 3);
-
-            	inserir(f, nome, priv);
-
-                break;
-
-
-            case 2:
-            	remover(f);
-                break;
-
-            case 3:
-                exibir (*f);
-                break;
-
-            case 4:
-                proximos(*f);
-                break;
-
-            case 150:
-                inserir(f, vNames[0], 3);
-            	inserir(f, vNames[1], 2);
-            	inserir(f, vNames[2], 1);
-            	inserir(f, vNames[3], 3);
-            	inserir(f, vNames[4], 2);
-            	inserir(f, vNames[5], 1);
-            	inserir(f, vNames[6], 1);
-            	inserir(f, vNames[7], 1);
-            	break;
-
-            default:
-                printf("\nNão é uma opção válida");
-   				break;
-        }
-        printf("\n\nPressione Enter Para Sair...");
-        limparBuffer();
-        char c = getchar();
-
-        system("@cls||clear");
+void reordenarSalario(TLista *L){
+	//Procedimento com o objetivo de reordenar os n?s: ap?s sua execu??o os n?s estar?o em
+	//ordem descrescente.
+	int i, j;
+	if(L->inicio == NULL) return;
+	if ( L->total > 1 ) {
+		TNo* aux1, * aux2;
+		
+		for(i=0; i< (L->total); i++){
+			aux1 = L->inicio;
+			aux2 = aux1->prox;
+			j= L->total - i;
+			for(j; j>0 ; j--){
+				if (aux1->salario > aux2->salario){
+					TNo* aux;
+					aux = (TNo*) malloc(sizeof(struct tipoNo));
+					copiarPara(aux, aux2);
+					copiarPara(aux2, aux1);
+					copiarPara(aux1, aux);
+				}
+				aux1 = aux2;
+				if(aux2->prox!=NULL) aux2 = aux2->prox;
+			}
+		}
 	}
 }
