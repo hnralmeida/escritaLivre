@@ -391,18 +391,19 @@ void reordenarPorSexoENome(TLista *L){
 				if(aux2->prox!=NULL) aux2 = aux2->prox;
 			}
 		}
-	}
-
+	}	
+	
+	//dando erro
 	if ( L->total > 1 ) {
 		for(i=0; i< fem; i++){
 			
-			if(masc<1) break;
+			if(fem<1) break;
 			
 			aux1 = L->inicio;
 			aux2 = aux1->prox;
-			j= fem - i;
+			j= fem - i -1;
 			for(j; j>0 ; j--){
-				if (strcmp(aux1->nome, aux2->nome)>0) {
+				if (strcmp(aux2->nome, aux1->nome)<0) {
 					TNo* aux;
 					aux = (TNo*) malloc(sizeof(struct tipoNo));
 					copiarPara(aux, aux2);
@@ -424,9 +425,9 @@ void reordenarPorSexoENome(TLista *L){
 			while(aux1->sexo!='M') aux1 = aux1->prox;			
 			aux2 = aux1->prox;
 			
-			j= masc - i;
+			j= masc - i - 1;
 			for(j; j>0 ; j--){
-				if (strcmp(aux1->nome, aux2->nome)>0) {
+				if (strcmp(aux2->nome, aux1->nome)<0) {
 					TNo* aux;
 					aux = (TNo*) malloc(sizeof(struct tipoNo));
 					copiarPara(aux, aux2);
