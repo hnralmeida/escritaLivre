@@ -135,3 +135,76 @@ int main (){
 		menuPrincipal();
 	}
 }
+
+typedef char string[40];
+
+typedef struct tipoCurso TCurso;
+
+typedef struct tipoDisciplina TDisciplina;
+
+typedef struct tipoTurma TTurma;
+
+typedef struct tipoTurma {
+	TTurma *prox, *ante;
+	string nomeTurma;
+	string semestreLetivo;
+//	TAlunos *alunos;
+}TTurma;
+
+typedef struct tipoDisciplina {
+	TDisciplina *prox, *ante;
+	int cargaHoraria;
+	TTurma *turma;
+}TDisciplina;
+
+typedef struct tipoCurso {
+	TCurso *prox, *ante;
+	string nomeCurso;
+	string *Disciplina;
+}TCurso;
+
+void inicializaCurso(TCurso *curso){
+	curso->ante = NULL;
+	curso->prox = NULL;
+	curso->Disciplina = NULL;
+	strcpy(curso->nomeCurso,"0");
+}
+
+void adicionaCurso(TCurso *curso, string nomeCurso){	
+	TCurso *aux1, *aux2;
+	aux1 = curso;
+	
+	if(!strcpy(aux1->nomeCurso, "0")){
+		strcpy(aux1->nomeCurso, nomeCurso);
+	}else{
+		aux2=aux1->prox;
+		while(aux2 != NULL && strcmp(aux1->nomeCurso, aux2->nomeCurso)){
+			aux1 = aux2;
+			aux2 = aux2->prox;
+		};
+		
+	}
+  
+  while (atual != NULL){
+  	if(atual->valor >= novo->valor){
+		inserido = 1;
+		
+		break;
+	}
+	
+	atual = atual->prox; 
+  }
+  
+  if (!inserido){
+	 L->fim->prox = novo;
+	 novo->ante = L->fim;
+	 L->fim = novo;	
+  }
+}
+
+void main(){
+	TCurso curso;
+	inicializaCurso(&curso);
+	adicionaCurso(&curso, "nomeCurso");
+	printf("\nNome: %s", curso.nomeCurso);
+}
