@@ -7,6 +7,66 @@ Professor: Vanderson José Idelfonso Silva
 Programa em linguagem C que implementa uma Lista aninhada formada em sua camada mais externa por uma lista duplamente encadeada de Cursos.
 */
 
+typedef char string[40];
+
+typedef struct Lista lista;
+
+typedef struct tipoCurso TCurso;
+
+typedef struct tipoDisciplina TDisciplina;
+
+typedef struct tipoTurma TTurma;
+
+typedef struct tipoTurma {
+	TTurma *prox, *ante;
+	string nomeTurma;
+	string semestreLetivo;
+//	TAlunos *alunos;
+}TTurma;
+
+typedef struct tipoDisciplina {
+	TDisciplina *prox, *ante;
+	int cargaHoraria;
+	TTurma *turma;
+}TDisciplina;
+
+typedef struct tipoCurso {
+	TCurso *prox, *ante;
+	string nomeCurso;
+	string *Disciplina;
+}TCurso;
+
+typedef struct Lista {
+	
+}lista;
+
+int menu ();
+
+int menuCurso ();
+
+int menuTurma();
+
+int menuAluno ();
+
+int menuPrincipal ();
+
+// adiciona curso na lista passada como parâmetro
+void adicionaCurso(TCurso *curso, string nomeCurso);
+int excluirCurso();
+int listarCurso();
+int adicionaTurma();
+int excluirTurma();
+int listarTurma();
+int adicionaAluno();
+int excluirAluno();
+int listarAluno();
+
+int main (){
+	while(1){
+		menuPrincipal();
+	}
+}
+
 int menu (){
 	int opcao;
 	do{
@@ -96,73 +156,6 @@ int menuPrincipal (){
 		}		
 }
 
-int adicionaCurso(){
-	printf("Adicionou Curso\n");
-}
-
-int excluirCurso(){
-	printf("Excluiu Curso\n");
-}
-int listarCurso(){
-	printf("Listou Curso\n");
-}
-
-int adicionaTurma(){
-	printf("Adicionou Turma\n");
-}
-	
-int excluirTurma(){
-	printf("Excluiu Turma\n");
-}
-
-int listarTurma(){
-	printf("Listou Turma\n");
-}
-
-int adicionaAluno(){
-	printf("Adicionou aluno\n");
-}
-
-int excluirAluno(){
-	printf("Excluiu aluno\n");
-}
-
-int listarAluno(){
-	printf("Alistou aluno\n");
-}
-int main (){
-	while(1){
-		menuPrincipal();
-	}
-}
-
-typedef char string[40];
-
-typedef struct tipoCurso TCurso;
-
-typedef struct tipoDisciplina TDisciplina;
-
-typedef struct tipoTurma TTurma;
-
-typedef struct tipoTurma {
-	TTurma *prox, *ante;
-	string nomeTurma;
-	string semestreLetivo;
-//	TAlunos *alunos;
-}TTurma;
-
-typedef struct tipoDisciplina {
-	TDisciplina *prox, *ante;
-	int cargaHoraria;
-	TTurma *turma;
-}TDisciplina;
-
-typedef struct tipoCurso {
-	TCurso *prox, *ante;
-	string nomeCurso;
-	string *Disciplina;
-}TCurso;
-
 void inicializaCurso(TCurso *curso){
 	curso->ante = NULL;
 	curso->prox = NULL;
@@ -202,9 +195,33 @@ void adicionaCurso(TCurso *curso, string nomeCurso){
   }
 }
 
-void main(){
-	TCurso curso;
-	inicializaCurso(&curso);
-	adicionaCurso(&curso, "nomeCurso");
-	printf("\nNome: %s", curso.nomeCurso);
+int excluirCurso(){
+	printf("Excluiu Curso\n");
+}
+int listarCurso(){
+	printf("Listou Curso\n");
+}
+
+int adicionaTurma(){
+	printf("Adicionou Turma\n");
+}
+	
+int excluirTurma(){
+	printf("Excluiu Turma\n");
+}
+
+int listarTurma(){
+	printf("Listou Turma\n");
+}
+
+int adicionaAluno(){
+	printf("Adicionou aluno\n");
+}
+
+int excluirAluno(){
+	printf("Excluiu aluno\n");
+}
+
+int listarAluno(){
+	printf("Alistou aluno\n");
 }
