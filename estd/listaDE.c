@@ -1,3 +1,9 @@
+/*
+AUTORES: 	Henrique Almeida de Oliveira
+			Luiz Eduardo Marchiori
+Disciplina: Estrutura de Dados
+Professor: Vanderson José Idelfonso Silva
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
