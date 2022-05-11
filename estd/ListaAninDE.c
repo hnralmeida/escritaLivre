@@ -17,39 +17,46 @@ typedef struct tipoDisciplina TDisciplina;
 
 typedef struct tipoTurma TTurma;
 
-typedef struct tipoTurma {
-	TTurma *prox, *ante;
-	string nomeTurma;
-	string semestreLetivo;
-//	TAlunos *alunos;
-}TTurma;
+typedef struct tipoAluno TAluno;
 
 typedef struct tipoDisciplina {
 	TDisciplina *prox, *ante;
 	int cargaHoraria;
-	TTurma *turma;
+	string semestreLetivo, nome;
 }TDisciplina;
+
+typedef struct tipoAluno{
+	string nome;
+	char genero;
+	TAluno *prox, *ante;
+	TDisciplinas *disciplinas;
+}TAluno;
+
+typedef struct tipoTurma {
+	TTurma *prox, *ante;
+	string nomeTurma;
+	TAluno *alunos;
+}TTurma;
 
 typedef struct tipoCurso {
 	TCurso *prox, *ante;
 	string nomeCurso;
-	string *Disciplina;
+	TTurma *turmas;
 }TCurso;
 
 typedef struct Lista {
-	
+	TCurso *ini, *fim;
+	int total;
 }lista;
 
 int menu ();
-
 int menuCurso ();
-
 int menuTurma();
-
 int menuAluno ();
-
 int menuPrincipal ();
 
+// inicializa lista com ponteiros nulos
+void inicializaLista(lista *l);
 // adiciona curso na lista passada como parâmetro
 void adicionaCurso(TCurso *curso, string nomeCurso);
 int excluirCurso();
@@ -156,11 +163,10 @@ int menuPrincipal (){
 		}		
 }
 
-void inicializaCurso(TCurso *curso){
-	curso->ante = NULL;
-	curso->prox = NULL;
-	curso->Disciplina = NULL;
-	strcpy(curso->nomeCurso,"0");
+void inicializaLista(lista *l){
+	l->ini = NULL;
+	l->fim = NULL;
+	l->total = 0;
 }
 
 void adicionaCurso(TCurso *curso, string nomeCurso){	
