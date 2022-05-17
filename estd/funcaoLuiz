@@ -1,0 +1,16 @@
+void adicionaAluno (TLista *l){
+	string nome;
+	int encontrado;
+	TAluno *atual = l->ini;
+	TAluno *novo = (TAluno*)malloc(sizeof(TAluno));
+	
+	printf("\nColoque o nome do aluno: ");
+	fflush(stdin);
+	puts(novo->nome);
+	printf("\nColoque o sexo do aluno: ");
+	fflush(stdin);
+	puts(novo->sexo);
+	novo->prox= NULL;
+	
+	
+}
