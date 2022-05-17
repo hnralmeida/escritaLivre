@@ -1,4 +1,4 @@
-void adicionaAluno (TLista *l){
+void adicionaAluno (TLista *l, string nomeCurso, string nomeTurma){
 	string nome;
 	int encontrado;
 	TAluno *atual = l->ini;
@@ -11,6 +11,9 @@ void adicionaAluno (TLista *l){
 	fflush(stdin);
 	puts(novo->sexo);
 	novo->prox= NULL;
+	novo->ante= NULL;
+	
+	
 	
 	
 }
