@@ -3,7 +3,6 @@ AUTORES: 	Henrique Almeida de Oliveira
 			Luiz Eduardo Marchiori
 Disciplina: Estrutura de Dados
 Professor: Vanderson José Idelfonso Silva
-
 Programa em linguagem C que implementa uma Lista aninhada formada em sua camada mais externa por uma lista duplamente encadeada de Cursos.
 */
 
@@ -58,15 +57,16 @@ int menuPrincipal ();
 // inicializa lista com ponteiros nulos
 void inicializaLista(lista *l);
 // adiciona curso na lista passada como parâmetro
-void adicionaCurso(TCurso *curso, string nomeCurso);
-int excluirCurso();
-int listarCurso();
-int adicionaTurma();
-int excluirTurma();
-int listarTurma();
-int adicionaAluno();
-int excluirAluno();
-int listarAluno();
+void adicionaCurso(lista *l, string nomeCurso);
+void excluirCurso();
+void listarCurso();
+void adicionaTurma(lista *l, string nomeCurso, string nomeTurma);
+void excluirTurma();
+void listarTurma();
+void adicionaAluno(lista *l, string nomeCurso, string nomeTurma, string nomeAluno);
+void excluirAluno();
+void listarAluno();
+void adicionaDisciplina(lista *l, string nomeCurso, string nomeTurmaa, string nomeAluno, string nomeDisciplina);
 
 int main (){
 	while(1){
@@ -83,10 +83,10 @@ int menu (){
 		printf("0 - Sair\n1 - Cursos\n2- Turmas\n3- Alunos\n");
 		scanf("%d", &opcao);
 	}while ((opcao < 0) || (opcao > 3));
-	
+
 	return opcao;
-	
-	 
+
+
 }
 
 int menuCurso (){
@@ -121,7 +121,7 @@ int menuTurma(){
 	}while ((opcao < 0) || (opcao > 3));
 	if (opcao ==0){
 		menuPrincipal();
-		}	
+		}
 	switch(opcao){
 	   case 1: adicionaTurma(); break;
 	   case 2: excluirTurma(); break;
@@ -141,7 +141,7 @@ int menuAluno (){
 	}while ((opcao < 0) || (opcao > 3));
 	if (opcao ==0){
 		menuPrincipal();
-		}	
+		}
 	switch(opcao){
 	   case 1: adicionaAluno(); break;
 	   case 2: excluirAluno(); break;
@@ -159,8 +159,8 @@ int menuPrincipal (){
 		   case 3: menuAluno(); break;
 			}
 		if (op == 0){
-			exit(0); 
-		}		
+			exit(0);
+		}
 }
 
 void inicializaLista(lista *l){
@@ -169,36 +169,25 @@ void inicializaLista(lista *l){
 	l->total = 0;
 }
 
-void adicionaCurso(TCurso *curso, string nomeCurso){	
-	TCurso *aux1, *aux2;
-	aux1 = curso;
-	
-	if(!strcpy(aux1->nomeCurso, "0")){
-		strcpy(aux1->nomeCurso, nomeCurso);
+void inicializaCurso(TCurso* c, string nomeCurso){
+	c->ante=NULL;
+	c->prox=NULL;
+	c->turmas=NULL;
+	strcpy(c->nomeCurso, nomeCurso)
+}
+
+void adicionaCurso(lista *l, string nomeCurso){
+	TCurso no = (TCurso *)malloc(sizeof(TCurso));
+    inicializaCurso(no, nomeCurso);
+    
+	if(l->ini==NULL){
+		l->ini = no;
 	}else{
-		aux2=aux1->prox;
-		while(aux2 != NULL && strcmp(aux1->nomeCurso, aux2->nomeCurso)){
-			aux1 = aux2;
-			aux2 = aux2->prox;
-		};
-		
+		TCurso *aux = no->prox;
+		while(aux->prox!=NULL&&(strcmp(nomeCurso, aux->nomeCurso)<0))
+            aux = aux->prox;
+		aux->prox = no;
 	}
-  
-  while (atual != NULL){
-  	if(atual->valor >= novo->valor){
-		inserido = 1;
-		
-		break;
-	}
-	
-	atual = atual->prox; 
-  }
-  
-  if (!inserido){
-	 L->fim->prox = novo;
-	 novo->ante = L->fim;
-	 L->fim = novo;	
-  }
 }
 
 int excluirCurso(){
@@ -211,7 +200,7 @@ int listarCurso(){
 int adicionaTurma(){
 	printf("Adicionou Turma\n");
 }
-	
+
 int excluirTurma(){
 	printf("Excluiu Turma\n");
 }
