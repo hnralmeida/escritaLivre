@@ -253,7 +253,7 @@ void listarTurma(lista* l){
 
 void adicionaAluno(lista *l, string nomeCurso, string nomeTurma, string nomeAluno){
 	TAluno *no = (TAluno *)malloc(sizeof(TAluno));
-    inicializaTurma(no, nomeAluno);
+    inicializaAluno(no, nomeAluno);
     
 	if(l->ini==NULL){
 		printf("Lista Vazia");
