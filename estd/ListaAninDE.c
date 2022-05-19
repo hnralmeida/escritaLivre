@@ -67,8 +67,8 @@ void excluirCurso();
 void listarCurso(lista* l);
 void adicionaTurma(lista *l, string nomeCurso, string nomeTurma);
 void excluirTurma();
-void listarTurmalista* l();
-void adicionaAluno(lista *l, string nomeCurso, string nomeTurma, string nomeAluno);
+void listarTurma(lista* l);
+void adicionaAluno(lista *l, string nomeCurso, string nomeTurma, string nomeAluno, char gender);
 void excluirAluno();
 void listarAluno();
 void adicionaDisciplina(lista *l, string nomeCurso, string nomeTurma, string nomeAluno, string nomeDisciplina);
@@ -182,7 +182,7 @@ void inicializaCurso(TCurso* c, string nomeCurso){
 
 void adicionaCurso(lista *l, string nomeCurso){
 	TCurso *no = (TCurso *)malloc(sizeof(TCurso));
-    inicializaCurso(no, nomeCurso);
+	inicializaCurso(no, nomeCurso);
     
 	if(l->ini==NULL){
 		l->ini = no;
@@ -251,7 +251,15 @@ void listarTurma(lista* l){
 	printf("Listou Turma\n");
 }
 
-void adicionaAluno(lista *l, string nomeCurso, string nomeTurma, string nomeAluno){
+void inicializaAluno(TAluno* c, string nomeAluno, char gender){
+	c->ante=NULL;
+	c->prox=NULL;
+	c->disciplinas=NULL;
+	c->genero = gender;
+	strcpy(c->nomeAluno, nomeAluno);
+}
+
+void adicionaAluno(lista *l, string nomeCurso, string nomeTurma, string nomeAluno, char gender){
 	TAluno *no = (TAluno *)malloc(sizeof(TAluno));
     inicializaAluno(no, nomeAluno);
     
