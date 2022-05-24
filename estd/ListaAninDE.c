@@ -34,18 +34,21 @@ typedef struct tipoAluno{
 	char genero;
 	TAluno *prox, *ante;
 	TDisciplina *disciplinas;
+	int total;
 }TAluno;
 
 typedef struct tipoTurma {
 	TTurma *prox, *ante;
 	string nomeTurma;
 	TAluno *alunos;
+	int total;
 }TTurma;
 
 typedef struct tipoCurso {
 	TCurso *prox, *ante;
 	string nomeCurso;
 	TTurma *turmas;
+	int total;
 }TCurso;
 
 typedef struct Lista {
@@ -198,7 +201,16 @@ void excluirCurso(){
 	printf("Excluiu Curso\n");
 }
 void listarCurso(lista* l){
-	printf("Listou Curso\n");
+	TCurso* aux;
+	aux = l->ini;
+	int i, max = l->total;
+	printf("============================\n");
+	printf("\tLista de Cursos");
+	printf("============================\n");
+	for (i=0; i<max; i++){
+		printf("- %s\n", aux->nomeCurso);
+		aux = aux->prox;
+	}
 }
 
 void inicializaTurma(TTurma* c, string nomeTurma){
@@ -311,4 +323,3 @@ void excluirAluno(){
 void listarAluno(){
 	printf("Alistou aluno\n");
 }
-
