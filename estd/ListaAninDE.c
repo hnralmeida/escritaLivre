@@ -338,5 +338,22 @@ void excluirAluno(){
 }
 
 void listarAluno(lista* l, string nomeCurso, string nomeTurma){
-	
+	TCurso* aux;
+	aux = l->ini;
+	int i, max = l->total;
+	printf("============================\n");
+	printf("\tLista de Alunos");
+	printf("============================\n");
+	for (i=0; i<max; i++){
+		TTurma* aux1;
+		aux1 = aux->turmas;		
+		printf("- %s\n", aux->nomeCurso);
+		int j, max1 = aux1->total;
+		printf("\t- %s\n", aux1->nomeTurma);
+			
+		for(j=0; j<max1; j++){
+			printf("\t\tNome- %s\n", aux1->alunos->nome);
+			aux1 = aux1->alunos->prox;
+		}
+	}	
 }
