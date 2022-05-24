@@ -1,6 +1,6 @@
 /*
 AUTORES: 	Henrique Almeida de Oliveira
-			Luiz Eduardo Marchiori
+		Luiz Eduardo Marchiori
 Disciplina: Estrutura de Dados
 Professor: Vanderson José Idelfonso Silva
 Programa em linguagem C que implementa uma Lista aninhada formada em sua camada mais externa por uma lista duplamente encadeada de Cursos.
@@ -70,10 +70,10 @@ void excluirCurso();
 void listarCurso(lista* l);
 void adicionaTurma(lista *l, string nomeCurso, string nomeTurma);
 void excluirTurma();
-void listarTurma(lista* l, string nomeCurso);
+void listarTurma(lista* l);
 void adicionaAluno(lista *l, string nomeCurso, string nomeTurma, string nomeAluno, char gender);
 void excluirAluno();
-void listarAluno(lista* l, string nomeCurso, string nomeTurma);
+void listarAluno(lista* l);
 void adicionaDisciplina(lista *l, string nomeCurso, string nomeTurma, string nomeAluno, string nomeDisciplina);
 
 int main (){
@@ -109,7 +109,7 @@ int menuCurso (lista *l){
 	switch(opcao){
 	   case 1: adicionaCurso(l, "SI"); break;
 	   case 2: excluirCurso(); break;
-	   case 3: listarCurso(); break;
+	   case 3: listarCurso(l); break;
 	}
 	if (opcao ==0){
 		menuPrincipal(l);
@@ -132,7 +132,7 @@ int menuTurma(lista *l){
 	switch(opcao){
 	   case 1: adicionaTurma(l, "SI", "2021"); break;
 	   case 2: excluirTurma(); break;
-	   case 3: listarTurma(); break;
+	   case 3: listarTurma(l); break;
 		}
 }
 
@@ -150,9 +150,9 @@ int menuAluno (lista *l){
 		menuPrincipal(l);
 		}
 	switch(opcao){
-	   case 1: adicionaAluno(l, "SI", "2021", "Luiz"); break;
+	   case 1: adicionaAluno(l, "SI", "2021", "Luiz", 'H'); break;
 	   case 2: excluirAluno(); break;
-	   case 3: listarAluno(); break;
+	   case 3: listarAluno(l); break;
 	}
 }
 
@@ -181,11 +181,13 @@ void inicializaCurso(TCurso* c, string nomeCurso){
 	c->prox=NULL;
 	c->turmas=NULL;
 	strcpy(c->nomeCurso, nomeCurso);
+	c->total=0;
 }
 
 void adicionaCurso(lista *l, string nomeCurso){
 	TCurso *no = (TCurso *)malloc(sizeof(TCurso));
 	inicializaCurso(no, nomeCurso);
+    l->total++;
     
 	if(l->ini==NULL){
 		l->ini = no;
@@ -217,6 +219,7 @@ void inicializaTurma(TTurma* c, string nomeTurma){
 	c->ante=NULL;
 	c->prox=NULL;
 	c->alunos=NULL;
+	c->total=0;
 	strcpy(c->nomeTurma, nomeTurma);
 }
 
@@ -229,11 +232,12 @@ void adicionaTurma(lista *l, string nomeCurso, string nomeTurma){
 		return;
 	}else{
 		TCurso *aux = l->ini;
-		while(aux!=NULL && strcmp(aux->nomeCurso, nomeCurso)) aux = aux->prox;
+		while(aux!=NULL && strcmp(aux->nomeCurso, nomeCurso)<0) aux = aux->prox;
 		if(aux == NULL){
 			printf("Curso não encontrado");
 			return;
 		}
+		aux->total++;
 		
 		if(aux->turmas == NULL){
 			aux->turmas = no;
@@ -285,12 +289,13 @@ void inicializaAluno(TAluno* c, string nomeAluno, char gender){
 	c->prox=NULL;
 	c->disciplinas=NULL;
 	c->genero = gender;
-	strcpy(c->nomeAluno, nomeAluno);
+	c->total=0;
+	strcpy(c->nome, nomeAluno);
 }
 
 void adicionaAluno(lista *l, string nomeCurso, string nomeTurma, string nomeAluno, char gender){
 	TAluno *no = (TAluno *)malloc(sizeof(TAluno));
-    inicializaAluno(no, nomeAluno);
+    inicializaAluno(no, nomeAluno, gender);
     
 	if(l->ini==NULL){
 		printf("Lista Vazia");
@@ -303,23 +308,21 @@ void adicionaAluno(lista *l, string nomeCurso, string nomeTurma, string nomeAlun
 			return;
 		}
 		
-		TTurma *aux1 = aux->turmas
-		while(aux1!=NULL && strcmp(aux1->nomeTurma, nomeTurma)) aux1 = aux1->prox;
+		TTurma *aux1 = aux->turmas;
+		while(aux1!=NULL && strcmp(aux1->nomeTurma, nomeTurma)<0) aux1 = aux1->prox;
 		if(aux1 == NULL){
 			printf("Turma não encontrada");
 			return;
 		}
+		aux1->total++;
 		
-		
-		//Consertar 
-		TAluno *aux2 = aux1->alunos
+		TAluno *aux2 = aux1->alunos;
 		if(aux2 == NULL){
 			aux2 = no;
 		}else{
-			while(aux2->prox!=NULL&&(strcmp(nomeAluno, aux2->nomeAluno)<0))
+			while(aux2->prox!=NULL&&(strcmp(nomeAluno, aux2->nome)<0))
 	            aux2 = aux2->prox;
 	    
-	            
 	        if(aux2->prox == NULL){
 	        	aux2->prox = no;
 	        	no->ante = aux2;
@@ -337,7 +340,7 @@ void excluirAluno(){
 	printf("Excluiu aluno\n");
 }
 
-void listarAluno(lista* l, string nomeCurso, string nomeTurma){
+void listarAluno(lista* l){
 	TCurso* aux;
 	aux = l->ini;
 	int i, max = l->total;
@@ -345,15 +348,18 @@ void listarAluno(lista* l, string nomeCurso, string nomeTurma){
 	printf("\tLista de Alunos");
 	printf("============================\n");
 	for (i=0; i<max; i++){
-		TTurma* aux1;
-		aux1 = aux->turmas;		
-		printf("- %s\n", aux->nomeCurso);
-		int j, max1 = aux1->total;
-		printf("\t- %s\n", aux1->nomeTurma);
-			
-		for(j=0; j<max1; j++){
-			printf("\t\tNome- %s\n", aux1->alunos->nome);
-			aux1 = aux1->alunos->prox;
+		TTurma* aux1 = aux->turmas;
+		printf("- %s\n", aux->nomeCurso);		
+		int j, max1 = aux->total;
+		for(j=0; j<max1;j++){
+			printf("\t- %s\n", aux1->nomeTurma);
+			TAluno* aux2 = aux1->alunos;
+			int k, max2 = aux1->total;
+			for(k=0; k<max2; k++){
+				printf("\t\tNome- %s\n", aux2->nome);
+				aux2 = aux2->prox;
+			}
+			aux1 = aux1->prox;
 		}
-	}	
+	}
 }
