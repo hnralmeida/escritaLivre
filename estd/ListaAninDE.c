@@ -259,24 +259,25 @@ void excluirTurma(lista* l){
 	printf("Excluiu Turma\n");
 }
 
-void listarTurma(lista* l, string nomeCurso){
-	TTurma* aux;
-	TCurso* aux1;
+void listarTurma(lista* l){
+	TCurso* aux;
 	aux = l->ini;
-	int i, j, max = l->total;
+	int i, max = l->total;
 	printf("============================\n");
 	printf("\tLista de Turmas");
 	printf("============================\n");
 	for (i=0; i<max; i++){
-		if (strcmp(aux1->nomeCurso, nomeCurso)==0){
-			aux = aux1->turmas;
-			int max1 = aux->total;
-			for(j=0; j<max1; j++){
-				printf("- %s\n", aux1->nomeCurso);
-				aux1 = aux1->prox;
-			}
+		TTurma* aux1;
+		aux1 = aux->turmas;
+		
+		printf("- %s\n", aux->nomeCurso);
+		int j, max1 = aux->total;
+		
+		for(j=0; j<max1; j++){
+			printf("\t- %s\n", aux1->nomeTurma);
+			aux1 = aux1->prox;
 		}
-	}	
+	}
 }
 
 void inicializaAluno(TAluno* c, string nomeAluno, char gender){
@@ -337,14 +338,5 @@ void excluirAluno(){
 }
 
 void listarAluno(lista* l, string nomeCurso, string nomeTurma){
-	TCurso* aux;
-	aux = l->ini;
-	int i, max = l->total;
-	printf("============================\n");
-	printf("\tLista de Alunos");
-	printf("============================\n");
-	for (i=0; i<max; i++){
-		printf("- %s\n", aux->nomeCurso);
-		aux = aux->prox;
-	}
+	
 }
