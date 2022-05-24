@@ -259,8 +259,20 @@ void excluirTurma(lista* l){
 	printf("Excluiu Turma\n");
 }
 
-void listarTurma(lista* l){
-	printf("Listou Turma\n");
+void listarTurma(lista* l, string curso){
+	TTurma* aux;
+	TCurso* aux1;
+	aux = l->ini;
+	int i, max = l->total;
+	printf("============================\n");
+	printf("\tLista de Turmas");
+	printf("============================\n");
+	if (strcmp(aux1->nomeCurso, curso)==0){
+		for (i=0; i<max; i++){
+			printf("- %s\n", aux->nomeTurma);
+			aux = aux->prox;
+		}
+	}	
 }
 
 void inicializaAluno(TAluno* c, string nomeAluno, char gender){
