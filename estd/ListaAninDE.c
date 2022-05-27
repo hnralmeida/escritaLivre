@@ -17,6 +17,7 @@ Programa em linguagem C que implementa uma Lista aninhada formada em sua camada 
 =========================================================================================
 			Tipo Abstrato de Dados
 */
+
 typedef char string[40];
 
 typedef struct Lista lista;
@@ -66,22 +67,35 @@ int menu (lista *l);
 int menuCurso (lista *l);
 int menuTurma(lista *l);
 int menuAluno (lista *l);
+int menuDisciplina (lista *l);
 int menuPrincipal (lista *l);
 
 // inicializa lista com ponteiros nulos
 void inicializaLista(lista *l);
-// adiciona curso na lista passada como parâmetro
+// adiciona curso passada como parâmetro na lista 
 void adicionaCurso(lista *l, string nomeCurso);
-void excluirCurso();
+// exclui o curso passado como parâmetro
+void excluirCurso(lista *l, string nomeCurso);
+// lista cursos na lsita
 void listarCurso(lista* l);
+// adiciona turma no curso passado como parâmetro lista 
 void adicionaTurma(lista *l, string nomeCurso, string nomeTurma);
-void excluirTurma();
+// exclui a turma passado como parâmetro
+void excluirTurma(lista *l, string nomeCurso, string nomeTurma);
+// lista todas turmas em seus respectivos cursos
 void listarTurma(lista* l);
+// adiciona aluno na turma e curso passados como parâmetro lista 
 void adicionaAluno(lista *l, string nomeCurso, string nomeTurma, string nomeAluno, char gender);
-void excluirAluno();
+// exclui aluno passado como parâmetro
+void excluirAluno(lista *l, string nomeCurso, string nomeTurma, string nomeAluno);
+// lista todos alunos em seus respectivos cursos e turmas
 void listarAluno(lista* l);
-void adicionaDisciplina(lista *l, string nomeCurso, string nomeTurma, string nomeAluno, string nomeDisciplina);
-
+// adiciona disciplina no aluno passado como parâmetro lista
+void adicionaDisciplina(lista *l, string nomeCurso, string nomeTurma, string nomeAluno, string nomeDisciplina, int cargaHoraria, string semestreLetivo);
+// exclui disciplina passado como parâmetro
+void excluirDisciplina(lista *l, string nomeCurso, string nomeTurma, string nomeAluno, string nomeDisciplina);
+// lista todas disciplinas de um aluno
+void listarDisciplinas(lista *l, string nomeCurso, string nomeTurma, string nomeAluno); 
 /*
 =========================================================================================
 			MAIN
@@ -119,6 +133,7 @@ void defaultList(lista *l){
 	adicionaAluno(l, "SI", "V1", "Ana", 'M');
 	adicionaAluno(l, "Arq", "V2", "Bia", 'M');
 	adicionaAluno(l, "Bio", "V3", "Ana Julia", 'M');
+	adicionaAluno(l, "Bio", "V3", "Ana Xulia", 'M');
 	adicionaAluno(l, "Med", "V4", "Paulo Henrique", 'H');
 	adicionaAluno(l, "Fis", "V5", "Ana Cristina", 'M');
 	adicionaAluno(l, "SI", "V6", "Gustavo Henrique", 'H');
@@ -133,87 +148,213 @@ void limparBuffer(){
     while((c= getchar()) != '\n' && c != EOF);
 }
 
-int menuAluno (lista *l){
-	int opcao;
+int menuDisciplina (lista *l){
+	int opcao, ch;
+	string curso, turma, nome, disciplina, semestre;
 	//system("CLS");
 	do{
-		printf("============================\n");
-		printf("Bem vindo ao menu de Alunos!\n");
-		printf("============================\n");
-		printf("Selecione uma opção: \n");
-		printf("0 - Ir para o menu principal\n1 - Inserir Aluno\n2- Excluir Aluno\n3- Listar todos os alunos\n");
+		printf("\n======================================");
+		printf("\nBem vindo ao menu de Disciplinas!");
+		printf("\n======================================");
+		printf("\nSelecione uma opção: ");
+		printf("\n0 - Ir para o menu principal\n1 - Inserir disciplina\n2- Excluir disciplina\n3- Listar todos as disciplinas\n");
+		printf("\n======================================");
+		printf("\nSua opção: ");
 		scanf("%d", &opcao);
 	}while ((opcao < 0) || (opcao > 3));
 	if (opcao ==0){
 		menuPrincipal(l);
 		}
 	switch(opcao){
-	   case 1: adicionaAluno(l, "SI", "2021", "Luiz", 'H'); break;
-	   case 2: excluirAluno(); break;
-	   case 3: listarAluno(l); break;
+	   case 1: 
+		printf("\nDigite o Curso: ");
+		limparBuffer();
+		scanf(" %s", curso);
+		printf("\nDigite a Turma: ");
+		limparBuffer();
+		scanf(" %s", turma);
+		printf("\nDigite o nome do aluno: ");
+		limparBuffer();
+		scanf(" %s", nome);
+		printf("\nDigite a disciplina: ");
+		limparBuffer();
+		scanf(" %s", disciplina);
+		adicionaAluno(l, curso, turma, nome, disciplina, ch, semestre);
+		break;
+	   case 2: 
+		printf("\nDigite o Curso: ");
+		limparBuffer();
+		scanf(" %s", curso);
+		printf("\nDigite a Turma: ");
+		limparBuffer();
+		scanf(" %s", turma);
+		printf("\nDigite o nome do aluno: ");
+		limparBuffer();
+		scanf(" %s", nome);
+		printf("\nDigite a disciplina: ");
+		limparBuffer();
+		scanf(" %s", disciplina);
+		excluirAluno(l, curso, turma, nome, disciplina); 
+		break;
+	   case 3:
+		printf("\nDigite o Curso: ");
+		limparBuffer();
+		scanf(" %s", curso);
+		printf("\nDigite a Turma: ");
+		limparBuffer();
+		scanf(" %s", turma);
+		printf("\nDigite o nome do aluno: ");
+		limparBuffer();
+		scanf(" %s", nome);
+		printf("\nDigite a disciplina: ");
+		limparBuffer();
+		scanf(" %s", disciplina); 
+		listarDisciplinas(l, curso, turma, nome, disciplina); 
+		break;
+	}
+}
+
+int menuAluno (lista *l){
+	int opcao;
+	string curso, turma, nome;
+	char gender;
+	//system("CLS");
+	do{
+		printf("\n======================================");
+		printf("\nBem vindo ao menu de Alunos!");
+		printf("\n======================================");
+		printf("\nSelecione uma opção: ");
+		printf("\n0 - Ir para o menu principal\n1 - Inserir Aluno\n2- Excluir Aluno\n3- Listar todos os alunos\n");
+		printf("\n======================================");
+		printf("\nSua opção: ");
+		scanf("%d", &opcao);
+	}while ((opcao < 0) || (opcao > 3));
+	if (opcao ==0){
+		menuPrincipal(l);
+		}
+	switch(opcao){
+	   case 1: 
+		printf("\nDigite o Curso: ");
+		limparBuffer();
+		scanf(" %s", curso);
+		printf("\nDigite a Turma: ");
+		limparBuffer();
+		scanf(" %s", turma);
+		printf("\nDigite o nome do aluno: ");
+		limparBuffer();
+		scanf(" %s", nome);
+		printf("\nDigite o genero do aluno: ");
+		limparBuffer();
+		scanf(" %c", &gender);
+		adicionaAluno(l, curso, turma, nome, gender);
+		break;
+	   case 2: 
+		printf("\nDigite o Curso: ");
+		limparBuffer();
+		scanf(" %s", curso);
+		printf("\nDigite a Turma: ");
+		limparBuffer();
+		scanf(" %s", turma);
+		printf("\nDigite o nome do aluno: ");
+		limparBuffer();
+		scanf(" %s", nome);
+		excluirAluno(l, curso, turma, nome); 
+		break;
+	   case 3: 
+		listarAluno(l); 
+		break;
 	}
 }
 
 int menuTurma(lista *l){
 	int opcao;
+	string curso, turma;
 	//system("CLS");
 	do{
-		printf("============================\n");
+		printf("======================================\n");
 		printf("Bem vindo ao menu de Turma!\n");
-		printf("============================\n");
+		printf("======================================\n");
 		printf("Selecione uma opção: \n");
 		printf("0 - Ir para o menu principal\n1 - Inserir Turma\n2- Excluir Turma\n3- Listar todas as turmas\n");
+		printf("\n=====================================");
+		printf("\nSua opção: ");
 		scanf("%d", &opcao);
 	}while ((opcao < 0) || (opcao > 3));
 	if (opcao ==0){
 		menuPrincipal(l);
 		}
 	switch(opcao){
-	   case 1: adicionaTurma(l, "SI", "2021"); break;
-	   case 2: excluirTurma(); break;
-	   case 3: listarTurma(l); break;
-		}
+	   case 1: 
+		printf("\nDigite o Curso: ");
+		limparBuffer();
+		scanf(" %s", curso);
+		printf("\nDigite a Turma: ");
+		limparBuffer();
+		scanf(" %s", turma);
+		adicionaTurma(l, curso, turma); 
+		break;
+	   case 2: 
+		printf("\nDigite o Curso: ");
+		limparBuffer();
+		scanf(" %s", curso);
+		printf("\nDigite a Turma: ");
+		limparBuffer();
+		scanf(" %s", turma);
+		excluirTurma(l, curso, turma); 
+		break;
+	   case 3: 
+		listarTurma(l); 
+		break;
+	}
 }
 
 int menuCurso (lista *l){
 	int opcao;
+	string curso;
 	//system("CLS");
 	do{
-		printf("============================\n");
+		printf("======================================\n");
 		printf("Bem vindo ao menu de Cursos!\n");
-		printf("============================\n");
+		printf("======================================\n");
 		printf("Selecione uma opção: \n");
 		printf("0 - Ir para o menu principal\n1 - Inserir Curso\n2- Excluir Curso\n3- Lista todos os cursos\n");
+		printf("\n======================================");
+		printf("\nSua opção: ");
 		scanf("%d", &opcao);
 	}while ((opcao < 0) || (opcao > 3));
 	switch(opcao){
 	   case 1: 
-	   		printf("\nQual curso vai adicionar?\n");
-	   		string curso;
-	   		limparBuffer();
-	   		scanf(" %s", curso);
-			adicionaCurso(l, curso); 
-			break;
+   		printf("\nDigite o Curso: ");
+   		string curso;
+   		limparBuffer();
+   		scanf(" %s", curso);
+		adicionaCurso(l, curso); 
+		break;
 	   case 2: 
-	   		excluirCurso(); 
-			break;
+		printf("\nDigite o Curso: ");
+		limparBuffer();
+		scanf(" %s", curso);
+		excluirCurso(l, curso); 
+		break;
 	   case 3: 
-	   		listarCurso(l); 
-			break;
+   		listarCurso(l); 
+		break;
 	}
 	if (opcao ==0){
-		menuPrincipal(l);
+		return -1;
 	}
 }
 
 int menu (lista *l){
 	int opcao;
 	do{
-		printf("============================\n");
+		printf("======================================\n");
 		printf("Bem vindo ao menu!\n");
-		printf("============================\n");
+		printf("======================================\n");
 		printf("Selecione uma opção: \n");
 		printf("0 - Sair\n1 - Cursos\n2- Turmas\n3- Alunos\n");
+		printf("\n======================================");
+		printf("\nSua opção: ");
 		scanf("%d", &opcao);
 		if(opcao==256) return opcao;
 	}while ((opcao < 0) || (opcao > 3));
@@ -255,7 +396,7 @@ void inicializaCurso(TCurso* c, string nomeCurso){
 void adicionaCurso(lista *l, string nomeCurso){
 	TCurso *no = (TCurso *)malloc(sizeof(TCurso));
 	inicializaCurso(no, nomeCurso);
-    l->total++;
+	l->total++;
     
 	if(l->ini==NULL){
 		l->ini = no;
@@ -283,9 +424,41 @@ void adicionaCurso(lista *l, string nomeCurso){
 	}
 }
 
-void excluirCurso(){
-	printf("Excluiu Curso\n");
+void excluirCurso(lista *l, string nomeCurso){
+	if(l->ini==NULL){
+		printf("\nLista Vazia: não há nada para excluir");
+		return;
+	}else{
+		TCurso *aux = l->ini;
+		l->total--;
+		if(aux == NULL){
+			printf("\nNão há cursos para remover na lista");
+		}else{
+			while(aux->prox!=NULL&&(strcmp(nomeCurso, aux->nomeCurso))) aux = aux->prox;
+		
+			if(aux==NULL){
+				printf("\nCurso não encontrado: revise informações antes de prosseguir");
+			}else if(aux->prox == NULL){
+				TCurso *aux1 = aux->ante;
+				aux1->prox = NULL;
+				free(aux);
+			}else if(aux->ante == NULL){
+				TCurso *aux1 = aux->prox;
+				aux1->ante = NULL;
+				l->ini = aux1;
+				free(aux);
+			}else{
+				TCurso *aux1 = aux->ante;
+				TCurso *aux2 = aux->prox;
+				aux1->prox = aux2;
+				aux2->ante = aux1;
+				free(aux);
+			}
+		
+		}
+	}
 }
+
 void listarCurso(lista* l){
 	TCurso* aux;
 	aux = l->ini;
@@ -309,7 +482,7 @@ void inicializaTurma(TTurma* c, string nomeTurma){
 
 void adicionaTurma(lista *l, string nomeCurso, string nomeTurma){
 	TTurma *no = (TTurma *)malloc(sizeof(TTurma));
-    inicializaTurma(no, nomeTurma);
+	inicializaTurma(no, nomeTurma);
     
 	if(l->ini==NULL){
 		printf("\nLista Vazia: crie um curso antes");
@@ -328,17 +501,16 @@ void adicionaTurma(lista *l, string nomeCurso, string nomeTurma){
 		}else{
 			TTurma *aux1 = aux->turmas;
 			while(aux1->prox!=NULL&&(strcmp(nomeTurma, aux1->nomeTurma)>0))
-	            aux1 = aux1->prox;
+			aux1 = aux1->prox;
 	            
-	        if(aux1->prox == NULL){
-	        	aux1->prox = no;
-	        	no->ante = aux1;
+			if(aux1->prox == NULL){
+				aux1->prox = no;
+				no->ante = aux1;
 			}else if(aux1->ante == NULL){
 				aux1->ante = no;
-	        	no->prox = aux1;
-	        	aux->turmas = no;
-			}
-			else{
+				no->prox = aux1;
+				aux->turmas = no;
+			}else{
 				TTurma* aux2 = aux1->ante;
 				no->prox = aux1;
 				no->ante = aux2;
@@ -349,8 +521,46 @@ void adicionaTurma(lista *l, string nomeCurso, string nomeTurma){
 	}
 }
 
-void excluirTurma(lista* l){
-	printf("Excluiu Turma\n");
+void excluirTurma(lista *l, string nomeCurso, string nomeTurma){
+	if(l->ini==NULL){
+		printf("\nLista Vazia: não há nada para excluir");
+		return;
+	}else{
+		TCurso *aux = l->ini;
+		while(aux!=NULL && strcmp(aux->nomeCurso, nomeCurso)) aux = aux->prox;
+		if(aux == NULL){
+			printf("\nCurso não encontrado: revise informações antes de prosseguir");
+			return;
+		}
+
+		TTurma *aux1 = aux->turmas;
+		aux->total--;
+		if(aux == NULL){
+			printf("\nNão há turmas para remover nessa curso");
+		}else{
+			while(aux1->prox!=NULL&&(strcmp(nomeTurma, aux1->nomeTurma))) aux1 = aux1->prox;
+		
+			if(aux1==NULL){
+				printf("\nTurma não encontrada: revise informações antes de prosseguir");
+			}else if(aux1->prox == NULL){
+				TTurma *aux2 = aux1->ante;
+				aux2->prox = NULL;
+				free(aux1);
+			}else if(aux1->ante == NULL){
+				TTurma *aux2 = aux1->prox;
+				aux2->ante = NULL;
+				aux->turmas = aux2;
+				free(aux1);
+			}else{
+				TTurma *aux2 = aux1->ante;
+				TTurma *aux3 = aux1->prox;
+				aux2->prox = aux3;
+				aux3->ante = aux2;
+				free(aux1);
+			}
+		
+		}
+	}
 }
 
 void listarTurma(lista* l){
@@ -386,7 +596,7 @@ void inicializaAluno(TAluno* c, string nomeAluno, char gender){
 
 void adicionaAluno(lista *l, string nomeCurso, string nomeTurma, string nomeAluno, char gender){
 	TAluno *no = (TAluno *)malloc(sizeof(TAluno));
-    inicializaAluno(no, nomeAluno, gender);
+	inicializaAluno(no, nomeAluno, gender);
     
 	if(l->ini==NULL){
 		printf("\nLista Vazia: crie um curso antes");
@@ -411,28 +621,73 @@ void adicionaAluno(lista *l, string nomeCurso, string nomeTurma, string nomeAlun
 		if(aux2 == NULL){
 			aux1->alunos = no;
 		}else{
-			while(aux2->prox!=NULL&&(strcmp(nomeAluno, aux2->nome)<0))
-	            aux2 = aux2->prox;
-	    
-	        if(aux2->prox == NULL){
-	        	aux2->prox = no;
-	        	no->ante = aux2;
+			while(aux2->prox!=NULL&&(strcmp(nomeAluno, aux2->nome)<0)) aux2 = aux2->prox;
+		
+			if(aux2->prox == NULL){
+				aux2->prox = no;
+				no->ante = aux2;
 			}else if(aux2->ante == NULL){
 				aux2->ante = no;
-	        	no->prox = aux2;
-	        	aux1->alunos = no;
+				no->prox = aux2;
+				aux1->alunos = no;
 			}else{
 				no->prox = aux2->prox;
 				aux2->prox = no;
 				no->prox->ante = no;
 				no->ante = aux2;
 			}
+		
 		}
 	}
 }
 
-void excluirAluno(){
-	printf("Excluiu aluno\n");
+void excluirAluno(lista *l, string nomeCurso, string nomeTurma, string nomeAluno){
+	if(l->ini==NULL){
+		printf("\nLista Vazia: não há nada para excluir");
+		return;
+	}else{
+		TCurso *aux = l->ini;
+		while(aux!=NULL && strcmp(aux->nomeCurso, nomeCurso)) aux = aux->prox;
+		if(aux == NULL){
+			printf("\nCurso não encontrado: revise informações antes de prosseguir");
+			return;
+		}
+		
+		TTurma *aux1 = aux->turmas;
+		while(aux1!=NULL && strcmp(aux1->nomeTurma, nomeTurma)) aux1 = aux1->prox;
+		if(aux1 == NULL){
+			printf("\nTurma não encontrada: revise informações antes de prosseguir");
+			return;
+		}
+		aux1->total--;
+		
+		TAluno *aux2 = aux1->alunos;
+		if(aux2 == NULL){
+			printf("\nNão há alunos para remover nessa turma");
+		}else{
+			while(aux2->prox!=NULL&&(strcmp(nomeAluno, aux2->nome))) aux2 = aux2->prox;
+		
+			if(aux2==NULL){
+				printf("\nAluno(a) não encontrado(a): revise informações antes de prosseguir");
+			}else if(aux2->prox == NULL){
+				TAluno *aux3 = aux2->ante;
+				aux3->prox = NULL;
+				free(aux2);
+			}else if(aux2->ante == NULL){
+				TAluno *aux3 = aux2->prox;
+				aux3->ante = NULL;
+				aux1->alunos = aux3;
+				free(aux2);
+			}else{
+				TAluno *aux3 = aux2->ante;
+				TAluno *aux4 = aux2->prox;
+				aux3->prox = aux4;
+				aux4->ante = aux3;
+				free(aux2);
+			}
+		
+		}
+	}
 }
 
 void listarAluno(lista* l){
@@ -456,5 +711,82 @@ void listarAluno(lista* l){
 			}
 			aux1 = aux1->prox;
 		}
+		aux = aux->prox;
+	}
+}
+
+typedef struct tipoDisciplina {
+	TDisciplina *prox, *ante;
+	int cargaHoraria;
+	string semestreLetivo, nome;
+}TDisciplina;
+
+void inicializaDisciplina(TDisciplina* c, string nomeDisciplina, int cargaHoraria, string semestreLetivo){
+	c->ante=NULL;
+	c->prox=NULL;
+	c->cargaHoraria = cargaHoraria;
+	strcpy(c->semestreLetivo, semestreLetivo);
+	strcpy(c->nome, nomeDisciplina);
+}
+
+void adicionaDisciplina(lista *l, string nomeCurso, string nomeTurma, string nomeAluno, string nomeDisciplina, int cargaHoraria, string semestreLetivo){
+	TDisciplina *no = (TDisciplina *)malloc(sizeof(TDisciplina));
+	inicializaTDisciplina(no, nomeDisciplina, cargaHoraria, semestreLetivo);
+    
+	if(l->ini==NULL){
+		printf("\nLista Vazia: crie um curso antes");
+		return;
+	}else{
+		TCurso *aux = l->ini;
+		while(aux!=NULL && strcmp(aux->nomeCurso, nomeCurso)) aux = aux->prox;
+		if(aux == NULL){
+			printf("\nCurso não encontrado: adicione o curso antes");
+			return;
+		}
+		
+		TTurma *aux1 = aux->turmas;
+		while(aux1!=NULL && strcmp(aux1->nomeTurma, nomeTurma)) aux1 = aux1->prox;
+		if(aux1 == NULL){
+			printf("\nTurma não encontrada: adicione a turma antes");
+			return;
+		}
+		
+		TAluno *aux2 = aux1->alunos;
+		while(aux2!=NULL && strcmp(aux2->nome, nomeAluno)) aux2 = aux2->prox;
+		if(aux2 == NULL){
+			printf("\nAluno(a) não encontrado(a): adicione Aluno(a) antes");
+			return;
+		}
+
+		aux2->total++;
+		TDisciplina *aux3 = aux2->disciplinas
+		if(aux3 == NULL){
+			aux2->disciplinas = no;
+		}else{		
+			aux3->prox = no;
+			no->ante = aux2;
+		}
+	}
+}
+
+void listarDisciplinas(lista *l, string nomeCurso, string nomeTurma, string nomeAluno){
+	TCurso* aux;
+	aux = l->ini;
+	int i, max = l->total;
+	printf("\n============================");
+	printf("\n\tLista de Alunos");
+	printf("\n============================");
+	for (i=0; i<max; i++){
+		TTurma* aux1 = aux->turmas; 	
+		int j, max1 = aux->total;
+		for(j=0; j<max1;j++){
+			TAluno* aux2 = aux1->alunos;
+			int k, max2 = aux1->total;
+			for(k=0; k<max2; k++){
+				aux2 = aux2->prox;
+			}
+			aux1 = aux1->prox;
+		}
+		aux = aux->prox;
 	}
 }
