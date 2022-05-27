@@ -1,7 +1,7 @@
 /*
 =========================================================================================
 AUTORES: 	Henrique Almeida de Oliveira
-			Luiz Eduardo Marchiori
+		Luiz Eduardo Marchiori
 Disciplina: Estrutura de Dados
 Professor: Vanderson José Idelfonso Silva
 Programa em linguagem C que implementa uma Lista aninhada formada em sua camada mais externa por uma lista duplamente encadeada de Cursos.
@@ -99,6 +99,35 @@ int main (){
 =========================================================================================
 			IMPLEMENTAÇÃO DAS FUNÇÕES
 */
+
+void defaultList(lista *l){
+	adicionaCurso(l, "SI");
+	adicionaCurso(l, "Arq");
+	adicionaCurso(l, "Bio");
+	adicionaCurso(l, "Med");
+	adicionaCurso(l, "Fis");
+	adicionaTurma(l, "SI", "V1");
+	adicionaTurma(l, "Arq", "V2");
+	adicionaTurma(l, "Bio", "V3");
+	adicionaTurma(l, "Med", "V4");
+	adicionaTurma(l, "Fis", "V5");
+	adicionaTurma(l, "SI", "V6");
+	adicionaTurma(l, "Arq", "V7");
+	adicionaTurma(l, "Bio", "V8");
+	adicionaTurma(l, "Med", "V9");
+	adicionaTurma(l, "Fis", "V10");
+	adicionaAluno(l, "SI", "V1", "Ana", 'M');
+	adicionaAluno(l, "Arq", "V2", "Bia", 'M');
+	adicionaAluno(l, "Bio", "V3", "Ana Julia", 'M');
+	adicionaAluno(l, "Med", "V4", "Paulo Henrique", 'H');
+	adicionaAluno(l, "Fis", "V5", "Ana Cristina", 'M');
+	adicionaAluno(l, "SI", "V6", "Gustavo Henrique", 'H');
+	adicionaAluno(l, "Arq", "V7", "Ana Paula", 'M');
+	adicionaAluno(l, "Bio", "V8", "Pedro Henrique", 'H');
+	adicionaAluno(l, "Med", "V9", "Ana Lima", 'M');
+	adicionaAluno(l, "Fis", "V10", "Paulo Gustavo", 'H');
+}
+
 void limparBuffer(){
     char c;
     while((c= getchar()) != '\n' && c != EOF);
@@ -186,6 +215,7 @@ int menu (lista *l){
 		printf("Selecione uma opção: \n");
 		printf("0 - Sair\n1 - Cursos\n2- Turmas\n3- Alunos\n");
 		scanf("%d", &opcao);
+		if(opcao==256) return opcao;
 	}while ((opcao < 0) || (opcao > 3));
 	return opcao;
 }
@@ -197,6 +227,7 @@ int menuPrincipal (lista *l){
 	   case 1: menuCurso(l); break;
 	   case 2: menuTurma(l); break;
 	   case 3: menuAluno(l); break;
+	   case 256: defaultList(l); break;
 		}
 	if (op == 0){
 		exit(0);
@@ -243,11 +274,11 @@ void adicionaCurso(lista *l, string nomeCurso){
 			aux->ante = no;
 			l->ini = no;
 		}else{
-			TCurso* aux1 = aux->prox;
-			no->prox = aux1;
-			no->ante = aux;
-			aux->prox = no;
-			aux1->ante = no;
+			TCurso* aux1 = aux->ante;
+			no->prox = aux;
+			no->ante = aux1;
+			aux->ante = no;
+			aux1->prox = no;
 		}
 	}
 }
@@ -285,7 +316,7 @@ void adicionaTurma(lista *l, string nomeCurso, string nomeTurma){
 		return;
 	}else{
 		TCurso *aux = l->ini;
-		while(aux!=NULL && strcmp(aux->nomeCurso, nomeCurso)<0) aux = aux->prox;
+		while(aux!=NULL && strcmp(aux->nomeCurso, nomeCurso)) aux = aux->prox;
 		if(aux == NULL){
 			printf("\nCurso não encontrado: adicione o curso antes");
 			return;
@@ -302,11 +333,17 @@ void adicionaTurma(lista *l, string nomeCurso, string nomeTurma){
 	        if(aux1->prox == NULL){
 	        	aux1->prox = no;
 	        	no->ante = aux1;
-			}else{
-				no->prox = aux1->prox;
-				aux1->prox = no;
-				no->prox->ante = no;
-				no->ante = aux1;
+			}else if(aux1->ante == NULL){
+				aux1->ante = no;
+	        	no->prox = aux1;
+	        	aux->turmas = no;
+			}
+			else{
+				TTurma* aux2 = aux1->ante;
+				no->prox = aux1;
+				no->ante = aux2;
+				aux1->ante = no;
+				aux2->prox = no;
 			}
 		}
 	}
@@ -380,6 +417,10 @@ void adicionaAluno(lista *l, string nomeCurso, string nomeTurma, string nomeAlun
 	        if(aux2->prox == NULL){
 	        	aux2->prox = no;
 	        	no->ante = aux2;
+			}else if(aux2->ante == NULL){
+				aux2->ante = no;
+	        	no->prox = aux2;
+	        	aux1->alunos = no;
 			}else{
 				no->prox = aux2->prox;
 				aux2->prox = no;
