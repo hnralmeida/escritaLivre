@@ -1,0 +1,184 @@
+/*
+=========================================================================================
+AUTORES: 	Henrique Almeida de Oliveira
+		Luiz Eduardo Marchiori
+Disciplina: Estrutura de Dados
+Professor: Vanderson José Idelfonso Silva
+Programa em linguagem C que implementa uma lista simplesmente encadeada com as seguintes informações: matricula, nome e sexo (além do campo prox, é claro).
+
+Uma árvore binária de busca (ABB) deverá permitir uma busca não linear por nome nessa mesma lista. Ou seja, qualquer procura por um elemento da lista com nome = "Jose da Silva", por exemplo, deverá começar pela árvore binária de busca. 
+Uma vez encontrado um nodo com esse nome, deve-se utilizar o campo enderecoLista (contendo um ponteiro para a Lista) para acessar o registro (struct) da Lista.
+
+Sempre que um elemento for inserido na Lista um nodo correspondente deverá ser inserido na árvore de modo a apontar (endereçar) o referido elemento.
+
+Quando um elemento for removido da Lista o nodo referente na árvore também deverá ser eliminado.
+
+O programa deverá apresentar um menu com as seguintes opções:
+
+===========| MENU |=========================================
+
+0 - Sair (Encerrar aplicação).
+
+1 - Inserir Pessoa.
+
+2 - Listar Pessoas por ordem crescente de matrícula.
+
+3 - Listar Pessoas por ordem crescente alfabética de nome.
+
+4 - Consultar Pessoa por Nome.
+
+5 - Remover Pessoa.
+
+===============================================================
+
+=========================================================================================
+*/
+
+#include<stdio.h>
+#include<string.h>
+#include<locale.h>
+#include<stdlib.h>
+
+/*
+=========================================================================================
+			Tipo Abstrato de Dados
+*/
+
+typedef struct tipoNo TNo;
+
+typedef struct NoTree TTree;
+
+typedef char string[40];
+
+typedef struct NoTree {
+	TTree *esq,*dir;
+	TNo *nodo;
+}TTree;
+
+typedef struct tipoNo {
+	TNo *prox;
+	string nome;
+	char sexo;
+	string matricula;
+}TNo;
+
+typedef struct tipoLista {
+	int total;
+	TTree* raiz;
+	TNo *inicio;
+	TNo *fim;
+}TLista;
+
+void inicializa(TLista *L);
+int menu();
+void insere(TLista *L);
+void listaMatricula(TLista *L);
+void listaNome(TLista *L);
+void procuraNome(TLista *L, string nome);
+void remover(TLista *L, string nome);
+
+int main(){
+	int op;
+	TLista lista;
+	
+	inicializa(&lista);
+	
+	do {
+		op = menu();
+		
+		switch(op){
+		   case 1: insere(&lista); break;
+		   case 2: listaMatricula(&lista); break;
+		   case 3: listaNome(&lista); break;
+		   case 4: procuraNome(&lista); break;	
+		   case 5: remover(&lista); break;
+		   case 222: automatico(&lista); break;
+		}//switch
+		
+	} while(op != 0);
+	
+}
+
+void inicializa(TLista *L){
+	L->raiz = NULL;
+	L->inicio = NULL;
+	L->fim = NULL;
+	L->total = 0;
+}
+
+int menu(){
+	int opcao;
+	system("CLS"); //Limpa a Tela e posiciona o 
+	               //CURSOR no canto esquerdo superior da mesma
+    printf("\n\n\n\t     =====| MENU |=====\n\n");
+    printf("0 - SAIR (Encerrar Programa).\n\n");
+    printf("1 - Inserir pessoa.\n");
+    printf("2 - Listar Pessoas por ordem crescente de matrícula.\n");
+    printf("3 - Listar Pessoas por ordem crescente alfabética de nome.\n");
+    printf("4 - Consultar Pessoa por Nome.\n");
+    printf("5 - Remover pessoa.\n");
+    printf("\tInforme OPCAO desejada: ");
+    
+    scanf("%d",&opcao);
+    
+    if (opcao == 222){
+		return opcao;
+	}
+	
+	if ((opcao > 5) || (opcao < 0)){
+		printf("\n\n\n");
+		printf("\t+-------------------------------------------------+");
+		printf("\t|   ERRO:                                         |");
+		printf("\t|                                                 |");
+		printf("\t|   OPCAO INVALIDA!!!                             |");
+		printf("\t|                                                 |");
+		printf("\t|   Tente outra vez.                              |");
+		printf("\t+-------------------------------------------------+\n\n");
+		system("PAUSE");
+	}
+	return opcao;
+}
+
+void limparBuffer(){
+    char c;
+    while((c= getchar()) != '\n' && c != EOF);
+}
+
+void insereNaLista(TLista *L, string nome, char genero, string matricula){
+	
+}
+
+void insere(TLista *L){
+	string nome, matricula;
+	char genero;
+	
+	printf("\nDigite o nome do aluno: ");
+	limparBuffer();
+	scanf("%[^\n40]s", nome);
+	
+	printf("\nDigite o genero do aluno: ");
+	limparBuffer();
+	scanf("%c", genero);
+	
+	printf("\nDigite o matricula do aluno: ");
+	limparBuffer();
+	scanf("%[^\n40]s", matricula);
+	
+	insereNaLista(L, nome, genero, matricula);
+}
+
+void listaMatricula(TLista *L){
+	
+}
+
+void listaNome(TLista *L){
+	
+}
+
+void procuraNome(TLista *L, string nome){
+	
+}
+
+void remover(TLista *L, string nome){
+	
+}
