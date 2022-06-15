@@ -1,7 +1,7 @@
 /*
 =========================================================================================
 AUTORES: 	Henrique Almeida de Oliveira
-		Luiz Eduardo Marchiori
+			Luiz Eduardo Marchiori
 Disciplina: Estrutura de Dados
 Professor: Vanderson José Idelfonso Silva
 Programa em linguagem C que implementa uma lista simplesmente encadeada com as seguintes informações: matricula, nome e sexo (além do campo prox, é claro).
@@ -12,24 +12,6 @@ Uma vez encontrado um nodo com esse nome, deve-se utilizar o campo enderecoLista
 Sempre que um elemento for inserido na Lista um nodo correspondente deverá ser inserido na árvore de modo a apontar (endereçar) o referido elemento.
 
 Quando um elemento for removido da Lista o nodo referente na árvore também deverá ser eliminado.
-
-O programa deverá apresentar um menu com as seguintes opções:
-
-===========| MENU |=========================================
-
-0 - Sair (Encerrar aplicação).
-
-1 - Inserir Pessoa.
-
-2 - Listar Pessoas por ordem crescente de matrícula.
-
-3 - Listar Pessoas por ordem crescente alfabética de nome.
-
-4 - Consultar Pessoa por Nome.
-
-5 - Remover Pessoa.
-
-===============================================================
 
 =========================================================================================
 */
@@ -44,82 +26,100 @@ O programa deverá apresentar um menu com as seguintes opções:
 			Tipo Abstrato de Dados
 */
 
-typedef struct tipoNo TNo;
+typedef struct tipoPerson TPerson;
 
 typedef struct NoTree TTree;
 
 typedef char string[40];
 
+typedef struct tipoPerson {
+	TPerson *prox;
+	string nome;
+	char genero;
+	string matricula;
+}TPerson;
+
 typedef struct NoTree {
 	TTree *esq,*dir;
-	TNo *nodo;
+	TPerson *nodo;
 }TTree;
-
-typedef struct tipoNo {
-	TNo *prox;
-	string nome;
-	char sexo;
-	string matricula;
-}TNo;
 
 typedef struct tipoLista {
 	int total;
 	TTree* raiz;
-	TNo *inicio;
-	TNo *fim;
+	TPerson *ini;
+	TPerson *fim;
 }TLista;
 
-void inicializa(TLista *L);
+// Funções padrão
 int menu();
-void insere(TLista *L);
+void limparBuffer();
+
+// Função de Lista SEABB
+void inicializaLista(TLista *L);
+void inserePessoa(TLista *L);
 void listaMatricula(TLista *L);
 void listaNome(TLista *L);
-void procuraNome(TLista *L, string nome);
-void remover(TLista *L, string nome);
+void procuraNome(TLista *L);
+void removerLista(TLista *L);
+void automatico(TLista *L);
+
+/*
+=========================================================================================
+			Função Principal
+*/
 
 int main(){
 	int op;
 	TLista lista;
+	setlocale(LC_ALL, "");
 	
-	inicializa(&lista);
+	inicializaLista(&lista);
 	
 	do {
 		op = menu();
 		
 		switch(op){
-		   case 1: insere(&lista); break;
+		   case 1: inserePessoa(&lista); break;
 		   case 2: listaMatricula(&lista); break;
 		   case 3: listaNome(&lista); break;
 		   case 4: procuraNome(&lista); break;	
-		   case 5: remover(&lista); break;
+		   case 5: removerLista(&lista); break;
 		   case 222: automatico(&lista); break;
 		}//switch
+		printf("\nPressione qualquer tecla para continuar. . .");
+		limparBuffer();
+		char c = getchar();
+	    system("@cls||clear");
 		
 	} while(op != 0);
 	
 }
 
-void inicializa(TLista *L){
-	L->raiz = NULL;
-	L->inicio = NULL;
-	L->fim = NULL;
-	L->total = 0;
+/*
+=========================================================================================
+			Implementação
+*/
+
+void limparBuffer(){
+    char c;
+    while((c= getchar()) != '\n' && c != EOF);
 }
 
 int menu(){
 	int opcao;
-	system("CLS"); //Limpa a Tela e posiciona o 
-	               //CURSOR no canto esquerdo superior da mesma
-    printf("\n\n\n\t     =====| MENU |=====\n\n");
+    printf("\n================| MENU |================\n\n");
     printf("0 - SAIR (Encerrar Programa).\n\n");
     printf("1 - Inserir pessoa.\n");
     printf("2 - Listar Pessoas por ordem crescente de matrícula.\n");
     printf("3 - Listar Pessoas por ordem crescente alfabética de nome.\n");
     printf("4 - Consultar Pessoa por Nome.\n");
     printf("5 - Remover pessoa.\n");
-    printf("\tInforme OPCAO desejada: ");
+    printf("================================================\n");
     
+    printf("\tInforme OPCAO desejada: ");
     scanf("%d",&opcao);
+    printf("================================================\n");
     
     if (opcao == 222){
 		return opcao;
@@ -127,28 +127,62 @@ int menu(){
 	
 	if ((opcao > 5) || (opcao < 0)){
 		printf("\n\n\n");
-		printf("\t+-------------------------------------------------+");
-		printf("\t|   ERRO:                                         |");
-		printf("\t|                                                 |");
-		printf("\t|   OPCAO INVALIDA!!!                             |");
-		printf("\t|                                                 |");
-		printf("\t|   Tente outra vez.                              |");
-		printf("\t+-------------------------------------------------+\n\n");
+		printf("\t+------------------------+");
+		printf("\t|   ERRO:                |");
+		printf("\t|                        |");
+		printf("\t|   OPCAO INVALIDA!!!    |");
+		printf("\t|                        |");
+		printf("\t|   Tente outra vez.     |");
+		printf("\t+------------------------+");
 		system("PAUSE");
 	}
 	return opcao;
 }
 
-void limparBuffer(){
-    char c;
-    while((c= getchar()) != '\n' && c != EOF);
+void inicializaLista(TLista *L){
+	L->raiz = NULL;
+	L->ini = NULL;
+	L->fim = NULL;
+	L->total = 0;
 }
 
+void inicializaPerson(TPerson* no, string nome, char gender, string reg){
+	no->prox = NULL;
+	strcpy(no->nome, nome);
+	no->genero = gender;
+	strcpy(no->matricula, reg);
+}
+
+// subfunção de inserePessoa, implementa automatização como função direta
 void insereNaLista(TLista *L, string nome, char genero, string matricula){
-	
+	TPerson *no = (TPerson *)malloc(sizeof(TPerson));
+    inicializaPerson(no, nome, genero, matricula);
+    L->total++;
+    
+	if(L->ini==NULL){
+		L->ini = no;
+		L->fim = no;
+	}else{
+		TPerson *aux = L->ini;
+		while( (aux->prox!=NULL)&&(strcmp(nome, aux->nome)>0)){
+			aux = aux->prox;
+		}
+        
+		if(aux->prox == NULL){
+        	aux->prox = no;
+        	L->fim = no;
+		}else if(aux == L->ini){
+			no->prox = aux;
+			L->ini = no;
+		}else{
+			no->prox = aux->prox;
+			aux->prox = no;
+		}
+	}
 }
 
-void insere(TLista *L){
+// Inserir Pessoa
+void inserePessoa(TLista *L){
 	string nome, matricula;
 	char genero;
 	
@@ -158,7 +192,7 @@ void insere(TLista *L){
 	
 	printf("\nDigite o genero do aluno: ");
 	limparBuffer();
-	scanf("%c", genero);
+	scanf("%c", &genero);
 	
 	printf("\nDigite o matricula do aluno: ");
 	limparBuffer();
@@ -167,18 +201,46 @@ void insere(TLista *L){
 	insereNaLista(L, nome, genero, matricula);
 }
 
+// Listar Pessoas por ordem crescente de matrícula
 void listaMatricula(TLista *L){
 	
 }
 
+// Listar Pessoas por ordem crescente alfabética de nome
 void listaNome(TLista *L){
+	TPerson* aux;
+	aux = L->ini;
+	int i, max = L->total;
+	printf("\n============================");
+	printf("\n\tLista de Pessoas");
+	printf("\n============================");
+	for (i=0; i<max; i++){
+		printf("\n- %s", aux->nome);
+		aux = aux->prox;
+	}
+}
+
+// Consultar Pessoa por Nome
+void procuraNome(TLista *L){
 	
 }
 
-void procuraNome(TLista *L, string nome){
+// Remover Pessoa
+void removerLista(TLista *L){
 	
 }
 
-void remover(TLista *L, string nome){
+void automatico(TLista *L){
+	string nome[10] = {"Yuri Duarte","Luiz Felipe Nascimento", "Calebe Fernandes" ,
+						"Maria Vitória Pires", "Diogo da Mota","Yasmin da Paz" ,
+						"Maria Julia Sales","Juliana Duarte", "Kaique da Rocha", 
+						"Lucas Gabriel Sales"};
+						
+	char genero[10] = "HHHMHMMMHH";
 	
+	string matricula[10] = {"0x01", "0x02", "0x03", "0x04", "0x05", "0x06", "0x07",
+							"0x08", "0x09", "0x0A"};
+	int i;
+	for (i=0; i<10; i++)
+		insereNaLista(L, nome[i], genero[i], matricula[i]);
 }
