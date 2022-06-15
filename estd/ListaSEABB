@@ -167,8 +167,9 @@ void insereNaLista(TLista *L, string nome, char genero, string matricula){
 		while( (aux->prox!=NULL)&&(strcmp(nome, aux->nome)>0)){
 			aux = aux->prox;
 		}
+        printf("%s", aux->nome);
         
-		if(aux->prox == NULL){
+		if(aux->prox == NULL&&(aux!=L->ini)){
         	aux->prox = no;
         	L->fim = no;
 		}else if(aux == L->ini){
