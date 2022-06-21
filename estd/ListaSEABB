@@ -155,29 +155,24 @@ void inicializaPerson(TPerson* no, string nome, char gender, string reg){
 }
 
 // subfunção de inseraNaArvore, modifica os ponteiros
-void inicializaTree(TTree* no){
+TTree *inicializaTree(TPerson* add){
+	TTree *no = (TTree *)malloc(sizeof(TTree));
 	no->esq = NULL;
 	no->dir = NULL;
+	no->nodo = add;
+	return no;
 }
 
 // subfunção de inseraNaLista, 
-void insereNaArvore(TLista *L, TPerson* add){
-	TTree *no = (TTree *)malloc(sizeof(TTree));
-	inicializaTree(no);
-	no->nodo = add;
-
-	TTree *aux = L->raiz;
-
-	while(aux!=NULL){
-		TPerson *p = aux->nodo;
-		if(strcmp(add->matricula, p->matricula)>0){
-			aux = aux->dir;
-		}else{
-			aux = aux->esq;
-		}
-		if(aux==NULL) aux=no;
+TTree *insereNaArvore(TTree **node, TPerson* add){
+	if((*node)==NULL){
+		(*node) = inicializaTree(add);
+	}else if(strcmp(add->nome, (*node)->nodo->matricula)>0){
+		(*node)->esq = insereNaArvore(&(*node)->esq, add);
+	}else {
+		(*node)->dir = insereNaArvore(&(*node)->dir, add);
 	}
-
+	return (*node);
 }
 
 // subfunção de inserePessoa, implementa automatização como função direta
@@ -193,10 +188,7 @@ void insereNaLista(TLista *L, string nome, char genero, string matricula){
 		// essa segunda parte tenta adicionar à arvore o nó
 		// os dois print fazem parte do debug da tentativa de correção
 		L->raiz = (TTree *)malloc(sizeof(TTree));
-		//printf("\n%x", (unsigned int)L->raiz);
-		inicializaTree(L->raiz);
-		L->raiz->nodo = no;
-		//printf("\n%s", nome);
+		L->raiz = insereNaArvore(&L->raiz, no);
 	}else{
 		TPerson *aux = L->ini;
 		TPerson *ant;
@@ -215,8 +207,9 @@ void insereNaLista(TLista *L, string nome, char genero, string matricula){
 			no->prox = aux;
 			ant->prox = no;
 		}
+		printf("oi");
 		// esssa parte não pode ser testada ainda
-		insereNaArvore(L, no);
+		L->raiz = insereNaArvore(&L->raiz, no);
 	}
 }
 
