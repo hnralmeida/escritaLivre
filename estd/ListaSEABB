@@ -40,7 +40,8 @@ typedef struct tipoPerson {
 }TPerson;
 
 typedef struct NoTree {
-	TTree *esq,*dir;
+	TTree *esq;
+	TTree *dir;
 	TPerson *nodo;
 }TTree;
 
@@ -140,9 +141,9 @@ int menu(){
 }
 
 void inicializaLista(TLista *L){
-	L->raiz = NULL;
 	L->ini = NULL;
 	L->fim = NULL;
+	L->raiz = NULL;
 	L->total = 0;
 }
 
@@ -153,32 +154,69 @@ void inicializaPerson(TPerson* no, string nome, char gender, string reg){
 	strcpy(no->matricula, reg);
 }
 
+// subfunção de inseraNaArvore, modifica os ponteiros
+void inicializaTree(TTree* no){
+	no->esq = NULL;
+	no->dir = NULL;
+}
+
+// subfunção de inseraNaLista, 
+void insereNaArvore(TLista *L, TPerson* add){
+	TTree *no = (TTree *)malloc(sizeof(TTree));
+	inicializaTree(no);
+	no->nodo = add;
+
+	TTree *aux = L->raiz;
+
+	while(aux!=NULL){
+		TPerson *p = aux->nodo;
+		if(strcmp(add->matricula, p->matricula)>0){
+			aux = aux->dir;
+		}else{
+			aux = aux->esq;
+		}
+		if(aux==NULL) aux=no;
+	}
+
+}
+
 // subfunção de inserePessoa, implementa automatização como função direta
 void insereNaLista(TLista *L, string nome, char genero, string matricula){
 	TPerson *no = (TPerson *)malloc(sizeof(TPerson));
-    inicializaPerson(no, nome, genero, matricula);
-    L->total++;
+	inicializaPerson(no, nome, genero, matricula);
+	L->total++;
     
 	if(L->ini==NULL){
 		L->ini = no;
 		L->fim = no;
+
+		// essa segunda parte tenta adicionar à arvore o nó
+		// os dois print fazem parte do debug da tentativa de correção
+		L->raiz = (TTree *)malloc(sizeof(TTree));
+		//printf("\n%x", (unsigned int)L->raiz);
+		inicializaTree(L->raiz);
+		L->raiz->nodo = no;
+		//printf("\n%s", nome);
 	}else{
 		TPerson *aux = L->ini;
-		while( (aux->prox!=NULL)&&(strcmp(nome, aux->nome)>0)){
+		TPerson *ant;
+		while( (aux!=NULL)&&(strcmp(nome, aux->nome)>0)){
+			ant = aux;
 			aux = aux->prox;
 		}
-        printf("%s", aux->nome);
         
-		if(aux->prox == NULL&&(aux!=L->ini)){
-        	aux->prox = no;
-        	L->fim = no;
+		if(aux == NULL&&(ant!=L->ini)){
+			ant->prox = no;
+			L->fim = no;
 		}else if(aux == L->ini){
 			no->prox = aux;
 			L->ini = no;
 		}else{
-			no->prox = aux->prox;
-			aux->prox = no;
+			no->prox = aux;
+			ant->prox = no;
 		}
+		// esssa parte não pode ser testada ainda
+		insereNaArvore(L, no);
 	}
 }
 
@@ -202,9 +240,26 @@ void inserePessoa(TLista *L){
 	insereNaLista(L, nome, genero, matricula);
 }
 
+// Subfunção de listaMatricula, entra na árvore para imprimir em ordem
+
+void digTree(TTree* node){
+	if(node==NULL) return;
+	digTree(node->esq);
+	TPerson *aux = node->nodo;
+	printf("\n%s \t %s", aux->matricula, aux->nome);
+	digTree(node->dir);
+}
+
 // Listar Pessoas por ordem crescente de matrícula
 void listaMatricula(TLista *L){
-	
+	TTree *aux = L->raiz;
+
+	printf("\n============================");
+	printf("\n\tLista de Matriculas");
+	printf("\n============================");
+
+	digTree(aux);
+
 }
 
 // Listar Pessoas por ordem crescente alfabética de nome
@@ -216,7 +271,7 @@ void listaNome(TLista *L){
 	printf("\n\tLista de Pessoas");
 	printf("\n============================");
 	for (i=0; i<max; i++){
-		printf("\n- %s", aux->nome);
+		printf("\n%s \t %s", aux->matricula, aux->nome);
 		aux = aux->prox;
 	}
 }
