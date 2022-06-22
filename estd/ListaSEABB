@@ -303,19 +303,48 @@ void procuraNome(TLista *L){
 }
 
 // Subfunção de removerLista, retira a pessoa da lista e seu respectivo nó na árvore
-void removerGeral(TTree *st, string name){
+TTree* removerGeral(TTree *st, string name){
+	//valor a ser comparado
 	TPerson *aux;
-	if(node!=NULL) aux = node->nodo;	
+	if(st!=NULL) aux = st->nodo;	
 
-	if (node==NULL){
+	if (st==NULL){
+		//interrompe a recursão
 		return NULL;
-	}else if(!strcmp(x->nome, name)){
-		return x;
-	}else if(strcmp(x->nome, name)>0){
-		digThrowTree(node->esq, name);
+	}else if(strcmp(aux->nome, name)>0){
+		//valor procurado pra remover vem antes, desce pela direita
+		st->dir = removerGeral(st->dir, name);
+	}else if(strcmp(aux->nome, name)<0){
+		//valor procurado pra remover vem depois, desce pela esquerda
+		st->esq = removerGeral(st->esq, name);
 	}else{
-		digThrowTree(node->dir, name);
+		//encontrou valor a remover, tratar quais ramos ele tem
+		if(st->dir==NULL && st->esq==NULL){
+			free(st);
+			st = NULL;
+		}else if (st->esq == NULL){
+			TTree* temp = st;
+			st= st->dir;
+			free(temp);
+		}else if (st->dir == NULL){
+			TTree* temp = st;
+			st= st->esq;
+			free(temp);
+		}else{
+			TTree* temp = st->esq;
+			while(temp->dir != NULL){
+				temp = temp->dir;
+			}
+			st->nodo = temp->nodo;
+			temp->nodo = aux;
+			st->esq = removerGeral(st->esq, name);
+		}
+		TPerson *faux;
+		faux = aux;
+		*aux = *(aux->prox);
+		free(faux);
 	}
+	return st;
 }
 
 // Remover Pessoa
@@ -330,7 +359,8 @@ void removerLista(TLista *L){
 		string nome;
 		limparBuffer();
 		scanf("%[^\n40]s", nome);
-		removerGeral(aux, nome);
+		aux = removerGeral(aux, nome);
+		L->total--;
 	}
 }
 
