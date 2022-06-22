@@ -167,10 +167,10 @@ TTree *inicializaTree(TPerson* add){
 TTree *insereNaArvore(TTree **node, TPerson* add){
 	if((*node)==NULL){
 		(*node) = inicializaTree(add);
-	}else if(strcmp(add->nome, (*node)->nodo->matricula)>0){
-		(*node)->esq = insereNaArvore(&(*node)->esq, add);
-	}else {
+	}else if(strcmp(add->nome, (*node)->nodo->nome)>0){
 		(*node)->dir = insereNaArvore(&(*node)->dir, add);
+	}else {
+		(*node)->esq = insereNaArvore(&(*node)->esq, add);
 	}
 	return (*node);
 }
@@ -180,19 +180,18 @@ void insereNaLista(TLista *L, string nome, char genero, string matricula){
 	TPerson *no = (TPerson *)malloc(sizeof(TPerson));
 	inicializaPerson(no, nome, genero, matricula);
 	L->total++;
-    
+
 	if(L->ini==NULL){
 		L->ini = no;
 		L->fim = no;
 
 		// essa segunda parte tenta adicionar à arvore o nó
 		// os dois print fazem parte do debug da tentativa de correção
-		L->raiz = (TTree *)malloc(sizeof(TTree));
-		L->raiz = insereNaArvore(&L->raiz, no);
+		L->raiz = insereNaArvore(&(L->raiz), no);
 	}else{
 		TPerson *aux = L->ini;
 		TPerson *ant;
-		while( (aux!=NULL)&&(strcmp(nome, aux->nome)>0)){
+		while( (aux!=NULL)&&(strcmp(matricula, aux->matricula)>0)){
 			ant = aux;
 			aux = aux->prox;
 		}
@@ -207,8 +206,6 @@ void insereNaLista(TLista *L, string nome, char genero, string matricula){
 			no->prox = aux;
 			ant->prox = no;
 		}
-		printf("oi");
-		// esssa parte não pode ser testada ainda
 		L->raiz = insereNaArvore(&L->raiz, no);
 	}
 }
@@ -234,7 +231,6 @@ void inserePessoa(TLista *L){
 }
 
 // Subfunção de listaMatricula, entra na árvore para imprimir em ordem
-
 void digTree(TTree* node){
 	if(node==NULL) return;
 	digTree(node->esq);
@@ -244,11 +240,11 @@ void digTree(TTree* node){
 }
 
 // Listar Pessoas por ordem crescente de matrícula
-void listaMatricula(TLista *L){
+void listaNome(TLista *L){
 	TTree *aux = L->raiz;
 
 	printf("\n============================");
-	printf("\n\tLista de Matriculas");
+	printf("\n\tLista de Pessoas (A-Z)");
 	printf("\n============================");
 
 	digTree(aux);
@@ -256,12 +252,12 @@ void listaMatricula(TLista *L){
 }
 
 // Listar Pessoas por ordem crescente alfabética de nome
-void listaNome(TLista *L){
+void listaMatricula(TLista *L){
 	TPerson* aux;
 	aux = L->ini;
 	int i, max = L->total;
 	printf("\n============================");
-	printf("\n\tLista de Pessoas");
+	printf("\n\tLista de Pessoas (123)");
 	printf("\n============================");
 	for (i=0; i<max; i++){
 		printf("\n%s \t %s", aux->matricula, aux->nome);
@@ -269,14 +265,73 @@ void listaNome(TLista *L){
 	}
 }
 
+// Subfunção de procuraNome, recursiva, retorna struct Person encontrada
+TPerson *digThrowTree(TTree* node, string name){
+	TPerson *x;
+	if(node!=NULL) x = node->nodo;	
+
+	if (node==NULL){
+		return NULL;
+	}else if(!strcmp(x->nome, name)){
+		return x;
+	}else if(strcmp(x->nome, name)>0){
+		digThrowTree(node->esq, name);
+	}else{
+		digThrowTree(node->dir, name);
+	}
+}
+
 // Consultar Pessoa por Nome
 void procuraNome(TLista *L){
-	
+
+	TTree *aux = L->raiz;
+	if(aux == NULL){
+		printf("\nArvore Vazia!");
+	}else{
+		printf("\nQual pessoa deseja procurar?\n> ");
+		string nome;
+		limparBuffer();
+		scanf("%[^\n40]s", nome);
+		TPerson *x = digThrowTree(aux, nome);
+		if (x==NULL){
+			printf("\nNão encontrado!");
+		}else{
+			printf("\nEncontrado!");
+			printf("\n%s \t %s", x->matricula, x->nome);
+		}
+	}
+}
+
+// Subfunção de removerLista, retira a pessoa da lista e seu respectivo nó na árvore
+void removerGeral(TTree *st, string name){
+	TPerson *aux;
+	if(node!=NULL) aux = node->nodo;	
+
+	if (node==NULL){
+		return NULL;
+	}else if(!strcmp(x->nome, name)){
+		return x;
+	}else if(strcmp(x->nome, name)>0){
+		digThrowTree(node->esq, name);
+	}else{
+		digThrowTree(node->dir, name);
+	}
 }
 
 // Remover Pessoa
 void removerLista(TLista *L){
-	
+
+	TTree *aux = L->raiz;
+
+	if(aux == NULL){
+		printf("\nLista Vazia!");
+	}else{
+		printf("\nQual pessoa deseja remover?\n> ");
+		string nome;
+		limparBuffer();
+		scanf("%[^\n40]s", nome);
+		removerGeral(aux, nome);
+	}
 }
 
 void automatico(TLista *L){
