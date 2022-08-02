@@ -2,7 +2,7 @@
 =========================================================================================
 AUTORES: 	Henrique Almeida de Oliveira
 			Luiz Eduardo Marchiori
-Disciplina: TÛpicos de ProgramaÁ„o AvanÁada
+Disciplina: T√≥picos de Programa√ß√£o Avan√ßada
 Professor: 
 
 Biblioteca de lista Simplesmente encadeada com sentinela
@@ -38,7 +38,7 @@ void addIn(list *L, int value);
 // inicializa lista com ponteiros nulos
 void initializeList(list *l);
 
-// adiciona curso passada como par‚metro na lista 
+// adiciona curso passada como par√¢metro na lista 
 void addElement(list *l);
 
 // imprimir valores na lista
