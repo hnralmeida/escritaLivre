@@ -2,7 +2,7 @@
 =========================================================================================
 AUTORES: 	Henrique Almeida de Oliveira
 			Luiz Eduardo Marchiori
-Disciplina: Tópicos de Programação Avançada
+Disciplina: TÃ³picos de ProgramaÃ§Ã£o AvanÃ§ada
 Professor: 
 Biblioteca de lista Simplesmente encadeada com sentinela
 =========================================================================================
