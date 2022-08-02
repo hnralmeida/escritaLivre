@@ -2,9 +2,9 @@
 =========================================================================================
 AUTORES: 	Henrique Almeida de Oliveira
 			Luiz Eduardo Marchiori
-Disciplina: TÛpicos de ProgramaÁ„o AvanÁada
+Disciplina: T√≥picos de Programa√ß√£o Avan√ßada
 Professor: 
-ImplementaÁ„o de sentinelaSimples.h
+Implementa√ß√£o de sentinelaSimples.h
 =========================================================================================
 */
 
@@ -16,7 +16,7 @@ ImplementaÁ„o de sentinelaSimples.h
 
 /*
 =========================================================================================
-			ImplementaÁ„o de sentinelaSimples.h
+			Implementa√ß√£o de sentinelaSimples.h
 */
 
 
@@ -67,7 +67,7 @@ void addIn(list *L, int value){
 	L->total++;
 }
 
-// adiciona curso passada como par‚metro na lista 
+// adiciona curso passada como par√¢metro na lista 
 void addElement(list *L){
 	int value;
 	
