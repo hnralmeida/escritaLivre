@@ -8,11 +8,10 @@ Implementação de sentinelaSimples.h
 =========================================================================================
 */
 
-#include<stdio.h>
-#include<string.h>
-#include<locale.h>
-#include<stdlib.h>
-#include "sentinelaSimples.h"
+#include <stdio.h>
+#include <locale.h>
+#include <stdlib.h>
+#include "lista.h"
 
 /*
 =========================================================================================
@@ -21,33 +20,33 @@ Implementação de sentinelaSimples.h
 
 
 // inicializa lista com ponteiros nulos
-void initializeList(list *L){
-	L->first=NULL;
-	L->last=NULL;
-	L->total=0;
+void initializeList(List *list){
+	list->first=NULL;
+	list->last=NULL;
+	list->total=0;
 }
 
-void addIn(list *L, int value){
-	node *newNode = (node *)malloc(sizeof(node));
+void addIn(List * list, int value){
+	Node *newNode = (Node *)malloc(sizeof(Node));
 	int flag=1;
 	newNode->value = value;
 	newNode->next = NULL;
 	
-	if(L->first == NULL){
+	if(list->first == NULL){
 		//Lista VAZIA: inserir o primeiro N?.
-		L->first = newNode;
-		L->last = newNode;
+		list->first = newNode;
+		list->last = newNode;
 	} else {
 		//Lista possui pelo menos um N?: Inserir dados em
 		//ordem crescente.
-		node *actual = L->first;
-		node *previous = NULL;
+		Node *actual = list->first;
+		Node *previous = NULL;
 		
 		while(actual != NULL){
 			if (actual->value >= newNode->value){
 				newNode->next = actual;
 				if (previous == NULL){
-					L->first = newNode;	
+					list->first = newNode;	
 				} else{
 					previous->next = newNode;
 				}
@@ -58,17 +57,17 @@ void addIn(list *L, int value){
 			}
 		}
 		if(flag){
-			node *last = L->last;
+			Node *last = list->last;
 			last->next = newNode;
-			L->last = newNode;
+			list->last = newNode;
 		}
 	}//if ... else
 	
-	L->total++;
+	list->total++;
 }
 
 // adiciona curso passada como parâmetro na lista 
-void addElement(list *L){
+void addElement(List *list){
 	int value;
 	
 	printf("\n\n\n");
@@ -76,17 +75,16 @@ void addElement(list *L){
 	printf("Informe valor: ");
 	scanf("%d", &value);
 	
-	addIn(L, value);
+	addIn(list, value);
 }
 
 // imprimir valores na lista
-void printList(list L){
+void printList(List *list){
 	int i=0;
-	node *cell = L.first;
-	printf("\nImprimindo um total de %d valores da Lista:\n", L.total);
+	Node *cell = list->first;
+	printf("\nImprimindo um total de %d valores da Lista:\n", list->total);
 	while (cell!=NULL){
 		printf("[%d]: %d \n", i++, cell->value);
 		cell = cell->next;
 	}
 }
-
