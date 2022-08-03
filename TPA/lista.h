@@ -17,32 +17,28 @@ Biblioteca de lista Simplesmente encadeada com sentinela
 			Tipo Abstrato de Dados
 */
 
-typedef char string[40];
-
-//typedef struct List list;
-
-typedef struct typeElement node;
+typedef struct typeElement Node;
 
 typedef struct typeElement{
 	int value;
-	node *next;
-}node;
+	Node *next;
+}Node;
 
 typedef struct List {
 	int total;
-	node *first, *last;
-}list;
+	Node *first, *last;
+}List;
 
-void addIn(list *L, int value);
+
+void addIn(List * list, int value);
 
 // inicializa lista com ponteiros nulos
-void initializeList(list *l);
+void initializeList(List *list);
 
 // adiciona curso passada como parâmetro na lista 
-void addElement(list *l);
+void addElement(List *list);
 
 // imprimir valores na lista
-void printList(list l);
+void printList(List *list);
 
 #endif // LISTA_H_
-
