@@ -17,11 +17,14 @@ Biblioteca de lista Simplesmente encadeada com sentinela
 */
 
 void main(){	
-	List l;
-	initializeList(&l);
-	addIn(&l, 1);
-	addIn(&l, 2);
-	addIn(&l, 3);
-	addIn(&l, 4);
-	printList(&l);
+	Tlist example;
+	initializeList(&example);
+	addIn(&example, 1);
+	addIn(&example, 2);
+	addIn(&example, 3);
+	addIn(&example, 4);
+	printList(&example);
+	removeElement(&example);
+	removeElement(&example);
+	printList(&example);
 }

@@ -20,14 +20,14 @@ Implementação de sentinelaSimples.h
 
 
 // inicializa lista com ponteiros nulos
-void initializeList(List *list){
+void initializeList(Tlist *list){
 	list->first=NULL;
 	list->last=NULL;
 	list->total=0;
 }
 
-void addIn(List * list, int value){
-	Node *newNode = (Node *)malloc(sizeof(Node));
+void addIn(Tlist * list, int value){
+	Tnode *newNode = (Tnode *)malloc(sizeof(Tnode));
 	int flag=1;
 	newNode->value = value;
 	newNode->next = NULL;
@@ -39,8 +39,8 @@ void addIn(List * list, int value){
 	} else {
 		//Lista possui pelo menos um N?: Inserir dados em
 		//ordem crescente.
-		Node *actual = list->first;
-		Node *previous = NULL;
+		Tnode *actual = list->first;
+		Tnode *previous = NULL;
 		
 		while(actual != NULL){
 			if (actual->value >= newNode->value){
@@ -57,7 +57,7 @@ void addIn(List * list, int value){
 			}
 		}
 		if(flag){
-			Node *last = list->last;
+			Tnode *last = list->last;
 			last->next = newNode;
 			list->last = newNode;
 		}
@@ -67,7 +67,7 @@ void addIn(List * list, int value){
 }
 
 // adiciona curso passada como parâmetro na lista 
-void addElement(List *list){
+void addElement(Tlist *list){
 	int value;
 	
 	printf("\n\n\n");
@@ -79,12 +79,69 @@ void addElement(List *list){
 }
 
 // imprimir valores na lista
-void printList(List *list){
+void printList(Tlist *list){
 	int i=0;
-	Node *cell = list->first;
+	Tnode *cell = list->first;
 	printf("\nImprimindo um total de %d valores da Lista:\n", list->total);
 	while (cell!=NULL){
 		printf("[%d]: %d \n", i++, cell->value);
 		cell = cell->next;
 	}
+}
+
+void removeIn(Tlist * list, int value){
+
+	Tnode *actual = list->first, *prev = NULL, *next;
+	int removed = 0;
+
+	if(actual == NULL) next = NULL;
+	else next = actual->next;
+
+	while(actual != NULL){
+	   if(actual->value!=value){
+	   	  next = actual->next;
+	   	  if(prev == NULL) list->first = next;
+	   	  else prev->next = next;
+		  free(actual);
+		  list->total--;
+		  removed = 1;
+		  break;
+	   }//if
+	   prev = actual;
+	   actual = actual->next;
+	   if(actual != NULL) next = actual->next;
+	   else next = NULL;
+	}//while
+	
+	if(removed){
+		printf("\n\n\n");
+		printf("+--------------------------------------+\n");
+		printf("|  AVISO:                              |\n");
+		printf("|                                      |\n");
+		printf("|  No REMOVIDO com SUCESSO !!!         |\n");
+		printf("|                                      |\n");
+		printf("+--------------------------------------+\n\n\n");
+		system("PAUSE");
+	} else {
+		printf("\n\n\n");
+		printf("+--------------------------------------+\n");
+		printf("|  ALERTA:                             |\n");
+		printf("|                                      |\n");
+		printf("|  No NAO ENCONTRADO e nem REMOVIDO!!! |\n");
+		printf("|                                      |\n");
+		printf("+--------------------------------------+\n\n\n");
+		system("PAUSE");		
+	}
+}
+
+// remover valores da lista
+void removeElement(Tlist *list){
+
+	int value;
+	
+	printf("\n\n\t=====| REMOVER No |=====\n\n");
+	printf("\tInforme VALOR a ser REMOVIDO: ");
+	scanf("%s", &value);
+
+	removeIn(list, value);
 }
