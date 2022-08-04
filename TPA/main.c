@@ -20,12 +20,15 @@ Biblioteca de lista Simplesmente encadeada com sentinela
 void main(){	
 	Tlist example;
 	initializeList(&example);
-	addIn(&example, 1);
-	addIn(&example, 2);
-	addIn(&example, 3);
-	addIn(&example, 4);
-	printList(&example);
-	removeElement(&example);
-	removeElement(&example);
-	printList(&example);
-}
+	do {
+		op = menu();
+		
+		switch(op){
+		   case 1: addIn(&example, value); break;
+		   case 2: printList(&example); break;
+		   case 3: removeElement(&example); break;	
+		}//switch
+		
+	} while(op != 0);
+	
+    }
