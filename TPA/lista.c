@@ -27,6 +27,33 @@ void initializeList(Tlist *list){
 	list->total=0;
 }
 
+int menu(){
+	int opcao;
+	system("CLS"); //Limpa a Tela e posiciona o 
+	               //CURSOR no canto esquerdo superior da mesma
+    printf("\n\n\n\t     =====| MENU |=====\n\n");
+    printf("0 - SAIR (Encerrar Programa).\n\n");
+    printf("1 - Inserir.\n");
+    printf("2 - Exibir Lista Completa.\n");
+    printf("3 - Excluir.\n\n");
+    printf("\tInforme OPCAO desejada: ");
+    
+    scanf("%d",&opcao);
+	
+	if ((opcao > 3) || (opcao < 0)){
+		printf("\n\n\n");
+		printf("\t+-------------------------------------------------+");
+		printf("\t|   ERRO:                                         |");
+		printf("\t|                                                 |");
+		printf("\t|   OPCAO INVALIDA!!!                             |");
+		printf("\t|                                                 |");
+		printf("\t|   Tente outra vez.                              |");
+		printf("\t+-------------------------------------------------+\n\n");
+		system("PAUSE");
+	}
+	return opcao;
+}
+
 void addIn(Tlist * list, int value){
 	Tnode *newNode = (Tnode *)malloc(sizeof(Tnode));
 	int flag=1;
