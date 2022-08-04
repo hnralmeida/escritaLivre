@@ -33,9 +33,9 @@ int menu(){
 	               //CURSOR no canto esquerdo superior da mesma
     printf("\n\n\n\t     =====| MENU |=====\n\n");
     printf("0 - SAIR (Encerrar Programa).\n\n");
-    printf("1 - Inserir.\n");
+    printf("1 - Adicionar.\n");
     printf("2 - Exibir Lista Completa.\n");
-    printf("3 - Excluir.\n\n");
+    printf("3 - Remover.\n\n");
     printf("\tInforme OPCAO desejada: ");
     
     scanf("%d",&opcao);
