@@ -27,33 +27,6 @@ void initializeList(Tlist *list){
 	list->total=0;
 }
 
-int menu(){
-	int opcao;
-	system("CLS"); //Limpa a Tela e posiciona o 
-	               //CURSOR no canto esquerdo superior da mesma
-    printf("\n\n\n\t     =====| MENU |=====\n\n");
-    printf("0 - SAIR (Encerrar Programa).\n\n");
-    printf("1 - Adicionar.\n");
-    printf("2 - Exibir Lista Completa.\n");
-    printf("3 - Remover.\n\n");
-    printf("\tInforme OPCAO desejada: ");
-    
-    scanf("%d",&opcao);
-	
-	if ((opcao > 3) || (opcao < 0)){
-		printf("\n\n\n");
-		printf("\t+-------------------------------------------------+");
-		printf("\t|   ERRO:                                         |");
-		printf("\t|                                                 |");
-		printf("\t|   OPCAO INVALIDA!!!                             |");
-		printf("\t|                                                 |");
-		printf("\t|   Tente outra vez.                              |");
-		printf("\t+-------------------------------------------------+\n\n");
-		system("PAUSE");
-	}
-	return opcao;
-}
-
 void addIn(Tlist * list, int value){
 	Tnode *newNode = (Tnode *)malloc(sizeof(Tnode));
 	int flag=1;
@@ -122,11 +95,14 @@ void removeIn(Tlist * list, int value){
 	Tnode *actual = list->first, *prev = NULL, *next;
 	int removed = 0;
 
-	if(actual == NULL) next = NULL;
-	else next = actual->next;
+	if(actual == NULL){
+		 next = NULL;
+	}else{
+		next = actual->next;
+	}
 
 	while(actual != NULL){
-	   if(actual->value!=value){
+	   if(actual->value==value){
 	   	  next = actual->next;
 	   	  if(prev == NULL) list->first = next;
 	   	  else prev->next = next;
@@ -149,7 +125,7 @@ void removeIn(Tlist * list, int value){
 		printf("|  No REMOVIDO com SUCESSO !!!         |\n");
 		printf("|                                      |\n");
 		printf("+--------------------------------------+\n\n\n");
-		system("PAUSE");
+		
 	} else {
 		printf("\n\n\n");
 		printf("+--------------------------------------+\n");
@@ -158,7 +134,7 @@ void removeIn(Tlist * list, int value){
 		printf("|  No NAO ENCONTRADO e nem REMOVIDO!!! |\n");
 		printf("|                                      |\n");
 		printf("+--------------------------------------+\n\n\n");
-		system("PAUSE");		
+
 	}
 }
 
