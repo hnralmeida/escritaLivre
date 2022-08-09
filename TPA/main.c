@@ -10,6 +10,7 @@ Biblioteca de lista Simplesmente encadeada com sentinela
 */
 
 #include<stdio.h>
+#include<stdlib.h>
 #include"lista.h"
 
 /*
@@ -24,7 +25,7 @@ void limparBuffer(){
 
 int menu(){
 	int opcao;
-	system("CLS"); //Limpa a Tela e posiciona o 
+	system("@cls||clear"); //Limpa a Tela e posiciona o 
 	               //CURSOR no canto esquerdo superior da mesma
     printf("\n\n\n\t     =====| MENU |=====\n\n");
     printf("0 - SAIR (Encerrar Programa).\n\n");

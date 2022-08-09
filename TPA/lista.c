@@ -43,25 +43,23 @@ void addIn(Tlist * list, int value){
 		Tnode *actual = list->first;
 		Tnode *previous = NULL;
 		
-		while(actual != NULL){
-			if (actual->value >= newNode->value){
-				newNode->next = actual;
-				if (previous == NULL){
-					list->first = newNode;	
-				} else{
-					previous->next = newNode;
-				}
-				flag=0;
-			}else{
-				previous = actual;
-				actual = actual->next;
-			}
-		}
-		if(flag){
-			Tnode *last = list->last;
-			last->next = newNode;
+		while(actual != NULL && (newNode->value >= actual->value) ){
+			previous = actual;
+			actual = actual->next;
+		}	
+		
+		if (actual == NULL && (previous!= list->first) ){
+			previous->next = newNode;
 			list->last = newNode;
+		}else if (actual == list->first){
+			newNode->next = actual; 
+			list->first = newNode;
+		}else{
+			newNode->next = actual;
+			previous->next = newNode;
 		}
+
+
 	}//if ... else
 	
 	list->total++;
@@ -92,30 +90,35 @@ void printList(Tlist *list){
 
 void removeIn(Tlist * list, int value){
 
-	Tnode *actual = list->first, *prev = NULL, *next;
+	Tnode *actual = list->first, *prev = NULL;
 	int removed = 0;
 
-	if(actual == NULL){
-		 next = NULL;
-	}else{
-		next = actual->next;
-	}
+	if(actual == NULL)
+		printf("\nNão há nada para remover na lista");
+	else{
+		while(actual != NULL&& actual->value != value){
+			prev = actual;
+			actual = actual->next;
+		}//while
 
-	while(actual != NULL){
-	   if(actual->value==value){
-	   	  next = actual->next;
-	   	  if(prev == NULL) list->first = next;
-	   	  else prev->next = next;
-		  free(actual);
-		  list->total--;
-		  removed = 1;
-		  break;
-	   }//if
-	   prev = actual;
-	   actual = actual->next;
-	   if(actual != NULL) next = actual->next;
-	   else next = NULL;
-	}//while
+		if(actual!=NULL){
+			removed = 1;
+			list->total--;
+		}
+		
+		if(actual->next == list->last){ //verificar se remover o ultimo
+			prev->next = NULL;
+			list->last = prev;
+			free(actual);
+		}else if(prev == NULL){ // verificar se remover o primeiro;
+			prev = actual->next;
+			list->first = prev;
+			free(actual);
+		}else{ // caso remover algum do meio qualquer
+			prev->next = actual->next;
+			free(actual);
+		}//if
+	}
 	
 	if(removed){
 		printf("\n\n\n");
@@ -145,7 +148,7 @@ void removeElement(Tlist *list){
 	
 	printf("\n\n\t=====| REMOVER No |=====\n\n");
 	printf("\tInforme VALOR a ser REMOVIDO: ");
-	scanf("%s", &value);
+	scanf("%d", &value);
 
 	removeIn(list, value);
 }
