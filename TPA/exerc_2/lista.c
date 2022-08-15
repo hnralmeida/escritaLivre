@@ -3,9 +3,9 @@
 AUTORES: 	
 			Henrique Almeida de Oliveira
 			Luiz Eduardo Marchiori
-Disciplina: Tópicos de Programação Avançada
+Disciplina: TÃ³picos de ProgramaÃ§Ã£o AvanÃ§ada
 
-Implementação de sentinelaSimples.h
+ImplementaÃ§Ã£o de sentinelaSimples.h
 =========================================================================================
 */
 
@@ -16,7 +16,7 @@ Implementação de sentinelaSimples.h
 
 /*
 =========================================================================================
-			Implementação de sentinelaSimples.h
+			ImplementaÃ§Ã£o de sentinelaSimples.h
 */
 
 
@@ -66,7 +66,7 @@ void addIn(Tlist * list, int value){
 	list->total++;
 }
 
-// adiciona curso passada como parâmetro na lista 
+// adiciona curso passada como parÃ¢metro na lista 
 void addElement(Tlist *list){
 	int value;
 	
@@ -99,7 +99,7 @@ void removeIn(Tlist * list, int value){
 	if(actual == NULL)
 		printf("\nNao ha nada para remover na lista");
 	else{
-		while(actual != NULL&& (actual->value != value)){
+		while(actual != NULL && (actual->value != value)){
 			prev = actual;
 			actual = actual->next;
 		}//while
@@ -107,6 +107,10 @@ void removeIn(Tlist * list, int value){
 		if(actual!=NULL){
 			removed = 1;
 			list->total--;
+		}
+		else {
+			printf("Esse elemento não existe");
+			return;
 		}
 		
 		if(actual->next == list->last){ //verificar se remover o ultimo
