@@ -59,3 +59,16 @@ void removeHash(Tlist list[], unsigned long long int tam){
 	removeIn(&list[rest], reg);
 }
 
+// calcula o hash 1.5 para a base de dados
+int calcSize(FILE* f){
+	string s;
+	char* result;
+	int i=0;
+	while (!feof(f)){
+      	result = fgets(s, 40, f);  // o 'fgets' le ate 39 caracteres ou ate o '\n'
+		printf("\nLinha %d : %s",i, s);
+    	i++;
+  	}
+	fseek(f, 0, SEEK_SET);
+	return i/2;
+}

@@ -92,7 +92,7 @@ void printList(Tlist *list){
 	if(cell == NULL) printf(" -");
 	
 	while (cell!=NULL){
-		printf(" -> %llu", cell->reg);
+		printf(" -> %s [%llu]", cell->name, cell->reg);
 		cell = cell->next;
 	}
 }

@@ -26,4 +26,7 @@ void printHash(Tlist list[], unsigned long long int tam);
 // remover valores da tabela hash
 void removeHash(Tlist list[], unsigned long long int tam); 
 
+// calcula o hash 1.5 para a base de dados
+int calcSize(FILE* f);
+
 #endif // HASH_H_

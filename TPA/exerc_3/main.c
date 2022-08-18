@@ -14,8 +14,6 @@ Biblioteca de lista Simplesmente encadeada com sentinela
 #include"lista.h"
 #include"hash.h"
 
-#define TAM 5
-
 /*
 =========================================================================================
 			Exemplo usando sentinelaSimples.h
@@ -55,11 +53,26 @@ int menu(){
 
 void main(){	
 
-	int op, i;
+	int op, i, size;
+
+	FILE *f;
+	f = fopen("lista.txt", "a+");  // Cria um arquivo texto para gravação
+	if (f == NULL){
+		printf("Problemas na Leitura do arquivo\n");
+		return;
+	}else
 	
-	Tlist tabHash[TAM], example;
+	printf("\nAberto");
+
+	size = calcSize(f);
+
+	printf("\nTamanho: %s", size);
+	limparBuffer();
+	char c = getchar();
 	
-	for(i=0; i<TAM; i++){
+	Tlist tabHash[size], example;
+	
+	for(i=0; i<size; i++){
 		initializeList(&tabHash[i]);
 	}
 		
@@ -67,9 +80,9 @@ void main(){
 		op = menu();
 		
 		switch(op){
-		   case 1: addElementHash(tabHash, TAM); break;
-		   case 2: printHash(tabHash, TAM); break;
-		   case 3: removeHash(tabHash, TAM); break;	
+		   case 1: addElementHash(tabHash, size); break;
+		   case 2: printHash(tabHash, size); break;
+		   case 3: removeHash(tabHash, size); break;	
 		}//switch
 		limparBuffer();
 		printf("\nPressione qualquer tecla para continuar. . .");
@@ -77,6 +90,6 @@ void main(){
 	    system("@cls||clear");
 		
 	} while(op != 0);
+	fclose(f);
 	
-	
-    }
+}
