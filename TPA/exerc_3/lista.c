@@ -5,7 +5,7 @@ AUTORES:
 			Luiz Eduardo Marchiori
 Disciplina: TÃ³picos de ProgramaÃ§Ã£o AvanÃ§ada
 
-ImplementaÃ§Ã£o de sentinelaSimples.h
+Implementacao de sentinelaSimples.h
 =========================================================================================
 */
 
@@ -17,7 +17,7 @@ ImplementaÃ§Ã£o de sentinelaSimples.h
 
 /*
 =========================================================================================
-			ImplementaÃ§Ã£o de sentinelaSimples.h
+			Implementacao de sentinelaSimples.h
 */
 
 
@@ -97,6 +97,7 @@ void printList(Tlist *list){
 	}
 }
 
+// subfuncao de removeElement
 void removeIn(Tlist * list, unsigned long long int reg){
 
 	Tnode *actual = list->first, *prev = NULL;

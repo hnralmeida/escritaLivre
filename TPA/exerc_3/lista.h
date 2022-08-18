@@ -47,4 +47,7 @@ void printList(Tlist *list);
 // remover valores da lista
 void removeElement(Tlist *list);
 
+// subfuncao de removeElement
+void removeIn(Tlist * list, unsigned long long int reg);
+
 #endif // LISTA_H_

@@ -12,6 +12,7 @@ Biblioteca de lista Simplesmente encadeada com sentinela
 #include<stdio.h>
 #include<stdlib.h>
 #include"lista.h"
+#include"hash.h"
 
 #define TAM 5
 
@@ -66,9 +67,9 @@ void main(){
 		op = menu();
 		
 		switch(op){
-		   case 1: addElementHash(&tabHash, TAM); break;
-		   case 2: printHash(&tabHash, TAM); break;
-		   case 3: removeHash(&tabHash, TAM); break;	
+		   case 1: addElementHash(tabHash, TAM); break;
+		   case 2: printHash(tabHash, TAM); break;
+		   case 3: removeHash(tabHash, TAM); break;	
 		}//switch
 		limparBuffer();
 		printf("\nPressione qualquer tecla para continuar. . .");

@@ -44,7 +44,7 @@ void printHash(Tlist * list, int tam){
 }
 
 // remover valores da tabela hash
-removeHash(Tlist list[], int tam){
+void removeHash(Tlist list[], int tam){
 	int value;
 	
 	printf("\n\n\t=====| REMOVER No |=====\n\n");
@@ -52,6 +52,6 @@ removeHash(Tlist list[], int tam){
 	scanf("%d", &value);
 
 	int rest = value % tam;
-	removeIn(list[rest], value);
+	removeIn(&list[rest], value);
 }
 

@@ -29,19 +29,22 @@ typedef struct typeList {
 	Tnode *first, *last;
 }Tlist;
 
-// subfuncao de addElement
-void addIn(Tlist * list, int value);
-
 // inicializa lista com ponteiros nulos
 void initializeList(Tlist *list);
 
 // adiciona curso passada como parâmetro na lista 
 void addElement(Tlist *list);
 
+// subfuncao de addElement
+void addIn(Tlist * list, int value);
+
 // imprimir valores na lista
 void printList(Tlist *list);
 
 // remover valores da lista
 void removeElement(Tlist *list);
+
+// subfuncao de removeElement
+void removeIn(Tlist * list, int value);
 
 #endif // LISTA_H_

@@ -24,6 +24,6 @@ void addElementHash (Tlist list[], unsigned long long int tam);
 void printHash(Tlist list[], unsigned long long int tam);
 
 // remover valores da tabela hash
-removeHash(&tabHash, TAM); 
+void removeHash(Tlist list[], unsigned long long int tam); 
 
 #endif // HASH_H_
