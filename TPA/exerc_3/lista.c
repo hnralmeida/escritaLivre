@@ -3,7 +3,7 @@
 AUTORES: 	
 			Henrique Almeida de Oliveira
 			Luiz Eduardo Marchiori
-Disciplina: TÃ³picos de ProgramaÃ§Ã£o AvanÃ§ada
+Disciplina: Topicos de Programacao Avancaada
 
 Implementacao de sentinelaSimples.h
 =========================================================================================
@@ -29,19 +29,20 @@ void initializeList(Tlist *list){
 }
 
 // subfuncao de addElement
-void addIn(Tlist * list, unsigned long long int  reg, string name){
+void addIn(Tlist * list, unsigned long long int reg, string name){
 
 	Tnode *newNode = (Tnode *)malloc(sizeof(Tnode));
 	int flag=1;
 	newNode->reg = reg;
 	newNode->next = NULL;
 	strcpy(newNode->name, name);	
+
 	if(list->first == NULL){
-		//Lista VAZIA: inserir o primeiro N?.
+		//Lista VAZIA: inserir o primeiro No.
 		list->first = newNode;
 		list->last = newNode;
 	} else {
-		//Lista possui pelo menos um N?: Inserir dados em
+		//Lista possui pelo menos um No Inserir dados em
 		//ordem crescente.
 		Tnode *actual = list->first;
 		Tnode *previous = NULL;
@@ -68,7 +69,7 @@ void addIn(Tlist * list, unsigned long long int  reg, string name){
 	list->total++;
 }
 
-// adiciona curso passada como parÃ¢metro na lista 
+// adiciona curso passada como parametro na lista 
 void addElement(Tlist *list){
 	unsigned long long int reg;
 	string name;
@@ -140,12 +141,12 @@ void removeIn(Tlist * list, unsigned long long int reg){
 	
 	if(removed){
 		printf("\n\n\n");
-		printf("+--------------------------------------+\n");
-		printf("\tAVISO:\n");
-		printf("\n\t%s\n", removed_name);
-		printf("\t%llu\n", removed_reg);
-		printf("\n\tREMOVIDO com SUCESSO !!!\t\n");
-		printf("+--------------------------------------+\n\n\n");
+		printf("\n+--------------------------------------+");
+		printf("\n\tAVISO:");
+		printf("\n\t%s", removed_name);
+		printf("\n\t%llu", removed_reg);
+		printf("\n\tREMOVIDO com SUCESSO !!!\t");
+		printf("\n+--------------------------------------+\n\n\n");
 		
 	} else {
 		printf("\n\n\n");

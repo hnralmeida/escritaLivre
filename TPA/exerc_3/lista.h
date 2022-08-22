@@ -3,7 +3,7 @@
 AUTORES: 	
 			Henrique Almeida de Oliveira
 			Luiz Eduardo Marchiori
-Disciplina: Tópicos de Programação Avançada
+Disciplina: Topicos de Programacao Avancada
 
 Biblioteca de lista Simplesmente encadeada com sentinela
 =========================================================================================
@@ -19,7 +19,7 @@ Biblioteca de lista Simplesmente encadeada com sentinela
 
 typedef struct typeElement Tnode;
 
-typedef char string[40];
+typedef char string[50];
 
 typedef struct typeElement{
 	unsigned long long int reg;
