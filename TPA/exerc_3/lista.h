@@ -3,7 +3,7 @@
 AUTORES: 	
 			Henrique Almeida de Oliveira
 			Luiz Eduardo Marchiori
-Disciplina: Tópicos de Programação Avançada
+Disciplina: Topicos de Programacao Avancada
 
 Biblioteca de lista Simplesmente encadeada com sentinela
 =========================================================================================
@@ -17,34 +17,40 @@ Biblioteca de lista Simplesmente encadeada com sentinela
 			Tipo Abstrato de Dados
 */
 
+typedef char string[50];
+
+/* Estrutura de elementos, cada uma representa um aluno com nome (name) e matricu�a (reg) 
+*/
 typedef struct typeElement Tnode;
 
 typedef struct typeElement{
-	int value;
+	unsigned long long int reg;
+	string name;
 	Tnode *next;
 }Tnode;
 
+/* Estrutura de lista dos elementos alunos */
 typedef struct typeList {
 	int total;
 	Tnode *first, *last;
 }Tlist;
 
-// inicializa lista com ponteiros nulos
+/* inicializa lista com ponteiros nulos */
 void initializeList(Tlist *list);
 
-// adiciona curso passada como parâmetro na lista 
+/* adiciona valor passado na lista */
+void addIn(Tlist * list, unsigned long long int reg, string name);
+
+/* implementa adicao de cursos */
 void addElement(Tlist *list);
 
-// subfuncao de addElement
-void addIn(Tlist * list, int value);
-
-// imprimir valores na lista
+/* imprimir valores na lista */
 void printList(Tlist *list);
 
-// remover valores da lista
+/* implementa a remocao valores da lista */
 void removeElement(Tlist *list);
 
-// subfuncao de removeElement
-void removeIn(Tlist * list, int value);
+/* remove valor passado da lista */
+void removeIn(Tlist * list, unsigned long long int reg);
 
 #endif // LISTA_H_

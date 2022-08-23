@@ -3,48 +3,49 @@
 AUTORES: 	
 			Henrique Almeida de Oliveira
 			Luiz Eduardo Marchiori
-Disciplina: TÃ³picos de ProgramaÃ§Ã£o AvanÃ§ada
+Disciplina: Topicos de Programacao Avancaada
 
-ImplementaÃ§Ã£o de sentinelaSimples.h
+Implementacao de sentinelaSimples.h
 =========================================================================================
 */
 
 #include <stdio.h>
 #include <locale.h>
 #include <stdlib.h>
+#include <string.h>
 #include "lista.h"
 
 /*
 =========================================================================================
-			ImplementaÃ§Ã£o de sentinelaSimples.h
+			Implementacao de sentinelaSimples.h
 */
 
 
-// inicializa lista com ponteiros nulos
 void initializeList(Tlist *list){
 	list->first=NULL;
 	list->last=NULL;
 	list->total=0;
 }
 
-// subfuncao de addElement
-void addIn(Tlist * list, int value){
+void addIn(Tlist * list, unsigned long long int reg, string name){
+
 	Tnode *newNode = (Tnode *)malloc(sizeof(Tnode));
 	int flag=1;
-	newNode->value = value;
+	newNode->reg = reg;
 	newNode->next = NULL;
-	
+	strcpy(newNode->name, name);	
+
 	if(list->first == NULL){
-		//Lista VAZIA: inserir o primeiro N?.
+		//Lista VAZIA: inserir o primeiro No.
 		list->first = newNode;
 		list->last = newNode;
 	} else {
-		//Lista possui pelo menos um N?: Inserir dados em
+		//Lista possui pelo menos um No Inserir dados em
 		//ordem crescente.
 		Tnode *actual = list->first;
 		Tnode *previous = NULL;
 		
-		while(actual != NULL && (newNode->value >= actual->value) ){
+		while(actual != NULL && (newNode->reg >= actual->reg) ){
 			previous = actual;
 			actual = actual->next;
 		}	
@@ -66,19 +67,21 @@ void addIn(Tlist * list, int value){
 	list->total++;
 }
 
-// adiciona curso passada como parÃ¢metro na lista 
 void addElement(Tlist *list){
-	int value;
+	unsigned long long int reg;
+	string name;
 	
 	printf("\n\n\n");
 	printf("\t=====| INSERE NOVO NO |=====\n\n");
 	printf("Informe valor: ");
-	scanf("%d", &value);
+	scanf("%llu", &reg);
+
+	printf("\nInforme nome do aluno: ");
+	scanf("%s", &name);
 	
-	addIn(list, value);
+	addIn(list, reg, name);
 }
 
-// imprimir valores na lista
 void printList(Tlist *list){
 	int i=0;
 	Tnode *cell = list->first;
@@ -86,30 +89,34 @@ void printList(Tlist *list){
 	if(cell == NULL) printf(" -");
 	
 	while (cell!=NULL){
-		printf(" -> %d", cell->value);
+		printf(" -> %s [%llu]", cell->name, cell->reg);
 		cell = cell->next;
 	}
 }
 
-void removeIn(Tlist * list, int value){
+void removeIn(Tlist * list, unsigned long long int reg){
 
 	Tnode *actual = list->first, *prev = NULL;
+	string removed_name;
+	unsigned long long int removed_reg;
 	int removed = 0;
 
 	if(actual == NULL)
 		printf("\nNao ha nada para remover na lista");
 	else{
-		while(actual != NULL && (actual->value != value)){
+		while(actual != NULL && (actual->reg != reg)){
 			prev = actual;
 			actual = actual->next;
 		}//while
 
 		if(actual!=NULL){
+			strcpy(removed_name, actual->name);
+			removed_reg = actual->reg;
 			removed = 1;
 			list->total--;
 		}
 		else {
-			printf("Esse elemento não existe");
+			printf("Esse elemento nao existe");
 			return;
 		}
 		
@@ -129,12 +136,12 @@ void removeIn(Tlist * list, int value){
 	
 	if(removed){
 		printf("\n\n\n");
-		printf("+--------------------------------------+\n");
-		printf("|  AVISO:                              |\n");
-		printf("|                                      |\n");
-		printf("|  No REMOVIDO com SUCESSO !!!         |\n");
-		printf("|                                      |\n");
-		printf("+--------------------------------------+\n\n\n");
+		printf("\n+--------------------------------------+");
+		printf("\n\tAVISO:");
+		printf("\n\t%s", removed_name);
+		printf("\n\t%llu", removed_reg);
+		printf("\n\tREMOVIDO com SUCESSO !!!\t");
+		printf("\n+--------------------------------------+\n\n\n");
 		
 	} else {
 		printf("\n\n\n");
@@ -148,14 +155,13 @@ void removeIn(Tlist * list, int value){
 	}
 }
 
-// remover valores da lista
 void removeElement(Tlist *list){
 
-	int value;
+	unsigned long long int reg;
 	
 	printf("\n\n\t=====| REMOVER No |=====\n\n");
 	printf("\tInforme VALOR a ser REMOVIDO: ");
-	scanf("%d", &value);
+	scanf("%llu", &reg);
 
-	removeIn(list, value);
+	removeIn(list, reg);
 }
