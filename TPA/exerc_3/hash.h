@@ -1,9 +1,9 @@
 /*
 =========================================================================================
-AUTORES: 	
-			Henrique Almeida de Oliveira
-			Luiz Eduardo Marchiori
+AUTOR:	Henrique Almeida de Oliveira
 Disciplina: Topicos de Programacao Avancada
+
+					Trabalho 01 â€“ Tabela Hash
 
 Biblioteca de HASH
 =========================================================================================
@@ -26,7 +26,7 @@ void printHash(Tlist list[], unsigned long long int size);
 /* Remover valores da tabela hash */
 void removeHash(Tlist list[], unsigned long long int size); 
 
-/* Conta o número de linhas em um arquivo */
+/* Conta o numero de linhas em um arquivo */
  unsigned long long int calcSize(FILE* f);
 
 /* Inicializar hash a partir de banco de dados no ponto de onde parou */

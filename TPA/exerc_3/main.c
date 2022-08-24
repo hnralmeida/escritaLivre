@@ -1,11 +1,12 @@
 /*
 =========================================================================================
-AUTORES:
-			Henrique Almeida de Oliveira
-			Luiz Eduardo Marchiori
+AUTOR:	Henrique Almeida de Oliveira
 Disciplina: Topicos de Programacao Avancada
 
-Biblioteca de lista Simplesmente encadeada com sentinela
+					Trabalho 01 – Tabela Hash
+	Objetivos:
+	- Representar computacionalmente uma Tabela Hash com lista encadeada.
+	- Implementar um algoritmo que gere e manipule uma Tabela Hash com matricula e nome (Aluno).
 =========================================================================================
 */
 
@@ -17,43 +18,26 @@ Biblioteca de lista Simplesmente encadeada com sentinela
 
 /*
 =========================================================================================
-			Exemplo usando sentinelaSimples.h
 */
 
-void limparBuffer(){
-    char c;
-    while((c= getchar()) != '\n' && c != EOF);
-}
+/* Funcao auxiliar que limpa dados do buffer 
+	Essencial para leitura de char
+*/
+void limparBuffer();
 
-int menu(){
-	int opcao;
-	system("@cls||clear"); //Limpa a Tela e posiciona o
-	               //CURSOR no canto esquerdo superior da mesma
-    printf("\n\n\n\t     =====| MENU |=====\n\n");
-    printf("0 - SAIR (Encerrar programa sem salvar alteracoes).\n\n");
-    printf("1 - Adicionar.\n");
-    printf("2 - Procurar estudante.\n");
-    printf("3 - Remover.\n");
-	printf("4 - Salvar.\n\n");
-    printf("\tInforme OPCAO desejada: ");
+/* Retorna a opcao do menu disponicel com a tarefa a ser executada 
+1	Inserir novo aluno
+2	Remover aluno
+3	Buscar aluno
+4	Salvar base de dados
+0	Sair do programa
+Existe ainda a opcao secreta 222 que imprime no terminal a tabela hash.
+*/
+int menu();
 
-    scanf("%d",&opcao);
-
-	if (opcao==222) return 222;
-	if ((opcao > 4) || (opcao < 0)){
-		printf("\n\n\n");
-		printf("\n+-------------------------------------------------+");
-		printf("\n|   ERRO:                                         |");
-		printf("\n|                                                 |");
-		printf("\n|   OPCAO INVALIDA!!!                             |");
-		printf("\n|                                                 |");
-		printf("\n|   Tente outra vez.                              |");
-		printf("\n+-------------------------------------------------+\n\n");
-		system("PAUSE");
-	}
-	return opcao;
-}
-
+/*
+	FUNCAO PRINCIPAL
+*/
 void main(){
 
 	int op, i=0;
@@ -102,4 +86,38 @@ void main(){
 
 	} while(op != 0);
 
+}
+
+void limparBuffer(){
+    char c;
+    while((c= getchar()) != '\n' && c != EOF);
+}
+
+int menu(){
+	int opcao;
+	system("@cls||clear"); //Limpa a Tela e posiciona o
+	               //CURSOR no canto esquerdo superior da mesma
+    printf("\n\n\n\t     =====| MENU |=====\n\n");
+    printf("0 - SAIR (Encerrar programa sem salvar alteracoes).\n\n");
+    printf("1 - Adicionar.\n");
+    printf("2 - Procurar estudante.\n");
+    printf("3 - Remover.\n");
+	printf("4 - Salvar.\n\n");
+    printf("\tInforme OPCAO desejada: ");
+
+    scanf("%d",&opcao);
+
+	if (opcao==222) return 222;
+	if ((opcao > 4) || (opcao < 0)){
+		printf("\n\n\n");
+		printf("\n+-------------------------------------------------+");
+		printf("\n|   ERRO:                                         |");
+		printf("\n|                                                 |");
+		printf("\n|   OPCAO INVALIDA!!!                             |");
+		printf("\n|                                                 |");
+		printf("\n|   Tente outra vez.                              |");
+		printf("\n+-------------------------------------------------+\n\n");
+		system("PAUSE");
+	}
+	return opcao;
 }

@@ -1,9 +1,9 @@
 /*
 =========================================================================================
-AUTORES: 	
-			Henrique Almeida de Oliveira
-			Luiz Eduardo Marchiori
+AUTOR:	Henrique Almeida de Oliveira
 Disciplina: Topicos de Programacao Avancada
+
+					Trabalho 01 â€“ Tabela Hash
 
 Biblioteca de lista Simplesmente encadeada com sentinela
 =========================================================================================
@@ -19,7 +19,7 @@ Biblioteca de lista Simplesmente encadeada com sentinela
 
 typedef char string[50];
 
-/* Estrutura de elementos, cada uma representa um aluno com nome (name) e matricuça (reg) 
+/* Estrutura de elementos, cada uma representa um aluno com nome (name) e matricula (reg) 
 */
 typedef struct typeElement Tnode;
 
