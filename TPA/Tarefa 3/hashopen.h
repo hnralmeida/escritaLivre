@@ -1,9 +1,9 @@
-3/*
+/*
 =========================================================================================
 AUTOR:	Henrique Almeida de Oliveira
 Disciplina: Topicos de Programacao Avancada
 
-					Trabalho 01 – Tabela Hash
+					Trabalho 01 ï¿½ Tabela Hash
 
 Biblioteca de lista Simplesmente encadeada com sentinela
 =========================================================================================
@@ -24,7 +24,6 @@ typedef struct typeElement Tnode;
 typedef struct typeElement{
 	int reg;
 	int flag;
-	int oc;
 }Tnode;
 
 /* Estrutura de lista dos elementos alunos */
@@ -34,8 +33,14 @@ typedef struct typeList {
 	Tnode *vetor;
 }HashTable;
 
+/* Calcula numero de linhas em um arquivo */
+int calcSize(FILE* f);
+
 /* inicializa lista com ponteiros nulos */
 void initializeList(HashTable *list, int size);
+
+/* carrega os dados de um arquivo no programa*/
+void initializeDB(HashTable *list, FILE* f, int size);
 
 /* adiciona valor passado na lista */
 void addIn(HashTable * list, int reg);
@@ -44,7 +49,7 @@ void addIn(HashTable * list, int reg);
 void addElement(HashTable *list);
 
 /* imprimir valores na lista */
-void prinHashTable(HashTable *list);
+void printHashTable(HashTable *list);
 
 /* implementa a remocao valores da lista */
 void removeElement(HashTable *list);

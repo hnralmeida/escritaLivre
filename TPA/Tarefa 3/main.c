@@ -3,7 +3,7 @@
 AUTOR:	Henrique Almeida de Oliveira
 Disciplina: Topicos de Programacao Avancada
 
-					Trabalho 01 – Tabela Hash
+					Trabalho 01 ï¿½ Tabela Hash
 	Objetivos:
 	- Representar computacionalmente uma Tabela Hash com lista encadeada.
 	- Implementar um algoritmo que gere e manipule uma Tabela Hash com matricula e nome (Aluno).
@@ -46,7 +46,7 @@ void main(){
 
 	// ABRIR ARQUIVO
 	FILE *fileLoad;
-	fileLoad = fopen( "Lista_Aluno_Matricula.txt" , "r" );  // Cria um arquivo texto para gravação
+	fileLoad = fopen( "reg.txt" , "r" );  // Abre um arquivo texto para leitura
 
 	if (fileLoad == NULL){
 		printf("Problemas na Leitura do arquivo\n");
@@ -54,29 +54,28 @@ void main(){
 	}
 
 	// INICIAR TABELA HASH
-	size = 0.75*calcSize(fileLoad);
+	size = 1.5*calcSize(fileLoad);
 	fseek(fileLoad, 0, SEEK_SET);
-	HashTable tabHash[size];
+	HashTable *tabHash;
 
-	for(i=0; i<size; i++){
-		initializeList(&tabHash[i]);
-	}
+	initializeList(tabHash, size);
+
 
 	// INICIAR BANCO DE DADOS
 	fseek(fileLoad, 0, SEEK_SET);
 	initializeDB(tabHash, fileLoad, size);
 	fclose(fileLoad);
 
-	// MENU DE USUÁRIO
+	// MENU DE USUï¿½RIO
 	do {
 		op = menu();
 
 		switch(op){
-		   case 1: addElementHash(tabHash, size); break;
-		   case 2: searchStudent(tabHash, size); break;
-		   case 3: removeHash(tabHash, size); break;
-		   case 4: saveFile(tabHash, size);
-		   case 222: printHash(tabHash, size); break;
+		   case 1: addElement(tabHash); break;
+		   //case 2: searchStudent(tabHash, size); break;
+		   //case 3: removeHash(tabHash, size); break;
+		   //case 4: saveFile(tabHash, size);
+		   case 222: printHashTable(tabHash); break;
 		}//switch
 		limparBuffer();
 		printf("\nPressione qualquer tecla para continuar. . .");

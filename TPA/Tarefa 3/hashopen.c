@@ -3,7 +3,7 @@
 AUTOR:	Henrique Almeida de Oliveira
 Disciplina: Topicos de Programacao Avancada
 
-					Trabalho 01 – Tabela Hash
+					Trabalho 01 ï¿½ Tabela Hash
 
 Implementacao de lista.h
 =========================================================================================
@@ -20,6 +20,37 @@ Implementacao de lista.h
 			Implementacao de lista.h
 */
 
+int calcSize(FILE* f){
+	int i=0;
+	char s[40];
+
+	// Move o cursor para o inicio do arquivo
+	fseek(f, 0, SEEK_SET);
+
+	// Percorre todas linhas do arquivo e adiciona 1 no contador 
+	// para cada linha percorrida
+	while (!feof(f)){
+      	fscanf(f, " %[^\n]s", s);
+    	i++;
+  	}//while
+
+	// Move o cursor para o inicio do arquivo
+	fseek(f, 0, SEEK_SET);
+
+	return i;
+}
+
+void initializeDB(HashTable *list, FILE* f, int size){
+	int reg;
+
+	// Percorre todo arquivo pegando dados do aluno
+	while (!feof(f)){
+		// Toda linha par eh o numero de uma matricula
+		fscanf(f, "%d", &reg);
+		addIn(list, reg);
+  	}//while
+}
+
 
 void initializeList(HashTable *list, int size){
 	list->size = size;
@@ -27,26 +58,35 @@ void initializeList(HashTable *list, int size){
 	list->vetor = (Tnode*) malloc( size* sizeof(Tnode) );
 }
 
+void rehash(HashTable *list, int reg, int co){
+	int h2 = 1 + (reg%list->size);
+	int h = (co + h2) % list->size;
+	Tnode* vetor = list->vetor;
+
+	if(!(list->vetor[h].flag)){
+		vetor[h].reg = reg;
+		vetor[h].flag = 1;
+	}else{
+		rehash(list, reg, 1);
+	}
+}
+
 void addIn(HashTable * list, int reg){
 	// Inicializar um novo node com os dados passados
-	Tnode *newNode = (Tnode *)malloc(sizeof(Tnode));
-	int flag=1;
-	newNode->reg = reg;
-	newNode->flag = 0;
-	newNode->oc = 0;
-
+	Tnode* vetor = list->vetor;
 	int h = reg % list->size;
 	
-	if (!list->vetor[h]->oc){
-		
+	if(!(list->vetor[h].flag)){
+		vetor[h].reg = reg;
+		vetor[h].flag=1;
+	}else{
+		rehash(list, reg, 1);
 	}
-	
 	list->total++;
 }
 
 void addElement(HashTable *list){
 	int reg;
-	string name;
 	
 	// Consulta no terminal o Aluno a ser adicionado 
 	printf("\n\n\n");
@@ -54,27 +94,21 @@ void addElement(HashTable *list){
 	printf("Informe valor: ");
 	scanf("%d", &reg);
 
-	printf("\nInforme nome do aluno: ");
-	scanf("%s", &name);
-
 	// Adiciona na lista o Aluno passado no terminal
-	addIn(list, reg, name);
+	addIn(list, reg);
 }
 
-void prinHashTable(HashTable *list){
+void printHashTable(HashTable *list){
 	int i=0;
-	Tnode *cell = list->first;
-	
-	// Se a lista for vazia imprime somente o hifen
-	if(cell == NULL) printf(" -");
+	Tnode* vetor = list->vetor;
 
 	// Percorre toda a lista imprimindo aluno
-	while (cell!=NULL){
-		printf(" -> %s [%d]", cell->name, cell->reg);
-		cell = cell->next;
-	}//while
+	for (i=0; i<list->size; i++){
+		if(!vetor[i].flag) printf(" -> %d", vetor[i].reg);
+		else printf(" -");
+	}//for
 }
-
+/*
 void removeIn(HashTable * list, int reg){
 
 	Tnode *actual = list->first, *prev = NULL;
@@ -151,3 +185,4 @@ void removeElement(HashTable *list){
 	// Remove a matricula indicada no terminal da lista 
 	removeIn(list, reg);
 }
+*/
