@@ -45,8 +45,9 @@ void main(){
 	setlocale(LC_ALL, "");
 
 	// ABRIR ARQUIVO
+	char* arq = "reg.txt";
 	FILE *fileLoad;
-	fileLoad = fopen( "reg.txt" , "r" );  // Abre um arquivo texto para leitura
+	fileLoad = fopen( arq , "r" );  // Abre um arquivo texto para leitura
 
 	if (fileLoad == NULL){
 		printf("Problemas na Leitura do arquivo\n");
@@ -56,26 +57,27 @@ void main(){
 	// INICIAR TABELA HASH
 	size = 1.5*calcSize(fileLoad);
 	fseek(fileLoad, 0, SEEK_SET);
-	HashTable *tabHash;
-
-	initializeList(tabHash, size);
-
+	hashTable tabHash;
+	
+	initializeList(&tabHash, size);
 
 	// INICIAR BANCO DE DADOS
 	fseek(fileLoad, 0, SEEK_SET);
-	initializeDB(tabHash, fileLoad, size);
+	initializeDB(&tabHash, fileLoad);
+	printf("\nAbrindo o Menu");
 	fclose(fileLoad);
-
-	// MENU DE USU�RIO
+	
+	// MENU DE USUARIO
 	do {
+		printf("...");
 		op = menu();
 
 		switch(op){
-		   case 1: addElement(tabHash); break;
+		   case 1: addElement(&tabHash); break;
 		   //case 2: searchStudent(tabHash, size); break;
 		   //case 3: removeHash(tabHash, size); break;
 		   //case 4: saveFile(tabHash, size);
-		   case 222: printHashTable(tabHash); break;
+		   case 222: printHashTable(&tabHash); break;
 		}//switch
 		limparBuffer();
 		printf("\nPressione qualquer tecla para continuar. . .");

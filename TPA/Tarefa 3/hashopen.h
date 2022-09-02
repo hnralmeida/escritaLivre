@@ -30,31 +30,31 @@ typedef struct typeElement{
 typedef struct typeList {
 	int total;
 	int size;
-	Tnode *vetor;
-}HashTable;
+	Tnode **vetor;
+}hashTable;
 
 /* Calcula numero de linhas em um arquivo */
 int calcSize(FILE* f);
 
 /* inicializa lista com ponteiros nulos */
-void initializeList(HashTable *list, int size);
+void initializeList(hashTable *list, int size);
 
 /* carrega os dados de um arquivo no programa*/
-void initializeDB(HashTable *list, FILE* f, int size);
+void initializeDB(hashTable *list, FILE* f);
 
 /* adiciona valor passado na lista */
-void addIn(HashTable * list, int reg);
+void addIn(hashTable * list, int reg);
 
 /* implementa adicao de cursos */
-void addElement(HashTable *list);
+void addElement(hashTable *list);
 
 /* imprimir valores na lista */
-void printHashTable(HashTable *list);
+void printHashTable(hashTable *list);
 
 /* implementa a remocao valores da lista */
-void removeElement(HashTable *list);
+void removeElement(hashTable *list);
 
 /* remove valor passado da lista */
-void removeIn(HashTable * list, int reg);
+void removeIn(hashTable * list, int reg);
 
 #endif // HASHOPEN_H_

@@ -40,52 +40,74 @@ int calcSize(FILE* f){
 	return i;
 }
 
-void initializeDB(HashTable *list, FILE* f, int size){
+void initializeDB(hashTable *list, FILE* f){
 	int reg;
 
 	// Percorre todo arquivo pegando dados do aluno
 	while (!feof(f)){
 		// Toda linha par eh o numero de uma matricula
 		fscanf(f, "%d", &reg);
+		printf("\nAdding %d", reg);
 		addIn(list, reg);
   	}//while
+	printf("\nImprimindo lista:");
+	printHashTable(list);
 }
 
-
-void initializeList(HashTable *list, int size){
+void initializeList(hashTable *list, int size){
 	list->size = size;
-	list->total=0;
-	list->vetor = (Tnode*) malloc( size* sizeof(Tnode) );
+	list->total = 0;
+	list->vetor = (Tnode**) malloc( size * sizeof(Tnode*) );
+	for(int i=0; i<size; i++) list->vetor[i] = NULL;
 }
 
-void rehash(HashTable *list, int reg, int co){
+int rehash(hashTable *list, int reg, int co){
 	int h2 = 1 + (reg%list->size);
 	int h = (co + h2) % list->size;
-	Tnode* vetor = list->vetor;
+	Tnode** vetor = list->vetor;
+	printf("\nTrying Position %d", h);
 
-	if(!(list->vetor[h].flag)){
-		vetor[h].reg = reg;
-		vetor[h].flag = 1;
+	if(vetor[h]!=NULL){
+		if(!(vetor[h]->flag)){
+			vetor[h]->flag = 1;
+			vetor[h]->reg = reg;
+			return h;
+		}else{
+			rehash(list, reg, (++co));
+		}
 	}else{
-		rehash(list, reg, 1);
+		Tnode* newNode = (Tnode*)malloc(sizeof(Tnode));
+		newNode->flag=1;
+		newNode->reg=reg;
+		vetor[h]=newNode;
+		return h;
 	}
 }
 
-void addIn(HashTable * list, int reg){
+void addIn(hashTable * list, int reg){
 	// Inicializar um novo node com os dados passados
-	Tnode* vetor = list->vetor;
+	Tnode** vetor = list->vetor;
 	int h = reg % list->size;
 	
-	if(!(list->vetor[h].flag)){
-		vetor[h].reg = reg;
-		vetor[h].flag=1;
+	if(vetor[h]!=NULL){
+		if(!(list->vetor[h]->flag)){
+			vetor[h]->reg = reg;
+			vetor[h]->flag=1;
+		}else{
+			h= rehash(list, reg, 1);
+		}
 	}else{
-		rehash(list, reg, 1);
+		printf("\nTrying Position %d", h);
+		Tnode* newNode = (Tnode*)malloc(sizeof(Tnode));
+		newNode->flag=1;
+		newNode->reg=reg;
+		vetor[h]=newNode;
 	}
+	//printf("\nRegister %d added\n", vetor[h]->reg);
 	list->total++;
 }
 
-void addElement(HashTable *list){
+void addElement(hashTable *list){
 	int reg;
 	
 	// Consulta no terminal o Aluno a ser adicionado 
@@ -98,15 +120,18 @@ void addElement(HashTable *list){
 	addIn(list, reg);
 }
 
-void printHashTable(HashTable *list){
+void printHashTable(hashTable *list){
 	int i=0;
-	Tnode* vetor = list->vetor;
+	Tnode** vetor = list->vetor;
 
 	// Percorre toda a lista imprimindo aluno
-	for (i=0; i<list->size; i++){
-		if(!vetor[i].flag) printf(" -> %d", vetor[i].reg);
-		else printf(" -");
+	for (i; i<(list->size); i++){
+		if(vetor[i]!=NULL){
+			if(vetor[i]->flag) printf("\n -> %d", vetor[i]->reg);
+			else printf("\n -");
+		}else printf("\n -");
 	}//for
+	system("pause");
 }
 /*
 void removeIn(HashTable * list, int reg){
