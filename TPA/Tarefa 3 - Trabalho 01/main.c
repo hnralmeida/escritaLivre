@@ -42,7 +42,7 @@ void main(){
 
 	int op, i=0;
 	unsigned long long int size;
-	string arq = "reg1.txt";
+	string arq = "reg2.txt";
 
 	setlocale(LC_ALL, "");
 
@@ -56,7 +56,7 @@ void main(){
 	}
 
 	// INICIAR TABELA HASH
-	size = 0.75*calcSize(fileLoad);
+	size = 1.5*calcSize(fileLoad);
 	fseek(fileLoad, 0, SEEK_SET);
 	Tlist tabHash[size];
 
@@ -101,7 +101,7 @@ int menu(){
     printf("\n\n\n\t     =====| MENU |=====\n\n");
     printf("0 - SAIR (Encerrar programa sem salvar alteracoes).\n\n");
     printf("1 - Adicionar.\n");
-    printf("2 - Procurar estudante.\n");
+    printf("2 - Procurar Registro.\n");
     printf("3 - Remover.\n");
 	printf("4 - Salvar.\n\n");
     printf("\tInforme OPCAO desejada: ");

@@ -190,6 +190,6 @@ void searchStudent(hashTable *list){
 		printf("\n\t+-------------------------------------------------+");
 	}//if
 	float end = (float) clock();
-	float delta = (end-init)/1000000;
-	printf("\n\nEssa procura levou %.3f segundos", delta);
+	float delta = (end-init)/1000;
+	printf("\n\nEssa procura levou %.2fms", delta);
 }

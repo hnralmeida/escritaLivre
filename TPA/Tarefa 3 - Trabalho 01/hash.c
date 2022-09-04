@@ -12,6 +12,7 @@ Implementação de hash.h
 #include <stdio.h>
 #include <locale.h>
 #include <stdlib.h>
+#include <time.h>
 #include "lista.h"
 
 /*
@@ -155,6 +156,7 @@ void saveFile(Tlist list[], unsigned long long int size){
 
 void searchStudent(Tlist list[], unsigned long long int size){
 	unsigned long long int reg;
+	float init = (float) clock();
 	
 	printf("\n\n\t=====| PROCURAR No |=====\n\n");
 	printf("\tInforme MATRICULA a ser PROCURADA: ");
@@ -174,4 +176,8 @@ void searchStudent(Tlist list[], unsigned long long int size){
 		printf("\n\t\tMatricula não encontrada");
 		printf("\n\t+-------------------------------------------------+");
 	}//if
+
+	float end = (float) clock();
+	float delta = (end-init)/1000;
+	printf("\n\nEssa procura levou %.2f ms", delta);
 }

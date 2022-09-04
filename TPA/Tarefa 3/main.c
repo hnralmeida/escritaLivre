@@ -46,7 +46,7 @@ void main(){
 	setlocale(LC_ALL, "");
 
 	// ABRIR ARQUIVO
-	char* arq = "reg2.txt";
+	char* arq = "reg1.txt";
 	FILE *fileLoad;
 	fileLoad = fopen( arq , "r" );  // Abre um arquivo texto para leitura
 
@@ -59,12 +59,10 @@ void main(){
 	size = 1.5*calcSize(fileLoad);
 	fseek(fileLoad, 0, SEEK_SET);
 	hashTable tabHash;
-	printf("\ninit hash[%d]",size);
 	initializeList(&tabHash, size);
 
 	// INICIAR BANCO DE DADOS
 	fseek(fileLoad, 0, SEEK_SET);
-	printf("\ninit DB");
 	initializeDB(&tabHash, fileLoad);
 	fclose(fileLoad);
 	system("pause");
