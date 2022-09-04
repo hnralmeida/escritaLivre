@@ -13,6 +13,7 @@ Implementacao de lista.h
 #include <locale.h>
 #include <stdlib.h>
 #include <string.h>
+#include<time.h>
 #include "hashopen.h"
 
 /*
@@ -47,11 +48,8 @@ void initializeDB(hashTable *list, FILE* f){
 	while (!feof(f)){
 		// Toda linha par eh o numero de uma matricula
 		fscanf(f, "%d", &reg);
-		printf("\nAdding %d", reg);
 		addIn(list, reg);
   	}//while
-	printf("\nImprimindo lista:");
-	printHashTable(list);
 }
 
 void initializeList(hashTable *list, int size){
@@ -65,7 +63,6 @@ int rehash(hashTable *list, int reg, int co){
 	int h2 = 1 + (reg%list->size);
 	int h = (co + h2) % list->size;
 	Tnode** vetor = list->vetor;
-	printf("\nTrying Position %d", h);
 
 	if(vetor[h]!=NULL){
 		if(!(vetor[h]->flag)){
@@ -97,7 +94,6 @@ void addIn(hashTable * list, int reg){
 			h= rehash(list, reg, 1);
 		}
 	}else{
-		printf("\nTrying Position %d", h);
 		Tnode* newNode = (Tnode*)malloc(sizeof(Tnode));
 		newNode->flag=1;
 		newNode->reg=reg;
@@ -116,6 +112,13 @@ void addElement(hashTable *list){
 	printf("Informe valor: ");
 	scanf("%d", &reg);
 
+	Tnode* valid=NULL;
+	valid = searchTnode(list, reg);
+	if(valid!=NULL && valid->flag){
+		printf("\nRegistro ja existe");
+		return;
+	}
+
 	// Adiciona na lista o Aluno passado no terminal
 	addIn(list, reg);
 }
@@ -131,83 +134,62 @@ void printHashTable(hashTable *list){
 			else printf("\n -");
 		}else printf("\n -");
 	}//for
-	system("pause");
-}
-/*
-void removeIn(HashTable * list, int reg){
-
-	Tnode *actual = list->first, *prev = NULL;
-	string removed_name;
-	int removed_reg;
-	int removed = 0;
-
-	if(actual == NULL)
-		// Se node atual for vazio nao percorre nada
-		printf("\nNao ha nada para remover na lista");
-	else{
-		// Percorre toda lista procurando a matricula
-		while(actual != NULL && (actual->reg != reg)){
-			prev = actual;
-			actual = actual->next;
-		}//while
-
-		// Se a matricula existir, salva os dados removidos
-		if(actual!=NULL){
-			strcpy(removed_name, actual->name);
-			removed_reg = actual->reg;
-			removed = 1;
-			list->total--;
-		}else {
-			printf("Esse elemento nao existe");
-			return;
-		}//if ... else
-		
-		//verificar se remover o ultimo
-		if(actual->next == list->last){ 
-			prev->next = NULL;
-			list->last = prev;
-			free(actual);
-		}else if(prev == NULL){ // verificar se remover o primeiro;
-			prev = actual->next;
-			list->first = prev;
-			free(actual);
-		}else{ // caso remover algum do meio qualquer
-			prev->next = actual->next;
-			free(actual);
-		}//if ... else
-
-	}//if ... else
-	
-	// a flag removed indica ... se algo foi removido da lista
-	if(removed){
-		printf("\n\n\n");
-		printf("\n+--------------------------------------+");
-		printf("\n\tAVISO:");
-		printf("\n\t%s", removed_name);
-		printf("\n\t%d", removed_reg);
-		printf("\n\tREMOVIDO com SUCESSO !!!\t");
-		printf("\n+--------------------------------------+\n\n\n");
-	} else {
-		printf("\n\n\n");
-		printf("+--------------------------------------+\n");
-		printf("|  ALERTA:                             |\n");
-		printf("|                                      |\n");
-		printf("|  No NAO ENCONTRADO e nem REMOVIDO!!! |\n");
-		printf("|                                      |\n");
-		printf("+--------------------------------------+\n\n\n");
-
-	}//if ... else
+	printf("\n\n");
 }
 
-void removeElement(HashTable *list){
+Tnode*reSearch(hashTable* list, int reg, int co){
+	int h2 = 1 + (reg%list->size);
+	int h = (co + h2) % list->size;
+	Tnode* node;
 
+	// Condicao de parada
+	if(h == (h2-1));
+
+	Tnode** vetor = list->vetor;
+	if(vetor[h]!=NULL) {
+		if (vetor[h]->reg == reg) return vetor[h];
+		node = reSearch(list, reg, ++co);
+	}else return NULL;
+
+}
+
+Tnode* searchTnode(hashTable *list, int reg){
+	int h = (int) (reg % list->size);
+	Tnode** vetor = list->vetor;
+	Tnode* node;
+
+	// Percorre toda lista da tabela com o respectivo resto
+	if(vetor[h]!=NULL) {
+		if (vetor[h]->reg == reg) return vetor[h];
+		node = reSearch(list, reg, 1);
+	}else return NULL;
+	return node;
+
+}
+
+void searchStudent(hashTable *list){
 	int reg;
+	float init = (float) clock();
 	
-	printf("\n\n\t=====| REMOVER No |=====\n\n");
-	printf("\tInforme VALOR a ser REMOVIDO: ");
+	printf("\n\n\t=====| PROCURAR No |=====\n\n");
+	printf("\tInforme MATRICULA a ser PROCURADA: ");
 	scanf("%d", &reg);
 
-	// Remove a matricula indicada no terminal da lista 
-	removeIn(list, reg);
+	// Procura na lista correspondete da tabela hash pela matricula 
+	int rest = (int) (reg % list->size);
+	Tnode *node = searchTnode(list, reg);
+
+	// Se o aluno existr (se existir matricula cadastrada) imprime Aluno
+	if(node!=NULL) {
+		printf("\t+-------------------------------------------------+");
+		printf("\n\t\tRegistro: %d\n", node->reg);
+		printf("\t+-------------------------------------------------+");
+	}else{
+		printf("\t+-------------------------------------------------+");
+		printf("\n\t\tMatricula não encontrada");
+		printf("\n\t+-------------------------------------------------+");
+	}//if
+	float end = (float) clock();
+	float delta = (end-init)/1000000;
+	printf("\n\nEssa procura levou %.3f segundos", delta);
 }
-*/

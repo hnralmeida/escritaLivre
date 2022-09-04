@@ -3,7 +3,7 @@
 AUTOR:	Henrique Almeida de Oliveira
 Disciplina: Topicos de Programacao Avancada
 
-					Trabalho 01 � Tabela Hash
+					Trabalho 01 – Tabela Hash
 	Objetivos:
 	- Representar computacionalmente uma Tabela Hash com lista encadeada.
 	- Implementar um algoritmo que gere e manipule uma Tabela Hash com matricula e nome (Aluno).
@@ -13,7 +13,8 @@ Disciplina: Topicos de Programacao Avancada
 #include<stdio.h>
 #include<stdlib.h>
 #include<locale.h>
-#include"hashopen.h"
+#include"lista.h"
+#include"hash.h"
 
 /*
 =========================================================================================
@@ -40,15 +41,14 @@ int menu();
 void main(){
 
 	int op, i=0;
-	int size;
-	time_t exc;
+	unsigned long long int size;
+	string arq = "reg1.txt";
 
 	setlocale(LC_ALL, "");
 
 	// ABRIR ARQUIVO
-	char* arq = "reg2.txt";
 	FILE *fileLoad;
-	fileLoad = fopen( arq , "r" );  // Abre um arquivo texto para leitura
+	fileLoad = fopen( arq , "r" );  // Cria um arquivo texto para gravação
 
 	if (fileLoad == NULL){
 		printf("Problemas na Leitura do arquivo\n");
@@ -56,28 +56,29 @@ void main(){
 	}
 
 	// INICIAR TABELA HASH
-	size = 1.5*calcSize(fileLoad);
+	size = 0.75*calcSize(fileLoad);
 	fseek(fileLoad, 0, SEEK_SET);
-	hashTable tabHash;
-	printf("\ninit hash[%d]",size);
-	initializeList(&tabHash, size);
+	Tlist tabHash[size];
+
+	for(i=0; i<size; i++){
+		initializeList(&tabHash[i]);
+	}
 
 	// INICIAR BANCO DE DADOS
 	fseek(fileLoad, 0, SEEK_SET);
-	printf("\ninit DB");
-	initializeDB(&tabHash, fileLoad);
+	initializeDB(tabHash, fileLoad, size);
 	fclose(fileLoad);
-	system("pause");
-	
-	// MENU DE USUARIO
+
+	// MENU DE USUÁRIO
 	do {
-		printf("...");
 		op = menu();
 
 		switch(op){
-		   case 1: addElement(&tabHash); break;
-		   case 2: searchStudent(&tabHash); break;
-		   case 3: printHashTable(&tabHash); break;
+		   case 1: addElementHash(tabHash, size); break;
+		   case 2: searchStudent(tabHash, size); break;
+		   case 3: removeHash(tabHash, size); break;
+		   case 4: saveFile(tabHash, size);
+		   case 222: printHash(tabHash, size); break;
 		}//switch
 		limparBuffer();
 		printf("\nPressione qualquer tecla para continuar. . .");
@@ -101,7 +102,8 @@ int menu(){
     printf("0 - SAIR (Encerrar programa sem salvar alteracoes).\n\n");
     printf("1 - Adicionar.\n");
     printf("2 - Procurar estudante.\n");
-	printf("3 - Imprimir.\n\n");
+    printf("3 - Remover.\n");
+	printf("4 - Salvar.\n\n");
     printf("\tInforme OPCAO desejada: ");
 
     scanf("%d",&opcao);
