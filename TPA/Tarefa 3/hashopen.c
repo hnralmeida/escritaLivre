@@ -42,11 +42,12 @@ int calcSize(FILE* f){
 }
 
 void initializeDB(hashTable *list, FILE* f){
-	int reg;
+	int reg, i=0;
 
 	// Percorre todo arquivo pegando dados do aluno
 	while (!feof(f)){
 		// Toda linha par eh o numero de uma matricula
+		printf("\nAdding %d", i++);
 		fscanf(f, "%d", &reg);
 		addIn(list, reg);
   	}//while
@@ -61,14 +62,15 @@ void initializeList(hashTable *list, int size){
 
 int rehash(hashTable *list, int reg, int co){
 	int h2 = 1 + (reg%list->size);
-	int h = (co + h2) % list->size;
+	int rh = (co + h2) % list->size;
 	Tnode** vetor = list->vetor;
+	//printf("\nTrying in %d rehash", rh);
 
-	if(vetor[h]!=NULL){
-		if(!(vetor[h]->flag)){
-			vetor[h]->flag = 1;
-			vetor[h]->reg = reg;
-			return h;
+	if(vetor[rh]!=NULL){
+		if(!(vetor[rh]->flag)){
+			vetor[rh]->flag = 1;
+			vetor[rh]->reg = reg;
+			return rh;
 		}else{
 			rehash(list, reg, (++co));
 		}
@@ -76,8 +78,8 @@ int rehash(hashTable *list, int reg, int co){
 		Tnode* newNode = (Tnode*)malloc(sizeof(Tnode));
 		newNode->flag=1;
 		newNode->reg=reg;
-		vetor[h]=newNode;
-		return h;
+		vetor[rh]=newNode;
+		return rh;
 	}
 }
 
@@ -85,6 +87,7 @@ void addIn(hashTable * list, int reg){
 	// Inicializar um novo node com os dados passados
 	Tnode** vetor = list->vetor;
 	int h = reg % list->size;
+	//printf("\nAdding %d in %d ...", reg, h);
 	
 	if(vetor[h]!=NULL){
 		if(!(list->vetor[h]->flag)){
@@ -139,15 +142,15 @@ void printHashTable(hashTable *list){
 
 Tnode*reSearch(hashTable* list, int reg, int co){
 	int h2 = 1 + (reg%list->size);
-	int h = (co + h2) % list->size;
+	int rh = (co + h2) % list->size;
 	Tnode* node;
 
 	// Condicao de parada
-	if(h == (h2-1));
+	if(rh == (h2-1));
 
 	Tnode** vetor = list->vetor;
-	if(vetor[h]!=NULL) {
-		if (vetor[h]->reg == reg) return vetor[h];
+	if(vetor[rh]!=NULL) {
+		if (vetor[rh]->reg == reg) return vetor[rh];
 		node = reSearch(list, reg, ++co);
 	}else return NULL;
 
@@ -164,7 +167,6 @@ Tnode* searchTnode(hashTable *list, int reg){
 		node = reSearch(list, reg, 1);
 	}else return NULL;
 	return node;
-
 }
 
 void searchStudent(hashTable *list){

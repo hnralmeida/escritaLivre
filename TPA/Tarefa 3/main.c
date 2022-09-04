@@ -46,7 +46,7 @@ void main(){
 	setlocale(LC_ALL, "");
 
 	// ABRIR ARQUIVO
-	char* arq = "reg1.txt";
+	char* arq = "reg2.txt";
 	FILE *fileLoad;
 	fileLoad = fopen( arq , "r" );  // Abre um arquivo texto para leitura
 
