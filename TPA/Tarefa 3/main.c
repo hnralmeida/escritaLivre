@@ -13,6 +13,7 @@ Disciplina: Topicos de Programacao Avancada
 #include<stdio.h>
 #include<stdlib.h>
 #include<locale.h>
+#include<time.h>
 #include"hashopen.h"
 
 /*
@@ -40,13 +41,14 @@ int menu();
 void main(){
 
 	int op, i=0;
-	int size;
+	unsigned long long int size;
 	time_t exc;
+	float init = (float) clock();
 
 	setlocale(LC_ALL, "");
 
 	// ABRIR ARQUIVO
-	char* arq = "reg2.txt";
+	char* arq = "reg1.txt";
 	FILE *fileLoad;
 	fileLoad = fopen( arq , "r" );  // Abre um arquivo texto para leitura
 
@@ -65,6 +67,10 @@ void main(){
 	fseek(fileLoad, 0, SEEK_SET);
 	initializeDB(&tabHash, fileLoad);
 	fclose(fileLoad);
+	
+	float end = (float) clock();
+	float delta = (end-init)/1;
+	printf("\nArquivo Iniciado apos %0.2f us\n", delta);
 	system("pause");
 	
 	// MENU DE USUARIO

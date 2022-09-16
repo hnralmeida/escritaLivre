@@ -22,28 +22,28 @@ Biblioteca de lista Simplesmente encadeada com sentinela
 typedef struct typeElement Tnode;
 
 typedef struct typeElement{
-	int reg;
+	unsigned long long int reg;
 	int flag;
 }Tnode;
 
 /* Estrutura de lista dos elementos alunos */
 typedef struct typeList {
-	int total;
-	int size;
+	unsigned long long int total;
+	unsigned long long int size;
 	Tnode **vetor;
 }hashTable;
 
 /* Calcula numero de linhas em um arquivo */
-int calcSize(FILE* f);
+unsigned long long int calcSize(FILE* f);
 
 /* inicializa lista com ponteiros nulos */
-void initializeList(hashTable *list, int size);
+void initializeList(hashTable *list, unsigned long long int size);
 
 /* carrega os dados de um arquivo no programa*/
 void initializeDB(hashTable *list, FILE* f);
 
 /* adiciona valor passado na lista */
-void addIn(hashTable * list, int reg);
+void addIn(hashTable * list, unsigned long long int reg);
 
 /* implementa adicao de cursos */
 void addElement(hashTable *list);
@@ -52,7 +52,7 @@ void addElement(hashTable *list);
 void printHashTable(hashTable *list);
 
 /* procura na hash aberta pelo registro passado */
-Tnode* searchTnode(hashTable *list, int reg);
+Tnode* searchTnode(hashTable *list, unsigned long long int reg);
 
 /* implementa procura por resgistro na hash */
 void searchStudent(hashTable *list);
@@ -61,6 +61,6 @@ void searchStudent(hashTable *list);
 void removeElement(hashTable *list);
 
 /* remove valor passado da lista */
-void removeIn(hashTable * list, int reg);
+void removeIn(hashTable * list, unsigned long long int reg);
 
 #endif // HASHOPEN_H_

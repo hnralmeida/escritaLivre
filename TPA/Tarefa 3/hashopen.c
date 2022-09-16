@@ -21,8 +21,8 @@ Implementacao de lista.h
 			Implementacao de lista.h
 */
 
-int calcSize(FILE* f){
-	int i=0;
+unsigned long long int calcSize(FILE* f){
+	unsigned long long int i=0;
 	char s[40];
 
 	// Move o cursor para o inicio do arquivo
@@ -42,29 +42,27 @@ int calcSize(FILE* f){
 }
 
 void initializeDB(hashTable *list, FILE* f){
-	int reg, i=0;
-
+	unsigned long long int reg, i=0;
+	
 	// Percorre todo arquivo pegando dados do aluno
 	while (!feof(f)){
-		// Toda linha par eh o numero de uma matricula
-		printf("\nAdding %d", i++);
-		fscanf(f, "%d", &reg);
+		// Toda linha eh o numero de uma matricula
+		fscanf(f, "%llu", &reg);
 		addIn(list, reg);
   	}//while
 }
 
-void initializeList(hashTable *list, int size){
+void initializeList(hashTable *list, unsigned long long int size){
 	list->size = size;
 	list->total = 0;
 	list->vetor = (Tnode**) malloc( size * sizeof(Tnode*) );
-	for(int i=0; i<size; i++) list->vetor[i] = NULL;
+	for(unsigned long long int i=0; i<size; i++) list->vetor[i] = NULL;
 }
 
-int rehash(hashTable *list, int reg, int co){
-	int h2 = 1 + (reg%list->size);
-	int rh = (co + h2) % list->size;
+unsigned long long int rehash(hashTable *list, unsigned long long int reg, unsigned long long int index){
+	unsigned long long int h1 = 1 + (reg% (list->size - 1) );
+	unsigned long long int rh = (index + h1) % (list->size);
 	Tnode** vetor = list->vetor;
-	//printf("\nTrying in %d rehash", rh);
 
 	if(vetor[rh]!=NULL){
 		if(!(vetor[rh]->flag)){
@@ -72,7 +70,7 @@ int rehash(hashTable *list, int reg, int co){
 			vetor[rh]->reg = reg;
 			return rh;
 		}else{
-			rehash(list, reg, (++co));
+			rehash(list, reg, rh);
 		}
 	}else{
 		Tnode* newNode = (Tnode*)malloc(sizeof(Tnode));
@@ -83,18 +81,17 @@ int rehash(hashTable *list, int reg, int co){
 	}
 }
 
-void addIn(hashTable * list, int reg){
+void addIn(hashTable * list, unsigned long long int reg){
 	// Inicializar um novo node com os dados passados
 	Tnode** vetor = list->vetor;
-	int h = reg % list->size;
-	//printf("\nAdding %d in %d ...", reg, h);
+	unsigned long long int h = reg % list->size;
 	
 	if(vetor[h]!=NULL){
 		if(!(list->vetor[h]->flag)){
 			vetor[h]->reg = reg;
-			vetor[h]->flag=1;
+			vetor[h]->flag= 1;
 		}else{
-			h= rehash(list, reg, 1);
+			h= rehash(list, reg, h);
 		}
 	}else{
 		Tnode* newNode = (Tnode*)malloc(sizeof(Tnode));
@@ -102,18 +99,18 @@ void addIn(hashTable * list, int reg){
 		newNode->reg=reg;
 		vetor[h]=newNode;
 	}
-	//printf("\nRegister %d added\n", vetor[h]->reg);
+
 	list->total++;
 }
 
 void addElement(hashTable *list){
-	int reg;
+	unsigned long long int reg;
 	
 	// Consulta no terminal o Aluno a ser adicionado 
 	printf("\n\n\n");
 	printf("\t=====| INSERE NOVO NO |=====\n\n");
 	printf("Informe valor: ");
-	scanf("%d", &reg);
+	scanf("%llu", &reg);
 
 	Tnode* valid=NULL;
 	valid = searchTnode(list, reg);
@@ -127,70 +124,69 @@ void addElement(hashTable *list){
 }
 
 void printHashTable(hashTable *list){
-	int i=0;
+	unsigned long long int i=0;
 	Tnode** vetor = list->vetor;
 
 	// Percorre toda a lista imprimindo aluno
 	for (i; i<(list->size); i++){
 		if(vetor[i]!=NULL){
-			if(vetor[i]->flag) printf("\n -> %d", vetor[i]->reg);
+			if(vetor[i]->flag) printf("\n -> %llu", vetor[i]->reg);
 			else printf("\n -");
 		}else printf("\n -");
 	}//for
 	printf("\n\n");
 }
 
-Tnode*reSearch(hashTable* list, int reg, int co){
-	int h2 = 1 + (reg%list->size);
-	int rh = (co + h2) % list->size;
-	Tnode* node;
+Tnode* reSearch(hashTable* list, unsigned long long int reg, unsigned long long int index){
+	unsigned long long int h1 = 1 + (reg% (list->size - 1) );
+	unsigned long long int rh = (index + h1) % (list->size);
 
-	// Condicao de parada
-	if(rh == (h2-1));
-
+	Tnode* node; 
 	Tnode** vetor = list->vetor;
+
 	if(vetor[rh]!=NULL) {
 		if (vetor[rh]->reg == reg) return vetor[rh];
-		node = reSearch(list, reg, ++co);
+		else return reSearch(list, reg, rh);
 	}else return NULL;
 
 }
 
-Tnode* searchTnode(hashTable *list, int reg){
-	int h = (int) (reg % list->size);
+Tnode* searchTnode(hashTable *list, unsigned long long int reg){
+	unsigned long long int h = (int) (reg % list->size);
 	Tnode** vetor = list->vetor;
 	Tnode* node;
 
 	// Percorre toda lista da tabela com o respectivo resto
 	if(vetor[h]!=NULL) {
 		if (vetor[h]->reg == reg) return vetor[h];
-		node = reSearch(list, reg, 1);
+		else node = reSearch(list, reg, h);
 	}else return NULL;
 	return node;
 }
 
 void searchStudent(hashTable *list){
-	int reg;
+	unsigned long long int reg;
 	float init = (float) clock();
 	
 	printf("\n\n\t=====| PROCURAR No |=====\n\n");
 	printf("\tInforme MATRICULA a ser PROCURADA: ");
-	scanf("%d", &reg);
+	scanf("%llu", &reg);
 
 	// Procura na lista correspondete da tabela hash pela matricula 
-	int rest = (int) (reg % list->size);
+	unsigned long long int rest = (unsigned long long int) (reg % list->size);
 	Tnode *node = searchTnode(list, reg);
 
 	// Se o aluno existr (se existir matricula cadastrada) imprime Aluno
 	if(node!=NULL) {
 		printf("\t+-------------------------------------------------+");
-		printf("\n\t\tRegistro: %d\n", node->reg);
+		printf("\n\t\tRegistro: %llu\n", node->reg);
 		printf("\t+-------------------------------------------------+");
 	}else{
 		printf("\t+-------------------------------------------------+");
 		printf("\n\t\tMatricula não encontrada");
 		printf("\n\t+-------------------------------------------------+");
 	}//if
+	
 	float end = (float) clock();
 	float delta = (end-init)/1000;
 	printf("\n\nEssa procura levou %.2fms", delta);
