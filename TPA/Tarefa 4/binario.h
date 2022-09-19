@@ -37,10 +37,12 @@ int menu();
 void limparBuffer();
 
 // Função de Lista SEABB
-void inicializaLista(TLista *L); // inicia uma lista com raiz nula
-void insereLista(TLista *L); // insere um registro a partir da entrada padrão
-void listaMatricula(TLista *L); //
-void removerLista(TLista *L); // 
+void initializeTree(TLista *L); // inicia uma lista com raiz nula
+void insertTree(TLista *L); // insere um registro a partir da entrada padrão
+void printDepthFirst(TLista *L); //percurso em profundidade
+void printInOrder(TLista *L); //percurso in order
+void printPosOrder(TLista *L); //percurso pos order
+void removeTree(TLista *L); // 
 void automatico(TLista *L); //
 
 #endif // BINARIO_H_
