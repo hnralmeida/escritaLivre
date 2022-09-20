@@ -2,15 +2,15 @@
 =========================================================================================
 AUTORES: 	
 			Henrique Almeida de Oliveira
-			Luiz Eduardo Marchiori
-Disciplina: TÃ³picos de ProgramaÃ§Ã£o AvanÃ§ada
+			
+Disciplina: Topicos de Programacao Avancada
 
 Funcao principal utilizando binario com os objetivos de:
 
-- Implementar uma biblioteca de Ã¡rvores para armazenar nÃºmeros inteiros.
+- Implementar uma biblioteca de arvores para armazenar numeros inteiros.
 - Utilizacao de chave com valor numerico.
-- Biblioteca que tem mÃ©todos para inserir um elemento na Ã¡rvore, remover um elemento, 
-        pesquisar por um elemento, imprimir os 3 caminhamentos clÃ¡ssicos.
+- Biblioteca que tem metodos para inserir um elemento na arvore, remover um elemento, 
+        pesquisar por um elemento, imprimir os 3 caminhamentos classicos.
 =========================================================================================
 */
 #include <stdio.h>
@@ -24,7 +24,7 @@ int menu();
 
 /*
 =========================================================================================
-			FunÃ§Ã£o Principal
+			Funcao Principal
 */
 
 int main(){
