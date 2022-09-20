@@ -3,9 +3,9 @@
 AUTORES: 	
 			Henrique Almeida de Oliveira
 			Luiz Eduardo Marchiori
-Disciplina: TÃ³picos de ProgramaÃ§Ã£o AvanÃ§ada
+Disciplina: Topicos de Programacao Avancada
 
-ImplementaÃ§Ã£o da biblioteca BINARIO
+Implementacao da biblioteca BINARIO
 =========================================================================================
 */
 #include <stdio.h>
@@ -13,7 +13,7 @@ ImplementaÃ§Ã£o da biblioteca BINARIO
 #include "binario.h"
 /*
 =========================================================================================
-			ImplementaÃ§Ã£o
+			Implementacao
 */
 
 TTree *digThrowTree(TTree* node, int v); //funcao de busca
@@ -47,12 +47,18 @@ void insertTree(TSentinel *L){
 
 	printf("\nDigite o numero para adicionar: ");
 	scanf("%d", &reg);
-
-	valid = digThrowTree(L->root, reg);
+	
+	// verifica se já não existe o valor passado na árvore
+	valid = digThrowTree(L->root, reg); 
 	TTree *no = (TTree *)malloc(sizeof(TTree));
+	
+	// coloca o no na arvore
     initializeTree(no, reg);
-
-	if (valid->value =! reg) insereNaArvore(&(L->root), no);
+ 	
+	if (valid==NULL) {
+		insereNaArvore(&(L->root), no);
+		L->total++;
+	}
 	else printf("Valor ja existe na arvore");
 	
 }
@@ -76,9 +82,9 @@ void printDepthFirst(TSentinel *L){
 
 void printIn(TTree* node){
 	if(node==NULL) return; 	 
-	printDepth(node->esq);
+	printIn(node->esq);
 	printf("- %d ", node->value);
-	printDepth(node->dir);
+	printIn(node->dir);
 }
 
 void printInOrder(TSentinel *L){
@@ -94,8 +100,8 @@ void printInOrder(TSentinel *L){
 
 void printPos(TTree* node){
 	if(node==NULL) return; 	 
-	printDepth(node->esq);
-	printDepth(node->dir);
+	printPos(node->esq);
+	printPos(node->dir);
 	printf("- %d ", node->value);
 }
 
@@ -109,7 +115,7 @@ void printPosOrder(TSentinel *L){
 	printPos(node);
 }
 
-//subfuncao de removerGeral utilizada para pegar o nÃ³ mais a direita da subarvore esquerda do nÃ³ que serÃ¡ removido
+//subfuncao de removerGeral utilizada para pegar o nÃƒÂ³ mais a direita da subarvore esquerda do nÃƒÂ³ que serÃƒÂ¡ removido
 TTree *raizDireita(TTree **no){
 	if ((*no)->dir != NULL){
 		return raizDireita(&(*no)->dir);
@@ -124,48 +130,38 @@ TTree *raizDireita(TTree **no){
 }
 
 // subfuncao de removeTree
-TTree* removerArvore(TSentinel *L, TTree **raiz, int apagar){
-	int resposta = 0;
-	if (*raiz == NULL){
-		printf("\nNome não encontrado!\n\n");
+TTree* removerArvore(TTree **nodo, int valorNovo){
+	if((*nodo) == NULL){
 		return NULL;
+	}else if((*nodo)->value > valorNovo){
+		(*nodo)->esq = removerArvore(&(*nodo)->esq, valorNovo);
+	}else if((*nodo)->value < valorNovo){
+		(*nodo)->dir = removerArvore(&(*nodo)->dir, valorNovo);
+	}else{
+		if((*nodo)->dir == NULL && (*nodo)->esq == NULL){
+			free((*nodo));
+			(*nodo) = NULL;
+		}else if((*nodo)->esq == NULL){
+			TTree *temporario = (*nodo);
+			(*nodo) = (*nodo)->dir;
+			free(temporario);
+		}else if((*nodo)->dir == NULL){
+			TTree *temporario = (*nodo);
+			(*nodo) = (*nodo)->esq;
+			free(temporario);
+		}else{
+			TTree *prov = (*nodo)->esq;
+			while(prov->dir != NULL){
+				prov = prov->dir;
+			}
+			(*nodo)->value = prov->value;
+			prov->value = valorNovo;
+			
+			(*nodo)->esq = removerArvore(&(*nodo)->esq, valorNovo);
+		}
 	}
-
-	if (apagar < (*raiz)->value){
-		removerArvore(L, &(*raiz)->esq, apagar);
-	} else if (apagar > (*raiz)->value){
-        removerArvore(L, &(*raiz)->dir, apagar);
-    } else {
-        printf("\n============================");
-        printf("\n   Apagar %d?\n   1 - Sim\n   0 - Nao\n\n-> ", (*raiz)->value);
-        scanf("%i", &resposta);
-        printf("\n============================");
-
-        if (resposta){
-            TTree *aux = (*raiz);
-            if (((*raiz)->esq == NULL) && ((*raiz)->dir == NULL)){
-                (*raiz) = NULL;
-            } else if ((*raiz)->esq == NULL){
-				printf("esq == NULL");
-                (*raiz) = (*raiz)->dir;
-            }else if ((*raiz)->dir == NULL){
-				printf("dir == NULL");
-				(*raiz) = (*raiz)->esq;
-            }else {
-				printf("else");
-				TTree *copy = (*raiz);
-                (*raiz) = raizDireita(&(*raiz)->esq);
-				(*raiz)->dir = copy->dir;
-				(*raiz)->esq = copy->esq;
-            }
-            printf("\nNumero %d apagado(a) !\n\n", aux->value);
-			free(aux);
-        } else {
-            printf("\n============================");
-            printf("\nNumero %d não apagado (a)", apagar);
-        }
-    }
-	return *raiz;
+	
+	return (*nodo);
 }
 
 void removeTree(TSentinel *L){
@@ -175,10 +171,13 @@ void removeTree(TSentinel *L){
 	printf("\nDigite o numero para apagar: ");
 	scanf("%d", &reg);
 
-	L->root = removerArvore(L, &node, reg);
+	L->root = removerArvore(&node, reg);
+	L->total--;
+	if(L->total==0) L->root==NULL;
+	//return L->root;
 }
 
-// Subfunção de procuraValor, recursiva, retorna struct tree encontrada
+// SubfunÃ§Ã£o de procuraValor, recursiva, retorna struct tree encontrada
 TTree *digThrowTree(TTree* node, int v){
 	TTree *x;
 
@@ -186,7 +185,7 @@ TTree *digThrowTree(TTree* node, int v){
 
 	if (node==NULL){
 		return NULL;
-	}else if(x->value = v){
+	}else if(x->value == v){
 		return x;
 	}else if(x->value>v){
 		digThrowTree(node->esq, v);
@@ -208,7 +207,7 @@ void searchValue(TSentinel *L){
 		TTree *x = digThrowTree(aux, valor);
 
 		if (x==NULL){
-			printf("\nNão encontrado!");
+			printf("\nNao encontrado!");
 		}else{
 			printf("\nEncontrado!");
 			printf("\n%d", x->value);
