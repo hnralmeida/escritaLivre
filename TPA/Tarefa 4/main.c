@@ -29,10 +29,10 @@ int menu();
 
 int main(){
 	int op;
-	TLista lista;
+	TSentinel lista;
 	setlocale(LC_ALL, "Portuguese");
 
-	initializeTree(&lista);
+	initializeSentinel(&lista);
 
 	do {
 		op = menu();
@@ -42,8 +42,9 @@ int main(){
 		   case 2: printDepthFirst(&lista); break;
 		   case 3: printInOrder(&lista); break;
 		   case 4: printPosOrder(&lista); break;
-		   case 5: removeTree(&lista); break;
-		   //case 222: automatico(&lista); break;
+		   case 5: searchValue(&lista); break;
+		   case 6: removeTree(&lista); break;
+		   case 222: automatico(&lista); break;
 		}//switch
 		printf("\nPressione qualquer tecla para continuar. . .");
 		limparBuffer();
@@ -67,7 +68,8 @@ int menu(){
     printf("2 - Listar Pessoas em Pre-Ordem.\n");
     printf("3 - Listar Pessoas em In-Ordem.\n");
     printf("4 - Listar Pessoas em Pos-Ordem.\n");
-    printf("5 - Remover valor.\n");
+	printf("5 - Procurar por valor.\n");
+    printf("6 - Remover valor.\n");
     printf("================================================\n");
 
     printf("\n\tInforme OPCAO desejada: ");
@@ -78,7 +80,7 @@ int menu(){
 		return opcao;
 	}
 
-	if ((opcao > 5) || (opcao < 0)){
+	if ((opcao > 6) || (opcao < 0)){
 		printf("\n\n\n");
 		printf("\n\t+------------------------+");
 		printf("\n\t|   ERRO:                |");

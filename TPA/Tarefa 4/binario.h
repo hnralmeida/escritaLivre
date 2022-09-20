@@ -27,22 +27,23 @@ typedef struct NoTree{
 
 typedef char string[40];
 
-typedef struct tipoLista {
+typedef struct tipoSentinel {
 	int total;
 	TTree* root;
-}TLista;
+}TSentinel;
 
 // Funções padrão
 int menu();
 void limparBuffer();
 
 // Função de Lista SEABB
-void initializeTree(TLista *L); // inicia uma lista com raiz nula
-void insertTree(TLista *L); // insere um registro a partir da entrada padrão
-void printDepthFirst(TLista *L); //percurso em profundidade
-void printInOrder(TLista *L); //percurso in order
-void printPosOrder(TLista *L); //percurso pos order
-void removeTree(TLista *L); // 
-void automatico(TLista *L); //
+void initializeSentinel(TSentinel *L); // inicia uma lista com raiz nula
+void insertTree(TSentinel *L); // insere um registro a partir da entrada padrão
+void printDepthFirst(TSentinel *L); //percurso em profundidade
+void printInOrder(TSentinel *L); //percurso in order
+void printPosOrder(TSentinel *L); //percurso pos order
+void removeTree(TSentinel *L); //remove um valor da arvore
+void searchValue(TSentinel *L); //procura um valor na arvore
+void automatico(TSentinel *L); //adiciona valores padrao na arvore
 
 #endif // BINARIO_H_

@@ -16,7 +16,9 @@ ImplementaÃ§Ã£o da biblioteca BINARIO
 			ImplementaÃ§Ã£o
 */
 
-void initializeTree(TLista *L){
+TTree *digThrowTree(TTree* node, int v); //funcao de busca
+
+void initializeSentinel(TSentinel *L){
 	L->root = NULL;
 	L->total = 0;
 }
@@ -41,13 +43,17 @@ TTree *insereNaArvore(TTree **node, int add){
 }
 
 // Funcao para inserir um registro
-void insertTree(TLista *L){
+void insertTree(TSentinel *L){
 	int reg;
+	TTree* valid;
 
 	printf("\nDigite o numero para adicionar: ");
 	scanf("%d", &reg);
 
-	L->root = insereNaArvore(&(L->root), reg);
+	valid = digThrowTree(L->root, reg);
+
+	if (valid->valor =! reg) L->root = insereNaArvore(&(L->root), reg);
+	else printf("Valor ja existe na arvore");
 	
 }
 
@@ -58,7 +64,7 @@ void printDepth(TTree* node){
 	printDepth(node->dir);
 }
 
-void printDepthFirst(TLista *L){
+void printDepthFirst(TSentinel *L){
 	
 	printf("\n============================");
 	printf("\n Percurso em Pre-Ordem");
@@ -75,14 +81,15 @@ void printIn(TTree* node){
 	printDepth(node->dir);
 }
 
-void printInOrder(TLista *L){
+void printInOrder(TSentinel *L){
 	
-	printf("\n============================");
+	printf("\n================================================\n");
 	printf("\n Percurso In Order");
-	printf("\n============================\n");
+	printf("\n================================================\n\n");
 
 	TTree* node = L->root;
 	printIn(node);
+	printf("\n\n================================================\n\n");
 }
 
 void printPos(TTree* node){
@@ -92,7 +99,7 @@ void printPos(TTree* node){
 	printf("- %d ", node->valor);
 }
 
-void printPosOrder(TLista *L){
+void printPosOrder(TSentinel *L){
 	
 	printf("\n============================");
 	printf("\n Percurso Pos Order");
@@ -116,59 +123,52 @@ TTree *raizDireita(TTree **no){
 	}
 }
 
-TTree* removerArvore(TLista *L, TTree **root, int apagar){
+// subfuncao de removeTree
+TTree* removerArvore(TSentinel *L, TTree **raiz, int apagar){
 	int resposta = 0;
-
-	if (*root == NULL){
-		printf("\nLista Vazia!\n\n");
+	if (*raiz == NULL){
+		printf("\nNome não encontrado!\n\n");
 		return NULL;
 	}
 
-	if (apagar < (*root)->valor){
-		removerArvore(L, &(*root)->esq, apagar);
-	} else if (apagar > (*root)->valor ){
-        removerArvore(L, &(*root)->dir, apagar);
+	if (apagar < (*raiz)->valor){
+		removerArvore(L, &(*raiz)->esq, apagar);
+	} else if (apagar > (*raiz)->valor){
+        removerArvore(L, &(*raiz)->dir, apagar);
     } else {
         printf("\n============================");
-        printf("\n   Apagar %d?\n   1 - Sim\n   0 - Nao\n\n-> ", (*root)->valor);
+        printf("\n   Apagar %d?\n   1 - Sim\n   0 - Nao\n\n-> ", (*raiz)->valor);
         scanf("%i", &resposta);
         printf("\n============================");
-        
+
         if (resposta){
-            TTree *aux = (*root);
-            if (((*root)->esq == NULL) && ((*root)->dir == NULL)){
+            TTree *aux = (*raiz);
+            if (((*raiz)->esq == NULL) && ((*raiz)->dir == NULL)){
+                (*raiz) = NULL;
                 free(aux);
-                (*root) = NULL;
-                //if (L->root == (*root)) (L->root)=NULL;
-            } else if ((*root)->esq == NULL){
-                //if (L->root == (*root)) (L->root)=(*root)->dir;
-                aux = aux->dir;
+            } else if ((*raiz)->esq == NULL){
+				printf("esq == NULL");
+                (*raiz) = (*raiz)->dir;
                 free(aux);
-            }else if ((*root)->dir == NULL){
-                    //if (L->root == (*root)) (L->root)=(*root)->esq;
-                    aux = aux->esq;
-                    free(aux);
+            }else if ((*raiz)->dir == NULL){
+				printf("dir == NULL");
+				(*raiz) = (*raiz)->esq;
+                free(aux);
             }else {
-                //if (L->root == (*root)) (L->root)=aux;
-                aux = aux->esq;
-                while (aux->dir != NULL){
-                	aux=aux->dir;
-				}
-                (*root)->valor = aux->valor;
-                aux->valor = apagar;
-                
-                (*root)->esq = removerArvore(L, root, apagar);
+				printf("else");
+                (*raiz) = raizDireita(raiz);
+                free(aux);
             }
-            printf("\n   %s apagado(a) !\n\n", apagar);
+            printf("\nNumero %d apagado(a) !\n\n", apagar);
         } else {
             printf("\n============================");
-            printf("\n%s nao apagado (a)", apagar);
+            printf("\nNumero %d não apagado (a)", apagar);
         }
     }
-    return (*root);
+	return *raiz;
 }
 
-void removeTree(TLista *L){
+void removeTree(TSentinel *L){
 	int reg;
 	TTree *node = L->root;
 
@@ -176,4 +176,51 @@ void removeTree(TLista *L){
 	scanf("%d", &reg);
 
 	L->root = removerArvore(L, &node, reg);
+}
+
+// Subfunção de procuraValor, recursiva, retorna struct tree encontrada
+TTree *digThrowTree(TTree* node, int v){
+	TTree *x;
+
+	if(node!=NULL) x = node;
+
+	if (node==NULL){
+		return NULL;
+	}else if(x->valor = v){
+		return x;
+	}else if(x->valor>v){
+		digThrowTree(node->esq, v);
+	}else{
+		digThrowTree(node->dir, v);
+	}
+}
+
+void searchValue(TSentinel *L){
+
+	TTree *aux = L->root;
+	int valor;
+
+	if(aux == NULL){
+		printf("\nArvore Vazia!");
+	}else{
+		printf("\nQual valor deseja procurar?\n> ");
+		scanf("%d", &valor);
+		TTree *x = digThrowTree(aux, valor);
+
+		if (x==NULL){
+			printf("\nNão encontrado!");
+		}else{
+			printf("\nEncontrado!");
+			printf("\n%d", x->valor);
+		}
+	}
+}
+
+void automatico(TSentinel *L){
+	L->root = insereNaArvore(&(L->root), 12);
+	L->root = insereNaArvore(&(L->root), 5);
+	L->root = insereNaArvore(&(L->root), 1);
+	L->root = insereNaArvore(&(L->root), 2);
+	L->root = insereNaArvore(&(L->root), 15);
+	L->root = insereNaArvore(&(L->root), 25);
 }
