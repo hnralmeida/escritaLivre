@@ -2,7 +2,7 @@
 =========================================================================================
 AUTORES: 	
 			Henrique Almeida de Oliveira
-			Luiz Eduardo Marchiori
+			
 Disciplina: Topicos de Programacao Avancada
 
 Implementacao da biblioteca BINARIO
