@@ -3,7 +3,7 @@
 AUTORES: 	
 			Henrique Almeida de Oliveira
 			Luiz Eduardo Marchiori
-Disciplina: Tópicos de Programação Avançada
+Disciplina: TÃ³picos de ProgramaÃ§Ã£o AvanÃ§ada
 
 Biblioteca de BINARIO
 =========================================================================================
@@ -31,18 +31,18 @@ typedef struct tipoSentinel {
 	TTree* root;
 }TSentinel;
 
-// Funções padrão
+// FunÃ§Ãµes padrÃ£o
 int menu();
 void limparBuffer();
 
-// Função de Lista SEABB
+// FunÃ§Ã£o de Lista SEABB
 void initializeSentinel(TSentinel *L); // inicia uma lista com raiz nula
-void insertTree(TSentinel *L); // insere um registro a partir da entrada padrão
+void insertTree(TSentinel *L); // insere um registro a partir da entrada padrÃ£o
 void printDepthFirst(TSentinel *L); //percurso em profundidade
 void printInOrder(TSentinel *L); //percurso in order
 void printPosOrder(TSentinel *L); //percurso pos order
 void removeTree(TSentinel *L); //remove um valor da arvore
 void searchValue(TSentinel *L); //procura um valor na arvore
-void automatico(TSentinel *L); //adiciona valores padrao na arvore
+void automatico(TSentinel *L); //adiciona valores padrao na arvore [12,5,1,2,15,25]
 
 #endif // BINARIO_H_
