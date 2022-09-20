@@ -2,8 +2,8 @@
 =========================================================================================
 AUTORES: 	
 			Henrique Almeida de Oliveira
-			Luiz Eduardo Marchiori
-Disciplina: TÃ³picos de ProgramaÃ§Ã£o AvanÃ§ada
+			
+Disciplina: Topicos de Programacao Avancada
 
 Biblioteca de BINARIO
 =========================================================================================
@@ -31,7 +31,7 @@ typedef struct tipoSentinel {
 	TTree* root;
 }TSentinel;
 
-// FunÃ§Ãµes padrÃ£o
+// Funcoes padrao
 int menu();
 void limparBuffer();
 
