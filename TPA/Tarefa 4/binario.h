@@ -20,8 +20,7 @@ Biblioteca de BINARIO
 typedef struct NoTree TTree;
 
 typedef struct NoTree{
-	int valor;
-	TTree *pai;
+	int value;
 	TTree *esq, *dir;
 }TTree;
 

@@ -23,23 +23,21 @@ void initializeSentinel(TSentinel *L){
 	L->total = 0;
 }
 
-TTree *inicializaTree(int add){
-	TTree *no = (TTree *)malloc(sizeof(TTree));
-    no->valor = add;
+void initializeTree(TTree* no, int add){
+    no->value = add;
 	no->esq = NULL;
 	no->dir = NULL;
-	return no;
 }
 
-TTree *insereNaArvore(TTree **node, int add){
+
+void insereNaArvore(TTree **node, TTree* insert){
 	if((*node)==NULL){
-		(*node) = inicializaTree(add);
-	}else if( (*node)->valor < add ){
-		(*node)->dir = insereNaArvore(&(*node)->dir, add);
+		(*node) = insert;
+	}else if( insert->value > (*node)->value ){
+		insereNaArvore(&(*node)->dir, insert);
 	}else {
-		(*node)->esq = insereNaArvore(&(*node)->esq, add);
+		insereNaArvore(&(*node)->esq, insert);
 	}
-	return (*node);
 }
 
 // Funcao para inserir um registro
@@ -51,15 +49,17 @@ void insertTree(TSentinel *L){
 	scanf("%d", &reg);
 
 	valid = digThrowTree(L->root, reg);
+	TTree *no = (TTree *)malloc(sizeof(TTree));
+    initializeTree(no, reg);
 
-	if (valid->valor =! reg) L->root = insereNaArvore(&(L->root), reg);
+	if (valid->value =! reg) insereNaArvore(&(L->root), no);
 	else printf("Valor ja existe na arvore");
 	
 }
 
 void printDepth(TTree* node){
 	if(node==NULL) return; 	 
-	printf("- %d ", node->valor);
+	printf("- %d ", node->value);
 	printDepth(node->esq);
 	printDepth(node->dir);
 }
@@ -77,7 +77,7 @@ void printDepthFirst(TSentinel *L){
 void printIn(TTree* node){
 	if(node==NULL) return; 	 
 	printDepth(node->esq);
-	printf("- %d ", node->valor);
+	printf("- %d ", node->value);
 	printDepth(node->dir);
 }
 
@@ -96,7 +96,7 @@ void printPos(TTree* node){
 	if(node==NULL) return; 	 
 	printDepth(node->esq);
 	printDepth(node->dir);
-	printf("- %d ", node->valor);
+	printf("- %d ", node->value);
 }
 
 void printPosOrder(TSentinel *L){
@@ -114,12 +114,12 @@ TTree *raizDireita(TTree **no){
 	if ((*no)->dir != NULL){
 		return raizDireita(&(*no)->dir);
 	} else {
-		TTree *aux1 = *no;
+		TTree *aux = (*no);
 		if ((*no)->esq != NULL)
 			*no = (*no)->esq;
 		else
-			*no = NULL;
-	return aux1;
+			(*no) = NULL;
+	return aux;
 	}
 }
 
@@ -131,13 +131,13 @@ TTree* removerArvore(TSentinel *L, TTree **raiz, int apagar){
 		return NULL;
 	}
 
-	if (apagar < (*raiz)->valor){
+	if (apagar < (*raiz)->value){
 		removerArvore(L, &(*raiz)->esq, apagar);
-	} else if (apagar > (*raiz)->valor){
+	} else if (apagar > (*raiz)->value){
         removerArvore(L, &(*raiz)->dir, apagar);
     } else {
         printf("\n============================");
-        printf("\n   Apagar %d?\n   1 - Sim\n   0 - Nao\n\n-> ", (*raiz)->valor);
+        printf("\n   Apagar %d?\n   1 - Sim\n   0 - Nao\n\n-> ", (*raiz)->value);
         scanf("%i", &resposta);
         printf("\n============================");
 
@@ -145,21 +145,21 @@ TTree* removerArvore(TSentinel *L, TTree **raiz, int apagar){
             TTree *aux = (*raiz);
             if (((*raiz)->esq == NULL) && ((*raiz)->dir == NULL)){
                 (*raiz) = NULL;
-                free(aux);
             } else if ((*raiz)->esq == NULL){
 				printf("esq == NULL");
                 (*raiz) = (*raiz)->dir;
-                free(aux);
             }else if ((*raiz)->dir == NULL){
 				printf("dir == NULL");
 				(*raiz) = (*raiz)->esq;
-                free(aux);
             }else {
 				printf("else");
-                (*raiz) = raizDireita(raiz);
-                free(aux);
+				TTree *copy = (*raiz);
+                (*raiz) = raizDireita(&(*raiz)->esq);
+				(*raiz)->dir = copy->dir;
+				(*raiz)->esq = copy->esq;
             }
-            printf("\nNumero %d apagado(a) !\n\n", apagar);
+            printf("\nNumero %d apagado(a) !\n\n", aux->value);
+			free(aux);
         } else {
             printf("\n============================");
             printf("\nNumero %d não apagado (a)", apagar);
@@ -186,9 +186,9 @@ TTree *digThrowTree(TTree* node, int v){
 
 	if (node==NULL){
 		return NULL;
-	}else if(x->valor = v){
+	}else if(x->value = v){
 		return x;
-	}else if(x->valor>v){
+	}else if(x->value>v){
 		digThrowTree(node->esq, v);
 	}else{
 		digThrowTree(node->dir, v);
@@ -211,16 +211,24 @@ void searchValue(TSentinel *L){
 			printf("\nNão encontrado!");
 		}else{
 			printf("\nEncontrado!");
-			printf("\n%d", x->valor);
+			printf("\n%d", x->value);
 		}
 	}
 }
 
+void insereAuto(TTree **root, int reg){
+	
+	TTree *no = (TTree *)malloc(sizeof(TTree));
+    initializeTree(no, reg);
+
+	insereNaArvore(root, no);
+}
+
 void automatico(TSentinel *L){
-	L->root = insereNaArvore(&(L->root), 12);
-	L->root = insereNaArvore(&(L->root), 5);
-	L->root = insereNaArvore(&(L->root), 1);
-	L->root = insereNaArvore(&(L->root), 2);
-	L->root = insereNaArvore(&(L->root), 15);
-	L->root = insereNaArvore(&(L->root), 25);
+	insereAuto(&(L->root), 12);
+	insereAuto(&(L->root), 5);
+	insereAuto(&(L->root), 1);
+	insereAuto(&(L->root), 2);
+	insereAuto(&(L->root), 15);
+	insereAuto(&(L->root), 25);
 }
