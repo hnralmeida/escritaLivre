@@ -6,33 +6,34 @@
 package thefinalqueue;
 
 import java.util.*;
+import java.lang.Math;   
 
 /**
  *
  * @author 2021122760046
  */
 public class Match {
-    ArrayList teamA;
-    ArrayList teamB;
-    ArrayList deadA;
-    ArrayList deadB;
+    LinkedList teamA;
+    LinkedList teamB;
+    LinkedList deadA;
+    LinkedList deadB;
     int readyA;
     int readyB;
     
     public Match(){
-        teamA = new ArrayList();
-        teamB = new ArrayList();
-        deadA = new ArrayList();
-        deadB = new ArrayList();
+        teamA = new LinkedList();
+        teamB = new LinkedList();
+        deadA = new LinkedList();
+        deadB = new LinkedList();
         readyA = 1;
         readyB = 1;
     }
     
     public Match(ArrayList teamA, ArrayList teamB){
-        this.teamA = new ArrayList(teamA);
-        this.teamB = new ArrayList(teamB);
-        this.deadA = new ArrayList();
-        this.deadB = new ArrayList();
+        this.teamA = new LinkedList(teamA);
+        this.teamB = new LinkedList(teamB);
+        this.deadA = new LinkedList();
+        this.deadB = new LinkedList();
         this.readyA = 1;
         this.readyB = 1;
     }
@@ -96,7 +97,44 @@ public class Match {
     }
     
     public void fight(){
-        
+        int war1, war2;
+        while(this.readyA==1 && this.readyB==1){
+            int random = (int) Math.random();
+            Warrior warrior1 = (Warrior) this.teamA.get(0);
+            Warrior warrior2 = (Warrior) this.teamB.get(0);
+            if(random%2==1){
+                if(this.readyA==1) warrior1.atacar(teamA, teamB);
+                if(this.readyB==1) warrior2.atacar(teamB, teamA);           
+            }
+            else {
+                if(this.readyB==1) warrior1.atacar(teamB, teamA);           
+                if(this.readyA==1) warrior2.atacar(teamA, teamB);
+            }
+            war1 = this.teamA.size();
+            war2 = this.teamB.size();
+            if(war1!=0){
+                this.readyA=1;
+                this.teamA.removeFirst();
+                this.teamA.addLast(war1);
+            }
+            if(war2!=0){
+                this.readyB=1;
+                this.teamB.removeFirst();
+                this.teamB.addLast(war1);
+            }   
+        }        
+        if(this.teamB.isEmpty()){
+            Warrior aux1 = (Warrior) this.teamA.getLast();
+            Warrior aux2 = (Warrior) this.deadB.getLast();
+            System.out.println("Lado1 venceram");
+            System.out.println(aux2.toString() );
+            System.out.println(aux1.toString() );
+        }else{
+            Warrior aux1 = (Warrior) this.deadA.getLast();
+            Warrior aux2 = (Warrior) this.teamB.getLast();
+            System.out.println("Lado2 venceram");
+            System.out.println(aux1.toString() );
+            System.out.println(aux2.toString() );
+        }
     }
-    
 }

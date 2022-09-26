@@ -9,7 +9,7 @@ package thefinalqueue;
  *
  * @author 2021122760224
  */
-public abstract class Atlante extends Guerreiro {
+public abstract class Atlante extends Warrior {
     
     public Atlante(int tipo, int peso, int idade, String nome) {
         super(tipo, peso, idade, nome);

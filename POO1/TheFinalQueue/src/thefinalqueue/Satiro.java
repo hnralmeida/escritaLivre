@@ -5,7 +5,7 @@
  */
 package thefinalqueue;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  *
@@ -18,7 +18,7 @@ public class Satiro extends Atlante {
     }
 
     @Override
-    public void atacar(ArrayList timeA, ArrayList timeB) {
+    public void atacar(LinkedList timeA, LinkedList timeB) {
         
     }
     
