@@ -1,0 +1,54 @@
+CREATE TABLE departamento(
+    codigo_dep SERIAL NOT NULL PRIMARY KEY,
+    nome_dep VARCHAR[50] NOT NULL
+);
+
+CREATE TABLE orientador(
+    codigo_or SERIAL NOT NULL PRIMARY KEY,
+    nome_or VARCHAR[50] NOT NULL,
+    codigo_dep INTEGER NOT NULL REFERENCES departamento
+);
+
+CREATE TABLE disciplina(
+    codigo_disc SERIAL NOT NULL PRIMARY KEY,
+    nome_disc VARCHAR[50] NOT NULL,
+    ementa VARCHAR[100] NOT NULL,
+    credito INTEGER NOT NULL,
+    codigo_dep INTEGER NOT NULL REFERENCES departamento(codigo_dep),
+    codigo_or INTEGER NOT NULL REFERENCES orientador(codigo_or)
+);
+
+CREATE TABLE prerequisito(
+    disc_filho INTEGER NOT NULL,
+    disp_mae INTEGER NOT NULL,
+    PRIMARY KEY(disc_filho, disp_mae),
+    FOREIGN KEY(disc_filho) REFERENCES disciplina(codigo_disc),
+    FOREIGN KEY(disp_mae) REFERENCES disciplina(codigo_disc)
+);
+
+CREATE TABLE aluno(
+    codigo_aluno SERIAL NOT NULL PRIMARY KEY,
+    nome_aluno VARCHAR[50] NOT NULL,
+    endereco VARCHAR[50] NOT NULL,
+    telefone VARCHAR[50] NOT NULL
+);
+
+CREATE TABLE cursa(
+    frequencia INTEGER NOT NULL,
+    media INTEGER NOT NULL,
+    codigo_disc INTEGER REFERENCES disciplina (codigo_disc),
+    codigo_aluno INTEGER REFERENCES aluno (codigo_aluno),
+    PRIMARY KEY (codigo_disc, codigo_aluno)
+);
+
+CREATE TABLE posgraduacao(
+    formacao DATE NOT NULL,
+    codigo_aluno INTEGER REFERENCES aluno (codigo_aluno),
+    codigo_or INTEGER REFERENCES orientador (codigo_or),
+    PRIMARY KEY (codigo_aluno, codigo_or)
+);
+
+CREATE TABLE graduacao(
+    ano_ingresso INTEGER NOT NULL,
+    codigo_aluno INTEGER PRIMARY KEY REFERENCES aluno (codigo_aluno)
+);
