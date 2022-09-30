@@ -32,6 +32,7 @@ void main(){
 	TSentinel lista;
 	setlocale(LC_ALL, "Portuguese");
 	inicializaSentinel(&lista);
+
     // ABRIR ARQUIVO
 	FILE *fileLoad;
 	fileLoad = fopen( "Lista_Aluno_Matricula.txt" , "r" );  // Cria um arquivo texto para gravação
@@ -40,10 +41,12 @@ void main(){
 		printf("Problemas na Leitura do arquivo\n");
 		return;
 	}
+
     // SINCRONIZAR COM BASE DE DADOS
     size = calcSize(fileLoad);
 	initializeDB(&lista, fileLoad, size);
 
+	// LOOP PRINCIPAL, INTERAÇÃO COM O USUÁRIO
 	do {
 		op = menu();
 
@@ -66,7 +69,7 @@ void main(){
 
 }
 
-
+// FUNCAO QUE DISPONIBILIA OPCOES DE OPERACAO AO USUARIO
 int menu(){
 	int opcao;
     printf("\n================| MENU |================\n\n");

@@ -23,30 +23,33 @@ Objetivos;
 			Implementação
 */
 
+// Funcao padrao, tira caracteres indesejados para leitura de strings
 void limparBuffer(){
     char c;
     while((c= getchar()) != '\n' && c != EOF);
 }
 
-// Funcao recursiva, retorna struct no encontrada correspondente a parametro
+// Funcao recursiva, retorna struct no encontrada correspondente a parametro nome
 TTree *digThrowTree(TTree* node, string name){
-	if (node==NULL){
-		return NULL;
-	}else if(!strcmp(node->name, name)){
-		return node;
-	}else if(strcmp(node->name, name)>0){
+	if (node==NULL){ 	// nesse ponto indica que nao foi possivel encontrar o no procurado pelo parametro
+		return NULL; 	
+	}else if(!strcmp(node->name, name)){ 	// se compativel com o parametro, retorna o no desejado
+		return node;						
+	}else if(strcmp(node->name, name)>0){	// procura nos valores menores que o no
 		digThrowTree(node->left, name);
-	}else{
+	}else{									// procura nos valores maiores que o no
 		digThrowTree(node->right, name);
-	}
+	}//if
 }
 
+// funcao que inicializa a sentinela vaiza e com 0 nos
 void inicializaSentinel(TSentinel *L){
 	L->root = NULL;
 	L->total = 0;
 }
 
-// subfunção de inseraNaArvore, modifica os ponteiros
+// subfunção de insertRegister, chamada por insereNaArvore
+// retorna um ponteiro para o no com os atributos desejados
 TTree *inicializaTree(string nome, string reg){
 	TTree *no = (TTree *)malloc(sizeof(TTree));
 	no->right = NULL;
@@ -56,29 +59,32 @@ TTree *inicializaTree(string nome, string reg){
 	return no;
 }
 
-// subfunção de inseraNaLista,
+// subfunção de insertRegister, chamada por insereNaSentinela
+// encontra o pai do no inserido
 TTree *insereNaArvore(TTree **node, string nome, string reg){
-	if((*node)==NULL){
+	if((*node)==NULL){	// verifica se o no pode ser inserido
 		(*node) = inicializaTree(nome, reg);
-	}else if(strcmp(nome, (*node)->name)>0){
+	}else if(strcmp(nome, (*node)->name)>0){ // procura nos nos a direita um no NULL
 		(*node)->right = insereNaArvore(&(*node)->right, nome, reg);
-	}else {
+	}else { // procura nos nos a esquerda um no NULL
 		(*node)->left = insereNaArvore(&(*node)->left, nome, reg);
 	}
 	return (*node);
 }
 
-// subfunção de inserePessoa, implementa automatização como função direta
+// subfunção de insertRegister, chamada por insertRegister
+// manipula a sentinela e automatiza insersao
 void insereNaSentinela(TSentinel **L, string nome, string reg){
 	(*L)->total++;
 	(*L)->root = insereNaArvore(&(*L)->root, nome, reg);
 }
 
-// Funcao para inserir uma pessoa com registro
+// Funcao para inserir um aluno com nome e matricula
 void insertRegister(TSentinel *L){
     string nome, reg;
 	TTree* valid;
 
+	// recebe dados do usuario
 	printf("\nDigite o nome e matricula para adicionar: ");
 	limparBuffer();
 	scanf("%[^\n40]s", nome);
@@ -88,11 +94,11 @@ void insertRegister(TSentinel *L){
 	// verifica se já não existe o valor passado na árvore
 	valid = digThrowTree(L->root, nome); 
  	
-	if (valid==NULL) insereNaSentinela(&L, nome, reg);
+	if (valid==NULL) insereNaSentinela(&L, nome, reg); // se nao estiver adicionado, adiciona o registro
 	else printf("Valor ja existe na arvore");
 }
 
-// Subfunção de listaMatriculaPre
+// Subfunção de preOrderList
 void digTreePre(TTree* node){
 	if(node==NULL) return;
 	printf("\n%s \t %s", node->reg, node->name);
@@ -100,7 +106,7 @@ void digTreePre(TTree* node){
 	digTreePre(node->right);
 }
 
-// Listar Pessoas em Pré-ordem
+// Listar alunos em Pré-ordem por nome
 void preOrderList(TSentinel *L){
 	TTree *aux = L->root;
 
@@ -109,10 +115,9 @@ void preOrderList(TSentinel *L){
 	printf("\n============================");
 
 	digTreePre(aux);
-
 }
 
-// Subfunção de listaNomeEO
+// Subfunção de inOrderList
 void digTreeEm(TTree* node){
 	if(node==NULL) return;
 	digTreeEm(node->left);
@@ -120,7 +125,7 @@ void digTreeEm(TTree* node){
 	digTreeEm(node->right);
 }
 
-// Listar Pessoas Em-ordem
+// Listar alunos Em-ordem por nome
 void inOrderList(TSentinel *L){
 	TTree *aux = L->root;
 
@@ -129,10 +134,9 @@ void inOrderList(TSentinel *L){
 	printf("\n============================");
 
 	digTreeEm(aux);
-
 }
 
-// Subfunção de listaMatricula, entra na árvore para imprimir em ordem
+// Subfunção de posOrderList
 void digTreePos(TTree* node){
 	if(node==NULL) return;
 	digTreePos(node->left);
@@ -140,7 +144,7 @@ void digTreePos(TTree* node){
     printf("\n%s \t %s", node->reg, node->name);
 }
 
-// Listar Pessoas por ordem crescente de matrícula
+// Listar alunos em pos ordem por nome
 void posOrderList(TSentinel *L){
 	TTree *aux = L->root;
 
@@ -149,13 +153,12 @@ void posOrderList(TSentinel *L){
 	printf("\n============================");
 
 	digTreePos(aux);
-
 }
 
-// Consultar Pessoa por Nome
+// Consultar alunos por Nome
 void searchNode(TSentinel *L){
-
 	TTree *aux = L->root;
+	//se nao for uma arvore vazia, procura na arvore
 	if(aux == NULL){
 		printf("\nArvore Vazia!");
 	}else{
@@ -163,84 +166,85 @@ void searchNode(TSentinel *L){
 		string nome;
 		limparBuffer();
 		scanf("%[^\n40]s", nome);
-		TTree *x = digThrowTree(aux, nome);
-		if (x==NULL){
+		TTree *x = digThrowTree(aux, nome); //se o nome existir, retorna no com o nome
+		if (x==NULL){ // se no nao existir, variavel esta null
 			printf("\nNao encontrado!");
 		}else{
 			printf("\nEncontrado!");
 			printf("\n%s \t %s", x->reg, x->name);
-		}
-	}
+		}//if...else
+	}//if...else
 }
 
-//subfuncao de removerGeral utilizada para pegar o nó mais a direita da subarvore esquerda do nó que será removido
+// subfuncao de RemoveNode, chamada por removerArvore
+// utilizada para pegar o nó mais a direita da subarvore esquerda do nó que será removido
 TTree *raizDireita(TTree **no){
-	if ((*no)->right != NULL){
+	if ((*no)->right != NULL){ // navega a direita até achar o no mais a direita
 		return raizDireita(&(*no)->right);
-	} else {
+	} else { // retorna no que estava mais a direita
 		TTree *aux1 = *no;
 		if ((*no)->left != NULL)
 			*no = (*no)->left;
 		else
 			*no = NULL;
-	return aux1;
+		return aux1;
 	}
 }
 
-//subfuncao de removerLista, remove da árvore a pessoa
+// subfuncao de RemoveNode, remove da árvore o aluno do parametro
 void removerArvore(TSentinel *L, TTree **raiz, string apagar){
 	int resposta = 0;
-	if (*raiz == NULL){
+	if (*raiz == NULL){ // se a arvore estiver vazia, nao ha o que remover
 		printf("\nNome nao encontrado!\n\n");
 		return;
 	}
 
-	if (strcmp(apagar, (*raiz)->name) < 0){
+	if (strcmp(apagar, (*raiz)->name) < 0){ //verifica nos nos se o nome vem antes (A-Z)
 		removerArvore(L, &(*raiz)->left, apagar);
-	} else if (strcmp(apagar, (*raiz)->name) > 0){
+	} else if (strcmp(apagar, (*raiz)->name) > 0){ //verifica nos nos se o nome vem depois (A-Z)
         removerArvore(L, &(*raiz)->right, apagar);
-    } else {
+    } else { // nome para apagar esta no no atual, confirmar
         printf("\n============================");
         printf("\n   Apagar %s?\n   1 - Sim\n   0 - Nao\n\n-> ", (*raiz)->name);
         scanf("%i", &resposta);
         printf("\n============================");
-        if (resposta){
+
+        if (resposta){ // se confirmado exclusao
             TTree *aux = (*raiz);
-            if (((*raiz)->left == NULL) && ((*raiz)->right == NULL)){
+            if (((*raiz)->left == NULL) && ((*raiz)->right == NULL)){ //verifica se tem filhos
                 free(aux);
                 (*raiz) = NULL;
                 if (L->root == (*raiz)) (L->root)=NULL;
-            } else if ((*raiz)->left == NULL){
+            } else if ((*raiz)->left == NULL){ // so um filho a direita
                 if (L->root == (*raiz)) (L->root)=(*raiz)->right;
                 (*raiz) = (*raiz)->right;
                 aux->right = NULL;
                 free(aux);
                 aux = NULL;
-            }else if ((*raiz)->right == NULL){
+            }else if ((*raiz)->right == NULL){ // so um filho a esquerda
                     if (L->root == (*raiz)) (L->root)=(*raiz)->left;
                     (*raiz) = (*raiz)->left;
                     aux->left = NULL;
                     free(aux);
                     aux = NULL;
-            }else {
+            }else { // dois filhos, chama funcao que desloca o filho a esquerda mais a direita
                 if (L->root == (*raiz)) (L->root)=aux;
                 aux = raizDireita(&(*raiz)->left);
                 aux->left = (*raiz)->left;
                 aux->right = (*raiz)->right;
                 free((*raiz));
                 (*raiz) = aux;
-            }
+            }//if...else if...else if...else
             printf("\n   %s apagado(a) !\n\n", apagar);
         } else {
             printf("\n============================");
             printf("\n%s não apagado (a)", apagar);
-        }
-    }
+        }//if...else 
+    }//if...else if...else
 }
 
-// Remover Pessoa das estruturas
+// Remover aluno da arvore
 void RemoveNode(TSentinel *L){
-
 	TTree *aux = L->root;
 
 	if(aux == NULL){
@@ -252,9 +256,10 @@ void RemoveNode(TSentinel *L){
 		scanf("%[^\n40]s", nome);
 		removerArvore(L, &aux, nome);
 		L->total--;
-	}
+	}//if...else
 }
 
+// funcao que adiciona valores default
 void automatico(TSentinel *L){
 	string nome[10] = {"Yuri Duarte","Luiz Felipe Nascimento", "Calebe Fernandes" ,
 						"Maria Vitória Pires", "Diogo da Mota","Yasmin da Paz" ,
@@ -268,6 +273,7 @@ void automatico(TSentinel *L){
 		insereNaArvore(&(L->root), nome[i], matricula[i]);
 }
 
+// calcula o numero de linhas do aquivo
 unsigned long long int calcSize(FILE* f){
     string s;
 	unsigned long long int i=0;
@@ -288,6 +294,7 @@ unsigned long long int calcSize(FILE* f){
 	return i;
 }
 
+// usa os valores do arquivo f para registrar no banco de dados
 void initializeDB(TSentinel *L, FILE* f, unsigned long long int size){
 	string name, reg;
 	int i=0;
@@ -303,6 +310,7 @@ void initializeDB(TSentinel *L, FILE* f, unsigned long long int size){
   	}//while
 }
 
+// subfuncao de saveBase, percorre todos nos salvando os dados
 void saveThrow(TTree* node, FILE* file){
     if(node==NULL) return;
 	saveThrow(node->left, file);
@@ -311,6 +319,7 @@ void saveThrow(TTree* node, FILE* file){
 	saveThrow(node->right, file);
 }
 
+// Funcao apra salvar os dados de um arquivo
 void saveBase(TSentinel *L){
     FILE *file;
     unsigned long long int i = L->total;
