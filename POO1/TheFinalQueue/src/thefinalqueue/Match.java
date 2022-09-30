@@ -13,10 +13,10 @@ import java.lang.Math;
  * @author 2021122760046
  */
 public class Match {
-    LinkedList teamA;
-    LinkedList teamB;
-    LinkedList deadA;
-    LinkedList deadB;
+    LinkedList<Warrior> teamA;
+    LinkedList<Warrior> teamB;
+    LinkedList<Warrior> deadA;
+    LinkedList<Warrior> deadB;
     int readyA;
     int readyB;
     
