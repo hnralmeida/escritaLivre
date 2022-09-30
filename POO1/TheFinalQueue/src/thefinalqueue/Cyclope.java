@@ -20,9 +20,8 @@ public class Cyclope extends Nordico {
 
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
-        Warrior warrior1 = (Warrior) timeA.get(0);
         Warrior warrior2 = (Warrior) timeB.get(0);
-        super.atacar(timeA, timeB, 40);
+        warrior2.loseEnergy(40);
         warrior2.ready = 0;
     }    
 }

@@ -13,14 +13,21 @@ import java.util.LinkedList;
  */
 public class Hydra extends Grego {
     int id;
-
+    private int heads;
+    
     public Hydra(String nome, int peso, int idade, int tipo) {
         super(nome, peso, idade, tipo);
+        this.heads = 1;
     }
-
+    
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
-        
+         Warrior warrior2 = (Warrior) timeB.get(0);
+         int dano=50+((this.heads-1)*10);
+         warrior2.loseEnergy(dano);
+         if (warrior2.getEnergiaAtual()< 1){
+             this.heads++;
+         }
     }
     
 }
