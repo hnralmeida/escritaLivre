@@ -5,6 +5,7 @@
  */
 package thefinalqueue;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -19,7 +20,18 @@ public class Leao extends Grego {
     }
 
     @Override
-    public void atacar(LinkedList timeA, LinkedList timeB) {
-        
+    public void atacar(LinkedList timeA, LinkedList timeB, int damage) {
+        Iterator it = timeB.iterator();
+        Warrior warrior1 = (Warrior) timeA.get(0);
+        Warrior warrior2 = (Warrior) timeB.get(0);
+        super.atacar(warrior1, warrior2, 30);
+        if (it.hasNext()){
+            Warrior warriorProximo = (Warrior) timeB.get(1);
+            super.atacar(warrior1, warriorProximo, 15);
+            if (it.hasNext()){
+                Warrior warriorProximo2 = (Warrior) timeB.get(2);
+                super.atacar(warrior1, warriorProximo2, 5);             
+            } 
+        }       
     }
 }
