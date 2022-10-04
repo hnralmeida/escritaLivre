@@ -5,7 +5,6 @@
  */
 package thefinalqueue;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -13,14 +12,23 @@ import java.util.LinkedList;
  * @author 2021122760224
  */
 public abstract class Warrior {
-    private String nome;
-    private final int faction;
-    private int peso;
-    private int energiaMaxima;
-    private int energiaAtual;
-    private int idade;
-    private int ready;
+    String nome;
+    final int faction;
+    int peso;
+    int energiaMaxima;
+    int energiaAtual;
+    int idade;
+    int ready;
 
+    public Warrior(String nome, int faction, int peso, int idade) {
+        this.nome = nome;
+        this.faction = faction;
+        this.peso = peso;
+        this.idade = idade;
+    }
+
+    
+    
     public String getNome() {
         return nome;
     }
@@ -80,7 +88,7 @@ public abstract class Warrior {
         this.ready = 1;
     }
 
-    public abstract void atacar (Warrior timeA, Warrior timeB); 
+    public abstract void atacar (LinkedList timeA, LinkedList timeB); 
     
     public void dies (LinkedList time, LinkedList dead){
         this.setEnergiaAtual(0);
