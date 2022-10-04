@@ -2,12 +2,12 @@
 =========================================================================================
 AUTOR: 	Henrique Almeida de Oliveira
 
-Disciplina: TÃ©cnico de ProgramaÃ§Ã£o AvanÃ§ada
+Disciplina: Técnico de Programação Avançada
 Professor: Eduardo Max Amaral
 
 Objetivos;
-â€¢ Representar computacionalmente uma Ãrvore BinÃ¡ria.
-â€¢ Implementar um algoritmo que gere e manipule uma Ãrvore BinÃ¡ria com matricula e nome
+• Representar computacionalmente uma Árvore Binária.
+• Implementar um algoritmo que gere e manipule uma Árvore Binária com matricula e nome
 (Aluno).
 =========================================================================================
 */
@@ -20,7 +20,7 @@ Objetivos;
 
 /*
 =========================================================================================
-			ImplementaÃ§Ã£o
+			Implementação
 */
 
 // Funcao padrao, tira caracteres indesejados para leitura de strings
@@ -42,58 +42,24 @@ TTree *digThrowTree(TTree* node, string name){
 	}//if
 }
 
-int treeHigh(TTree* node){
-	if (node==NULL){
-		return 0;
-	}else{
-		node->nl = treeHigh(node->left) + 1;
-		node->nr = treeHigh(node->right) + 1;
-		int i = (node->nl > node->nr) ? node->nl : node->nr;
-		return i;
-	}
-}
-
 // funcao que inicializa a sentinela vaiza e com 0 nos
-void inicitializeSentinel(TSentinel *L){
+void inicializaSentinel(TSentinel *L){
 	L->root = NULL;
 	L->total = 0;
-	L->high = 0;
 }
 
-// subfuncao de inseraNaSentinela, verifica se a Ã¡rvore esta
-// seguindo as restriÃ§Ãµes de alturas das subarvores
-void treeAVL(TTree* node){
-	return;
-}
-
-// subfunÃ§Ã£o de insertRegister, chamada por insereNaArvore
+// subfunção de insertRegister, chamada por insereNaArvore
 // retorna um ponteiro para o no com os atributos desejados
 TTree *inicializaTree(string nome, string reg){
 	TTree *no = (TTree *)malloc(sizeof(TTree));
 	no->right = NULL;
     no->left=NULL;
-	no->nl=0;
-	no->nr=0;
 	strcpy(no->name, nome);
 	strcpy(no->reg, reg);
 	return no;
 }
 
-// calcula a altura de um nó 
-int alturaNo(TTree *raiz) {
-    if (raiz==NULL) // se não existe o nó, retorna a altura -1
-        return -1;
-    else
-        return ( (raiz->nl) > (raiz->nr) ? (raiz->nl) : (raiz->nr) );
-}
-
-// calcula o fator de balanceamento 
-int fatorBalanceamento(TTree *node) { 
-	// labs retorna o valor absoluto
-    return labs(alturaNo(node->left) - alturaNo(node->right));
-}
-
-// subfuncao de insertRegister, chamada por insereNaSentinela
+// subfunção de insertRegister, chamada por insereNaSentinela
 // encontra o pai do no inserido
 TTree *insereNaArvore(TTree **node, string nome, string reg){
 	if((*node)==NULL){	// verifica se o no pode ser inserido
@@ -103,17 +69,10 @@ TTree *insereNaArvore(TTree **node, string nome, string reg){
 	}else { // procura nos nos a esquerda um no NULL
 		(*node)->left = insereNaArvore(&(*node)->left, nome, reg);
 	}
-	
-	//if(fatorBalanceamento(node)>=2) {
-//		if(reg < (*node)->left->reg)
-//            rotacaoDireita(node);
-//        else
-//            rotacaoEsquerdaDireita(node);
-    //}
-    return (*node);
+	return (*node);
 }
 
-// subfunÃ§Ã£o de insertRegister, chamada por insertRegister
+// subfunção de insertRegister, chamada por insertRegister
 // manipula a sentinela e automatiza insersao
 void insereNaSentinela(TSentinel **L, string nome, string reg){
 	(*L)->total++;
@@ -132,15 +91,14 @@ void insertRegister(TSentinel *L){
     limparBuffer();
 	scanf("%[^\n40]s", reg);
 	
-	// verifica se jÃ¡ nÃ£o existe o valor passado na Ã¡rvore
+	// verifica se já não existe o valor passado na árvore
 	valid = digThrowTree(L->root, nome); 
  	
 	if (valid==NULL) insereNaSentinela(&L, nome, reg); // se nao estiver adicionado, adiciona o registro
 	else printf("Valor ja existe na arvore");
-	printf("\naltura no esq: %d\naltura no direito %d", alturaNo(L->root->left)+1, alturaNo(L->root->right)+1);
 }
 
-// SubfunÃ§Ã£o de preOrderList
+// Subfunção de preOrderList
 void digTreePre(TTree* node){
 	if(node==NULL) return;
 	printf("\n%s \t %s", node->reg, node->name);
@@ -148,19 +106,18 @@ void digTreePre(TTree* node){
 	digTreePre(node->right);
 }
 
-// Listar alunos em PrÃ©-ordem por nome
+// Listar alunos em Pré-ordem por nome
 void preOrderList(TSentinel *L){
 	TTree *aux = L->root;
 
 	printf("\n============================");
 	printf("\n\tLista de Alunos (Pre-Ordem)");
-	printf("\n\tAltura: %d", L->high);
 	printf("\n============================");
 
 	digTreePre(aux);
 }
 
-// SubfunÃ§Ã£o de inOrderList
+// Subfunção de inOrderList
 void digTreeEm(TTree* node){
 	if(node==NULL) return;
 	digTreeEm(node->left);
@@ -174,13 +131,12 @@ void inOrderList(TSentinel *L){
 
 	printf("\n============================");
 	printf("\n\tLista de Alunos (Em Ordem)");
-	printf("\n\tAltura: %d", L->high);
 	printf("\n============================");
 
 	digTreeEm(aux);
 }
 
-// SubfunÃ§Ã£o de posOrderList
+// Subfunção de posOrderList
 void digTreePos(TTree* node){
 	if(node==NULL) return;
 	digTreePos(node->left);
@@ -194,7 +150,6 @@ void posOrderList(TSentinel *L){
 
 	printf("\n============================");
 	printf("\n\tLista de Alunos (Pos-Ordem)");
-	printf("\n\tAltura: %d", L->high);
 	printf("\n============================");
 
 	digTreePos(aux);
@@ -222,9 +177,9 @@ void searchNode(TSentinel *L){
 }
 
 // subfuncao de RemoveNode, chamada por removerArvore
-// utilizada para pegar o nÃ³ mais a direita da subarvore esquerda do nÃ³ que serÃ¡ removido
+// utilizada para pegar o nó mais a direita da subarvore esquerda do nó que será removido
 TTree *raizDireita(TTree **no){
-	if ((*no)->right != NULL){ // navega a direita atÃ© achar o no mais a direita
+	if ((*no)->right != NULL){ // navega a direita até achar o no mais a direita
 		return raizDireita(&(*no)->right);
 	} else { // retorna no que estava mais a direita
 		TTree *aux1 = *no;
@@ -236,7 +191,7 @@ TTree *raizDireita(TTree **no){
 	}
 }
 
-// subfuncao de RemoveNode, remove da Ã¡rvore o aluno do parametro
+// subfuncao de RemoveNode, remove da árvore o aluno do parametro
 void removerArvore(TSentinel *L, TTree **raiz, string apagar){
 	int resposta = 0;
 	if (*raiz == NULL){ // se a arvore estiver vazia, nao ha o que remover
@@ -283,7 +238,7 @@ void removerArvore(TSentinel *L, TTree **raiz, string apagar){
             printf("\n   %s apagado(a) !\n\n", apagar);
         } else {
             printf("\n============================");
-            printf("\n%s nÃ£o apagado (a)", apagar);
+            printf("\n%s não apagado (a)", apagar);
         }//if...else 
     }//if...else if...else
 }
@@ -300,7 +255,6 @@ void RemoveNode(TSentinel *L){
 		limparBuffer();
 		scanf("%[^\n40]s", nome);
 		removerArvore(L, &aux, nome);
-		L->high = treeHigh(L->root);
 		L->total--;
 	}//if...else
 }
@@ -308,7 +262,7 @@ void RemoveNode(TSentinel *L){
 // funcao que adiciona valores default
 void automatico(TSentinel *L){
 	string nome[10] = {"Yuri Duarte","Luiz Felipe Nascimento", "Calebe Fernandes" ,
-						"Maria VitÃ³ria Pires", "Diogo da Mota","Yasmin da Paz" ,
+						"Maria Vitória Pires", "Diogo da Mota","Yasmin da Paz" ,
 						"Maria Julia Sales","Juliana Duarte", "Kaique da Rocha",
 						"Lucas Gabriel Sales"};
 
@@ -317,7 +271,6 @@ void automatico(TSentinel *L){
 	int i;
 	for (i=0; i<10; i++)
 		insereNaArvore(&(L->root), nome[i], matricula[i]);
-	L->high = treeHigh(L->root);
 }
 
 // calcula o numero de linhas do aquivo
@@ -355,7 +308,6 @@ void initializeDB(TSentinel *L, FILE* f, unsigned long long int size){
 		// Adiciona o Aluno na lista correspondete da tabela hash
 		insereNaArvore(&(L->root), name, reg);
   	}//while
-	L->high = treeHigh(L->root);
 }
 
 // subfuncao de saveBase, percorre todos nos salvando os dados

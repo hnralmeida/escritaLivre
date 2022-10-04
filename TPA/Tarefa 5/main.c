@@ -44,7 +44,7 @@ void main(){
 
     // SINCRONIZAR COM BASE DE DADOS
     size = calcSize(fileLoad);
-	initializeDB(&lista, fileLoad, size);
+	//initializeDB(&lista, fileLoad, size);
 
 	// LOOP PRINCIPAL, INTERAÇÃO COM O USUÁRIO
 	do {
