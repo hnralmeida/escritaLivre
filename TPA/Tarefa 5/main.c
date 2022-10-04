@@ -2,12 +2,12 @@
 =========================================================================================
 AUTOR: 	Henrique Almeida de Oliveira
 
-Disciplina: Técnico de Programação Avançada
+Disciplina: Tecnicas de Programacao Avancada
 Professor: Eduardo Max Amaral
 
 Objetivos;
-• Representar computacionalmente uma Árvore Binária.
-• Implementar um algoritmo que gere e manipule uma Árvore Binária com matricula e nome
+- Representar computacionalmente uma arvore Binaria.
+- Implementar um algoritmo que gere e manipule uma arvore Binaria com matricula e nome
 (Aluno).
 =========================================================================================
 */
@@ -22,7 +22,7 @@ int menu();
 
 /*
 =========================================================================================
-			Função Principal
+			Funcao Principal
 */
 
 void main(){
