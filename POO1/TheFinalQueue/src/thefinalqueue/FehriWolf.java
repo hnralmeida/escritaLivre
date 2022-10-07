@@ -5,21 +5,36 @@
  */
 package thefinalqueue;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
  *
  * @author 2021122760224
  */
-public class FehriWolf extends Warrior {
-    int id;
-
-    public FehriWolf(int tipo, int peso, int idade, String nome) {
-        super(tipo, peso, idade, nome);
+public class FehriWolf extends Warrior {    
+    
+    public FehriWolf(int peso, int idade, String nome) {
+        super(peso, idade, nome);
     }
-
+    @Override
+    public void setEnergiaAtual(int energiaAtual) {
+        this.energiaAtual = energiaAtual;
+    }
+    
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
-        
+        Warrior warrior = (Warrior) timeB.get(0);
+        int qt=0;
+        Iterator it = timeA.iterator();
+        while (it.hasNext()){
+            if (timeA.getClass().getSimpleName().equals("FehriWolf")){
+                qt++;
+            } else {
+                break;
+            }     
+        }
+        qt = qt*8;
+        warrior.loseEnergy(40+qt);
     }
 }

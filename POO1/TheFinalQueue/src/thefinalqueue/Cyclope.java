@@ -12,10 +12,9 @@ import java.util.LinkedList;
  * @author 2021122760224
  */
 public class Cyclope extends Warrior {
-    int id;
-
-    public Cyclope(int faction, int peso, int idade, String nome) {
-        super(faction, peso, idade, nome);
+    
+    public Cyclope(int peso, int idade, String nome) {
+        super(peso, idade, nome);
     }
 
     @Override

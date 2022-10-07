@@ -13,29 +13,29 @@ import java.util.LinkedList;
  * @author 2021122760224
  */
 public class Valkyrie extends Warrior {
-    int id;
 
     public Valkyrie(int peso, int idade, String nome) {
         super(peso, idade, nome);
     }
-    
+   
     /**
      *
-     * @param energiaMaxima
+     * @param energiaAtual
      */
     
-    
     @Override
-    public void setEnergiaMaxima(int energiaMaxima);
+    public void setEnergiaAtual(int energiaAtual){
+        this.energiaAtual = energiaAtual;  
+    }
     
     
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
         Warrior warrior = (Warrior) timeB.get(0);
         warrior.loseEnergy(20);
-        Iterator it = timeB.iterator();
+        Iterator it = timeA.iterator();
         if (it.hasNext()){
-            Warrior warrior2= (Warrior) timeB.get(1);
+            Warrior warrior2= (Warrior) timeA.get(1);
             warrior2.setEnergiaAtual(warrior2.getEnergiaAtual() + 20);
         }        
     }

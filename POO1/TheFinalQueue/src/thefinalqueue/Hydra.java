@@ -12,11 +12,10 @@ import java.util.LinkedList;
  * @author 2021122760224
  */
 public class Hydra extends Warrior {
-    int id;
     private int heads;
     
-    public Hydra(String nome, int peso, int idade, int tipo) {
-        super(nome, peso, idade, tipo);
+    public Hydra(String nome, int peso, int idade) {
+        super(nome, peso, idade);
         this.heads = 1;
     }
     

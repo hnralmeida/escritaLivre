@@ -5,6 +5,7 @@
  */
 package thefinalqueue;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -13,12 +14,17 @@ import java.util.LinkedList;
  */
 public class Satiro extends Warrior {
 
-    public Satiro(int tipo, int peso, int idade, String nome) {
-        super(tipo, peso, idade, nome);
+    public Satiro(int peso, int idade, String nome) {
+        super(peso, idade, nome);
     }
 
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
+        Iterator it = timeB.iterator();
+        while (it.hasNext()){
+            Warrior warrior = (Warrior) it.next();
+            warrior.loseEnergy(5);
+        }
         
     }
     
