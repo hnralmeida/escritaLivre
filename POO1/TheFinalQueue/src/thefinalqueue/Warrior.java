@@ -13,22 +13,21 @@ import java.util.LinkedList;
  */
 public abstract class Warrior {
     String nome;
-    final int faction;
     int peso;
     int energiaMaxima;
     int energiaAtual;
     int idade;
     int ready;
 
-    public Warrior(String nome, int faction, int peso, int idade) {
+    public Warrior(int peso, int idade, String nome) {
         this.nome = nome;
-        this.faction = faction;
         this.peso = peso;
         this.idade = idade;
+        this.energiaMaxima = 100;
+        this.energiaAtual = 100;
+        this.ready = 1;
     }
 
-    
-    
     public String getNome() {
         return nome;
     }
@@ -66,6 +65,7 @@ public abstract class Warrior {
     }
 
     public void setEnergiaAtual(int energiaAtual) {
+        if(energiaAtual>100) energiaAtual = 100;
         this.energiaAtual = energiaAtual;
     }
 
@@ -75,17 +75,6 @@ public abstract class Warrior {
 
     public void setIdade(int idade) {
         this.idade = idade;
-    }
-    
-
-    public Warrior(int faction, int peso, int idade, String nome) {
-        this.nome = nome;
-        this.peso = peso;
-        this.idade = idade;
-        this.faction= faction;
-        this.energiaMaxima = 100;
-        this.energiaAtual = 100;
-        this.ready = 1;
     }
 
     public abstract void atacar (LinkedList timeA, LinkedList timeB); 
