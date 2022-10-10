@@ -21,8 +21,9 @@ public class Satiro extends Warrior {
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
         Iterator it = timeB.iterator();
+        Warrior warrior;
         while (it.hasNext()){
-            Warrior warrior = (Warrior) it.next();
+            warrior= (Warrior) it.next();
             warrior.loseEnergy(5);
         }
         
