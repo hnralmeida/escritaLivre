@@ -27,15 +27,15 @@ void limparBuffer(){
 }
 
 // Funcao recursiva, retorna struct no encontrada correspondente a parametro nome
-TTree *digThrowTree(TTree* node, string name){
+TTree *digThrowTree(TTree* node, int reg){
 	if (node==NULL){ 	// nesse ponto indica que nao foi possivel encontrar o no procurado pelo parametro
 		return NULL; 	
-	}else if(!strcmp(node->name, name)){ 	// se compativel com o parametro, retorna o no desejado
+	}else if(node->reg == reg){ 	// se compativel com o parametro, retorna o no desejado
 		return node;						
-	}else if(strcmp(node->name, name)>0){	// procura nos valores menores que o no
-		digThrowTree(node->left, name);
+	}else if(node->reg > reg){	// procura nos valores menores que o no
+		digThrowTree(node->left, reg);
 	}else{									// procura nos valores maiores que o no
-		digThrowTree(node->right, name);
+		digThrowTree(node->right, reg);
 	}//if
 }
 
@@ -58,45 +58,44 @@ void inicitializeSentinel(TSentinel *L){
 }
 
 // serie de subfuncao de inseraNaSentinela implementa rotacoes
-TTree* rotateLL(TTree *raiz){
-	TTree* no = (raiz)->left;
-	(raiz)->left = no->right;
-	no->right = raiz;
-	(raiz) = no;
-	return raiz;
+TTree* rotateLL(TTree **raiz){
+	TTree* no = (*raiz)->left;
+	if(no!=NULL) (*raiz)->left = no->right;
+	if(no!=NULL) no->right = *raiz;
+	(*raiz) = no;
+	printf("\nrotateLL");
 }
 
-TTree* rotateRR(TTree *raiz){
-	TTree* no = (raiz)->right;
-	(raiz)->right = no->left;
-	no->left = (raiz);
-	(raiz) = no;
-	return raiz;
+TTree* rotateRR(TTree **raiz){
+	TTree* no = (*raiz)->right;
+	if(no!=NULL) (*raiz)->right = no->left;
+	if(no!=NULL) no->left = (*raiz);
+	(*raiz) = no;
+	printf("\nrotateRR");
 }
 
-TTree* rotateLR(TTree *raiz){
-	raiz = rotateRR((raiz)->left);
-	raiz = rotateLL(raiz);
-	return raiz;
+TTree* rotateLR(TTree **raiz){
+	rotateRR(&(*raiz)->left);
+	rotateLL(raiz);
+	printf("\nrotateLR");
 }
 
-TTree* rotateRL(TTree *raiz){
-	raiz = rotateLL(raiz->right);
-	raiz = rotateRR(raiz);
-	return raiz;
+TTree* rotateRL(TTree **raiz){
+	rotateLL(&(*raiz)->right);
+	rotateRR(raiz);
+	printf("\nrotateRL");
 }
 
 
 // subfuncao de insertRegister, chamada por insereNaArvore
 // retorna um ponteiro para o no com os atributos desejados
-TTree *inicializaTree(string nome, string reg){
+TTree *inicializaTree(int reg){
 	TTree *no = (TTree *)malloc(sizeof(TTree));
 	no->right = NULL;
     no->left=NULL;
 	no->nl=0;
 	no->nr=0;
-	strcpy(no->name, nome);
-	strcpy(no->reg, reg);
+	no->reg = reg;
 	return no;
 }
 
@@ -108,22 +107,16 @@ int alturaNo(TTree *raiz) {
         return ( (raiz->nl) > (raiz->nr) ? (raiz->nl) : (raiz->nr) );
 }
 
-// calcula o fator de balanceamento 
-int fatorBalanceamento(TTree *node) { 
-	// labs retorna o valor absoluto
-    return labs(alturaNo(node->left) - alturaNo(node->right));
-}
-
 // subfuncao de insertRegister, chamada por insereNaSentinela
 // encontra o pai do no inserido
-TTree *insereNaArvore(TTree **node, string nome, string reg){
+TTree *insereNaArvore(TTree **node, int reg){
 	if((*node)==NULL){	// verifica se o no pode ser inserido
-		(*node) = inicializaTree(nome, reg);
+		(*node) = inicializaTree(reg);
 
-	}else if(strcmp(nome, (*node)->name)>0){ // procura nos nos a direita um no NULL
-		(*node)->right = insereNaArvore(&(*node)->right, nome, reg);
+	}else if(reg > (*node)->reg){ // procura nos nos a direita um no NULL
+		(*node)->right = insereNaArvore(&(*node)->right, reg);
 	}else { // procura nos nos a esquerda um no NULL
-		(*node)->left = insereNaArvore(&(*node)->left, nome, reg);
+		(*node)->left = insereNaArvore(&(*node)->left, reg);
 	}
 	
     return (*node);
@@ -131,59 +124,60 @@ TTree *insereNaArvore(TTree **node, string nome, string reg){
 
 // subfuncao de insertRegister, chamada por insertRegister
 // manipula a sentinela e automatiza insersao
-void insereNaSentinela(TSentinel **L, string nome, string reg){
+void insereNaSentinela(TSentinel **L, int reg){
 	(*L)->total++;
 	TTree* root = (*L)->root;
-	 root = insereNaArvore(&(*L)->root, nome, reg);
+	 root = insereNaArvore(&(*L)->root, reg);
 }
 
 // subfuncao de insertRegister, cuida do balanceamento
-TTree* treeAVL(TTree* root){
-	if(fatorBalanceamento(root) > 1) {
-		if( strcmp(root->name, root->left->name)<0 )
-			root = rotateLL(root);
-		else
-			root =  rotateLR(root);
-	}else if(fatorBalanceamento(root) < -1){
-		if( strcmp(root->right->name, root->name)<0 )
-			root = rotateRR(root);
-		else
-			root = rotateRL(root);
+void treeAVL(TTree** root){
+	int diff = ((*root)->nl - (*root)->nr);
+	if( diff > 1) {
+		if( (*root)->left!=NULL && (*root)->reg < (*root)->left->reg ){
+			printf("\nRotate LL");
+			rotateLL(root);}
+		else{
+			printf("\nRotate LR");
+			rotateLR(root);}
+	}else if( ((*root)->nl-(*root)->nr) < -1){
+		if( (*root)->right!=NULL && (*root)->right->reg < (*root)->reg ){
+			printf("\nRotate RR");
+			rotateRR(root);}
+		else{
+			printf("\nRotate RL");
+			rotateRL(root);}
 	}
-	
-	if(root->left!=NULL) root = treeAVL(root->left);
-	if(root->right!=NULL) root = treeAVL(root->right);
-		
-	return root;
+	printf("\ngoin' L");
+	if((*root)->left!=NULL) treeAVL(&(*root)->left);
+	printf("\ngoin' R");
+	if((*root)->right!=NULL) treeAVL(&(*root)->right);
 }
 
 // Funcao para inserir um aluno com nome e matricula
 void insertRegister(TSentinel *L){
-    string nome, reg;
+    int reg;
 	TTree* valid;
 
 	// recebe dados do usuario
-	printf("\nDigite o nome para adicionar: ");
-	limparBuffer();
-	scanf("%[^\n]s", nome);
-	printf("\nDigite o matrícula para adicionar: ");
-    limparBuffer();
-	scanf("%[^\n]s", reg);
+	printf("\nDigiteum registro para adicionar: ");
+	scanf("%d", &reg);
 	
 	// verifica se ja nao existe o valor passado na arvore
-	valid = digThrowTree(L->root, nome); 
+	valid = digThrowTree(L->root, reg); 
 	L->high = treeHigh(L->root);
-	L->root = treeAVL(L->root);
+	printf("\nAVL going on");
+	if(L->root!=NULL) treeAVL(&(L->root));
+	printf("\nAVL OK");
  	
-	if (valid==NULL) insereNaSentinela(&L, nome, reg); // se nao estiver adicionado, adiciona o registro
+	if (valid==NULL) insereNaSentinela(&L, reg); // se nao estiver adicionado, adiciona o registro
 	else printf("Valor ja existe na arvore");
-	printf("\naltura no esq: %d\naltura no direito %d", alturaNo(L->root->left)+1, alturaNo(L->root->right)+1);
 }
 
 // Subfuncao de preOrderList
 void digTreePre(TTree* node){
 	if(node==NULL) return;
-	printf("\n%s \t %s", node->reg, node->name);
+	printf("\n%d", node->reg);
     digTreePre(node->left);
 	digTreePre(node->right);
 }
@@ -204,7 +198,7 @@ void preOrderList(TSentinel *L){
 void digTreeEm(TTree* node){
 	if(node==NULL) return;
 	digTreeEm(node->left);
-	printf("\n%s \t %s", node->reg, node->name);
+	printf("\n%d", node->reg);
 	digTreeEm(node->right);
 }
 
@@ -225,7 +219,7 @@ void digTreePos(TTree* node){
 	if(node==NULL) return;
 	digTreePos(node->left);
 	digTreePos(node->right);
-    printf("\n%s \t %s", node->reg, node->name);
+    printf("\n%d", node->reg);
 }
 
 // Listar alunos em pos ordem por nome
@@ -248,15 +242,14 @@ void searchNode(TSentinel *L){
 		printf("\nArvore Vazia!");
 	}else{
 		printf("\nQual pessoa deseja procurar?\n> ");
-		string nome;
-		limparBuffer();
-		scanf("%[^\n40]s", nome);
-		TTree *x = digThrowTree(aux, nome); //se o nome existir, retorna no com o nome
+		int reg;
+		scanf("%d", reg);
+		TTree *x = digThrowTree(aux, reg); //se o nome existir, retorna no com o nome
 		if (x==NULL){ // se no nao existir, variavel esta null
 			printf("\nNao encontrado!");
 		}else{
 			printf("\nEncontrado!");
-			printf("\n%s \t %s", x->reg, x->name);
+			printf("\n%d", x->reg);
 		}//if...else
 	}//if...else
 }
@@ -277,20 +270,20 @@ TTree *raizDireita(TTree **no){
 }
 
 // subfuncao de RemoveNode, remove da Ã¡rvore o aluno do parametro
-void removerArvore(TSentinel *L, TTree **raiz, string apagar){
+void removerArvore(TSentinel *L, TTree **raiz, int apagar){
 	int resposta = 0;
 	if (*raiz == NULL){ // se a arvore estiver vazia, nao ha o que remover
 		printf("\nNome nao encontrado!\n\n");
 		return;
 	}
 
-	if (strcmp(apagar, (*raiz)->name) < 0){ //verifica nos nos se o nome vem antes (A-Z)
+	if (apagar < (*raiz)->reg){ //verifica nos nos se o nome vem antes (A-Z)
 		removerArvore(L, &(*raiz)->left, apagar);
-	} else if (strcmp(apagar, (*raiz)->name) > 0){ //verifica nos nos se o nome vem depois (A-Z)
+	} else if (apagar > (*raiz)->reg){ //verifica nos nos se o nome vem depois (A-Z)
         removerArvore(L, &(*raiz)->right, apagar);
     } else { // nome para apagar esta no no atual, confirmar
         printf("\n============================");
-        printf("\n   Apagar %s?\n   1 - Sim\n   0 - Nao\n\n-> ", (*raiz)->name);
+        printf("\n   Apagar %d?\n   1 - Sim\n   0 - Nao\n\n-> ", (*raiz)->reg);
         scanf("%i", &resposta);
         printf("\n============================");
 
@@ -320,10 +313,10 @@ void removerArvore(TSentinel *L, TTree **raiz, string apagar){
                 free((*raiz));
                 (*raiz) = aux;
             }//if...else if...else if...else
-            printf("\n   %s apagado(a) !\n\n", apagar);
+            printf("\n   %d apagado(a) !\n\n", apagar);
         } else {
             printf("\n============================");
-            printf("\n%s nÃ£o apagado (a)", apagar);
+            printf("\n%d nao apagado (a)", apagar);
         }//if...else 
     }//if...else if...else
 }
@@ -336,10 +329,9 @@ void RemoveNode(TSentinel *L){
 		printf("\nLista Vazia!");
 	}else{
 		printf("\nQual pessoa deseja remover?\n> ");
-		string nome;
-		limparBuffer();
-		scanf("%[^\n40]s", nome);
-		removerArvore(L, &aux, nome);
+		int reg;
+		scanf("%d", reg);
+		removerArvore(L, &aux, reg);
 		L->high = treeHigh(L->root);
 		L->total--;
 	}//if...else
@@ -347,16 +339,10 @@ void RemoveNode(TSentinel *L){
 
 // funcao que adiciona valores default
 void automatico(TSentinel *L){
-	string nome[10] = {"Yuri Duarte","Luiz Felipe Nascimento", "Calebe Fernandes" ,
-						"Maria VitÃ³ria Pires", "Diogo da Mota","Yasmin da Paz" ,
-						"Maria Julia Sales","Juliana Duarte", "Kaique da Rocha",
-						"Lucas Gabriel Sales"};
-
-	string matricula[10] = {"0x01", "0x02", "0x03", "0x04", "0x05", "0x06", "0x07",
-							"0x08", "0x09", "0x0A"};
+	int matricula[10] = {100, 101, 102, 103, 104, 105, 106, 107, 108, 109};
 	int i;
 	for (i=0; i<10; i++)
-		insereNaArvore(&(L->root), nome[i], matricula[i]);
+		insereNaArvore(&(L->root), matricula[i]);
 	L->high = treeHigh(L->root);
 }
 
@@ -382,18 +368,15 @@ unsigned long long int calcSize(FILE* f){
 }
 
 // usa os valores do arquivo f para registrar no banco de dados
-void initializeDB(TSentinel *L, FILE* f, unsigned long long int size){
-	string name, reg;
-	int i=0;
+void initializeDB(TSentinel *L, FILE* f){
+	int reg;
 
 	// Percorre todo arquivo pegando dados do aluno
 	while (!feof(f)){
-		// Toda linha impar eh o nome de um aluno
-      	fscanf(f, " %[^\n]s", name);
-		// Toda linha par eh o numero de uma matricula
-		fscanf(f, " %[^\n]s", reg);
+		// Toda linha eh um numero 
+		fscanf(f, " %d", reg);
 		// Adiciona o Aluno na lista correspondete da tabela hash
-		insereNaArvore(&(L->root), name, reg);
+		insereNaArvore(&(L->root), reg);
   	}//while
 	L->high = treeHigh(L->root);
 }
@@ -402,8 +385,7 @@ void initializeDB(TSentinel *L, FILE* f, unsigned long long int size){
 void saveThrow(TTree* node, FILE* file){
     if(node==NULL) return;
 	saveThrow(node->left, file);
-    fprintf(file, "%s\n",  node->name);
-    fprintf(file, "%s\n", node->reg);
+    fprintf(file, "%d\n", node->reg);
 	saveThrow(node->right, file);
 }
 

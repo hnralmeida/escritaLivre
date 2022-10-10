@@ -28,8 +28,7 @@ typedef struct NoTree {
 	TTree *right;
 	int nl;
 	int nr;
-	string name;
-	string reg;
+	int reg;
 }TTree;
 
 typedef struct tipoLista {
@@ -52,7 +51,7 @@ void searchNode(TSentinel *L);
 void RemoveNode(TSentinel *L);
 void saveBase(TSentinel *L);
 unsigned long long int calcSize(FILE* fileLoad);
-void initializeDB(TSentinel *L, FILE* f, unsigned long long int size);
+void initializeDB(TSentinel *L, FILE* f);
 void automatico(TSentinel *L);
 
 #endif
