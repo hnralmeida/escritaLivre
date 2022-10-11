@@ -58,7 +58,7 @@ void inicitializeSentinel(TSentinel *L){
 }
 
 // serie de subfuncao de inseraNaSentinela implementa rotacoes
-TTree* rotateLL(TTree **raiz){
+void rotateLL(TTree **raiz){
 	TTree* no = (*raiz)->left;
 	if(no!=NULL) (*raiz)->left = no->right;
 	if(no!=NULL) no->right = *raiz;
@@ -66,7 +66,7 @@ TTree* rotateLL(TTree **raiz){
 	printf("\nrotateLL");
 }
 
-TTree* rotateRR(TTree **raiz){
+void rotateRR(TTree **raiz){
 	TTree* no = (*raiz)->right;
 	if(no!=NULL) (*raiz)->right = no->left;
 	if(no!=NULL) no->left = (*raiz);
@@ -74,13 +74,13 @@ TTree* rotateRR(TTree **raiz){
 	printf("\nrotateRR");
 }
 
-TTree* rotateLR(TTree **raiz){
+void rotateLR(TTree **raiz){
 	rotateRR(&(*raiz)->left);
 	rotateLL(raiz);
 	printf("\nrotateLR");
 }
 
-TTree* rotateRL(TTree **raiz){
+void rotateRL(TTree **raiz){
 	rotateLL(&(*raiz)->right);
 	rotateRR(raiz);
 	printf("\nrotateRL");
@@ -134,21 +134,16 @@ void insereNaSentinela(TSentinel **L, int reg){
 void treeAVL(TTree** root){
 	int diff = ((*root)->nl - (*root)->nr);
 	if( diff > 1) {
-		if( (*root)->left!=NULL && (*root)->reg < (*root)->left->reg ){
-			printf("\nRotate LL");
-			rotateLL(root);}
-		else{
-			printf("\nRotate LR");
-			rotateLR(root);}
+		if( (*root)->left!=NULL && (*root)->reg < (*root)->left->reg )
+			rotateLL(root);
+		else
+			rotateLR(root);
 	}else if( ((*root)->nl-(*root)->nr) < -1){
-		if( (*root)->right!=NULL && (*root)->right->reg < (*root)->reg ){
-			printf("\nRotate RR");
-			rotateRR(root);}
-		else{
-			printf("\nRotate RL");
-			rotateRL(root);}
+		if( (*root)->right!=NULL && (*root)->right->reg < (*root)->reg )
+			rotateRR(root);
+		else
+			rotateRL(root);
 	}
-	printf("\ngoin' L");
 	if((*root)->left!=NULL) treeAVL(&(*root)->left);
 	printf("\ngoin' R");
 	if((*root)->right!=NULL) treeAVL(&(*root)->right);
@@ -243,7 +238,7 @@ void searchNode(TSentinel *L){
 	}else{
 		printf("\nQual pessoa deseja procurar?\n> ");
 		int reg;
-		scanf("%d", reg);
+		scanf("%d", &reg);
 		TTree *x = digThrowTree(aux, reg); //se o nome existir, retorna no com o nome
 		if (x==NULL){ // se no nao existir, variavel esta null
 			printf("\nNao encontrado!");
@@ -330,7 +325,7 @@ void RemoveNode(TSentinel *L){
 	}else{
 		printf("\nQual pessoa deseja remover?\n> ");
 		int reg;
-		scanf("%d", reg);
+		scanf("%d", &reg);
 		removerArvore(L, &aux, reg);
 		L->high = treeHigh(L->root);
 		L->total--;
@@ -374,7 +369,7 @@ void initializeDB(TSentinel *L, FILE* f){
 	// Percorre todo arquivo pegando dados do aluno
 	while (!feof(f)){
 		// Toda linha eh um numero 
-		fscanf(f, " %d", reg);
+		fscanf(f, " %d", &reg);
 		// Adiciona o Aluno na lista correspondete da tabela hash
 		insereNaArvore(&(L->root), reg);
   	}//while
