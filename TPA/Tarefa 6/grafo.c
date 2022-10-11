@@ -65,22 +65,27 @@ Tvertex* searchCity(Tlist* v, string name){
 	return NULL;
 } 
 
-void insertList(Tlist* v, string name){
+void insertList(Tlist** v, string name){
 	Tvertex *newCity = (Tvertex *)malloc(sizeof(Tvertex));
 	newCity->number_adjacent = 0;
+	newCity->adjacent = NULL;
 	strcpy(newCity->city_name, name);
-
+	printf("\nvertex");
 	Tlist *newNode = (Tlist *)malloc(sizeof(Tlist));
 	newNode->item = newCity;
 	newNode->next = NULL;
 	int flag=1;
+	printf("\nlista auxiliar");
 	
 	// Inserir dados em ordem crescente.	
-	if(v == NULL){
-		v->item = newCity;
-		v->next = NULL;
+	if((*v) == NULL){
+		printf("\nv==null");
+		(*v)->item = newCity;
+		printf("\nv->item");
+		(*v)->next = NULL;
+		printf("\nvertex adicionado");
 	}else{
-		Tlist *actual = v;
+		Tlist *actual = (*v);
 		Tlist *previous = NULL;
 
 		while(actual != NULL && strcmp(name, actual->item->city_name)>0 ){
@@ -106,15 +111,15 @@ void insertCity(Tgraph* g){
 	scanf("%s", name);
 
 	// verifica se ja nao existe o valor passado na arvore
-	/*
+
 	printf("\nlooking");
 	if(g->list!=NULL) valid = searchCity(g->list, name); 
 	else valid = NULL;
 	printf("\nfind");
-	*/
+
 	if (valid == NULL) {
 		printf("\nadd");
-		insertList(g->list, name); // se nao estiver adicionado, adiciona o registro
+		insertList(&(g)->list, name); // se nao estiver adicionado, adiciona o registro
 		g->total++;
 	}else printf("Valor ja existe na lista");
 }

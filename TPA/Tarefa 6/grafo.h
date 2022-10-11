@@ -28,6 +28,7 @@ typedef char string[40];
 
 typedef struct adjacent{
     Tvertex* vertex;
+    Tadjacent* next;
     int distance;
 }Tadjacent;
 
@@ -47,10 +48,10 @@ typedef struct graph {
 	Tlist* list;
 }Tgraph;
 
-// Funções padrão
+// Funcoes padrao
 void limparBuffer();
 
-// Função de grafos
+// Funcao de grafos
 void inicitializeGraph(Tgraph* g);
 void insertCity(Tgraph*g);
 void printCity(Tgraph* g);

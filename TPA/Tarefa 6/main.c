@@ -6,8 +6,8 @@ Disciplina: Tecnicas de Programacao Avancada
 Professor: Eduardo Max Amaral
 
 Objetivos:
-- Implementar uma lista de adjacência para representar uma Matriz Adjacência.
-- Implementar uma lista de adjacência para representar uma Matriz Adjacência (grafo 
+- Implementar uma lista de adjacência para representar uma Matriz Adjacancia.
+- Implementar uma lista de adjacência para representar uma Matriz Adjacancia (grafo 
 ponderado -> matriz de pesos).
 =========================================================================================
 */
@@ -40,6 +40,7 @@ void main(){
 		switch(op){
 		   case 1: insertCity(&lista); break;
 		   case 2: printCity(&lista); break;
+		   //case 3: automatic(&lista); break;
 		}//switch
 		printf("\nPressione qualquer tecla para continuar. . .");
 		limparBuffer();
@@ -55,14 +56,9 @@ int menu(){
 	int opcao;
     printf("\n================| MENU |================\n\n");
     printf("0 - SAIR (Encerrar Programa).\n\n");
-    printf("1 - Inserir novo aluno.\n");
-	printf("2 - Remover aluno.\n");
-	printf("3 - Buscar aluno.\n");
-    printf("4 - Salvar base de dado.\n");
-    printf("5 - Listar alunos em pre ordem.\n");
-    printf("6 - Listar alunos em ordem.\n");
-    printf("7 - Listar alunos em por ordem.\n");
-    
+    printf("1 - Inserir novo cidade.\n");
+	printf("2 - Listar Cidades.\n");
+
     printf("================================================\n");
 
     printf("\n\tInforme OPCAO desejada: ");
