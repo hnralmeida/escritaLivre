@@ -29,12 +29,6 @@ public class Match {
     LinkedList<Warrior> deadA;
     LinkedList<Warrior> deadB;
 
-    /**
-     *
-     * @param timeA
-     * @param timeB
-     * @throws IOException
-     */
     public Match(String timeA, String timeB) throws IOException{
         teamA = new LinkedList();
         teamB = new LinkedList();
@@ -100,6 +94,44 @@ public class Match {
                             age + ", " + weight + ")"); break;
             }
         }
+        int weighttotal=0;
+        for (int i = 0; i < teamA.size(); i++) {
+            weighttotal += teamA.get(i).getWeight();
+        }
+        System.out.println("Gregos e Nórdicos pesam  (" + weighttotal + ") unidades ");
+        
+        weighttotal=0;
+        for (int i = 0; i < teamB.size(); i++) {
+            weighttotal += teamB.get(i).getWeight();
+        }
+        System.out.println("Atlantes e Egípcios pesam  (" + weighttotal + ") unidades ");
+        
+        String nome= "";
+        int idadeMax=0;
+        int aux;
+        for (int i = 0; i < teamA.size(); i++) {
+          aux= teamA.get(i).getAge();
+          if (idadeMax < aux){
+              nome = teamA.get(i).getName();
+              idadeMax= aux;
+          }    
+       }
+        String nome2= "";
+        int idadeMax2=0;
+        int aux2;
+        for (int i = 0; i < teamB.size(); i++) {
+           aux2= teamB.get(i).getAge();
+           if (idadeMax2 < aux2){
+               nome2 = teamB.get(i).getName();
+               idadeMax2= aux2;
+           }    
+        }
+        
+        if (idadeMax > idadeMax2){
+            System.out.println("" + nome + " é o mais velho (" + idadeMax + ")");
+        } else {
+            System.out.println("" + nome2 + " é o mais velho (" + idadeMax2 + ")");
+        }
     }
     
     private void check(){
@@ -133,6 +165,7 @@ public class Match {
         int war1, war2;
         do{
             // Define o primeiro Warrior de cada fila como apto a batalhar
+            
             Warrior warrior1 = (Warrior) this.teamA.get(0);
             Warrior warrior2 = (Warrior) this.teamB.get(0);
             warrior1.setReady(1);
