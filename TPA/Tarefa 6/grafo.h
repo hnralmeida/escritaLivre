@@ -3,12 +3,10 @@
 AUTOR: 	Henrique Almeida de Oliveira
 Disciplina: Técnico de Programação Avançada
 Professor: Eduardo Max Amaral
-
 Objetivos:
 - Implementar uma lista de adjacência para representar uma Matriz Adjacência.
 - Implementar uma lista de adjacência para representar uma Matriz Adjacência (grafo 
 ponderado -> matriz de pesos).
-
 =========================================================================================
 			Tipo Abstrato de Dados
 */
@@ -19,8 +17,6 @@ ponderado -> matriz de pesos).
 typedef struct adjacent Tadjacent;
 
 typedef struct vertex Tvertex;
-
-typedef struct list Tlist;
 
 typedef struct graph Tgraph;
 
@@ -38,22 +34,25 @@ typedef struct vertex {
     int number_adjacent;
 }Tvertex;
 
-typedef struct list {
-	Tvertex* item;
-	Tlist* next;
-}Tlist;
-
 typedef struct graph {
-	int total;
-	Tlist* list;
+	Tvertex* item;
+	Tgraph* next;
 }Tgraph;
 
 // Funcoes padrao
 void limparBuffer();
 
-// Funcao de grafos
-void inicitializeGraph(Tgraph* g);
-void insertCity(Tgraph*g);
-void printCity(Tgraph* g);
+// Funcao de inicializar grafo vazio
+Tgraph* initializeGraph(Tgraph* graph);
+// Iniciar o mapa exemplo
+Tgraph* initializeCities(Tgraph* graph);
+// Insertir cidades com nome
+void createCity(Tgraph** graph);
+// Imprimir cidades e adjacencias
+void printCity(Tgraph* graph);
+// Criar caminhos, arestas, entre cidades
+void createEdge(Tgraph** graph);
+// Procurar e retorna a cidade, vertice, com nome correspondente e suas adjacencias
+void search(Tgraph* graph);
 
 #endif

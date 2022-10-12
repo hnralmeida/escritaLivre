@@ -29,18 +29,21 @@ void main(){
     // INICIALIZAR VARIAVEIS DO PROGRAMA
 	int op;
     int size;
-	Tgraph lista;
+	Tgraph* cidades;
 	setlocale(LC_ALL, "Portuguese");
-	inicitializeGraph(&lista);
+	cidades = initializeGraph(cidades);
+	cidades = initializeCities(cidades);
 
 	// LOOP PRINCIPAL, INTERAÇÃO COM O USUÁRIO
 	do {
 		op = menu();
 
 		switch(op){
-		   case 1: insertCity(&lista); break;
-		   case 2: printCity(&lista); break;
-		   //case 3: automatic(&lista); break;
+		   case 1: createCity(&cidades); break;
+		   case 2: createEdge(&cidades); break;
+		   case 3: printCity(cidades); break;
+		   case 4: search(cidades); break;
+		   default: break;
 		}//switch
 		printf("\nPressione qualquer tecla para continuar. . .");
 		limparBuffer();
@@ -56,8 +59,10 @@ int menu(){
 	int opcao;
     printf("\n================| MENU |================\n\n");
     printf("0 - SAIR (Encerrar Programa).\n\n");
-    printf("1 - Inserir novo cidade.\n");
-	printf("2 - Listar Cidades.\n");
+    printf("1 - Inserir nova cidade.\n");
+	printf("2 - Criar Caminho entre Cidades.\n");
+	printf("3 - Listar Cidades.\n");
+	printf("4 - Procurar Cidade.\n");
 
     printf("================================================\n");
 
