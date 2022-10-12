@@ -22,6 +22,7 @@ public class TheFinalQueue {
     public static void main(String[] args) {
         try{
             Match teste = new Match("lado1.txt", "lado2.txt");
+            Container s = new Container();
             teste.fight();
         }catch (FileNotFoundException erro) {
             System.out.print("Arquivos não encontrados");

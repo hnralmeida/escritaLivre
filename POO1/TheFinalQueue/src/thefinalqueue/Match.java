@@ -29,6 +29,12 @@ public class Match {
     LinkedList<Warrior> deadA;
     LinkedList<Warrior> deadB;
 
+    /**
+     *
+     * @param timeA
+     * @param timeB
+     * @throws IOException
+     */
     public Match(String timeA, String timeB) throws IOException{
         teamA = new LinkedList();
         teamB = new LinkedList();
