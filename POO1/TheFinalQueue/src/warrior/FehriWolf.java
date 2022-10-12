@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thefinalqueue;
+package warrior;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -12,31 +12,29 @@ import java.util.LinkedList;
  *
  * @author 2021122760224
  */
-public class Valkyrie extends Warrior {
-
-    public Valkyrie(int peso, int idade, String nome) {
+public class FehriWolf extends Warrior {    
+    
+    public FehriWolf(int peso, int idade, String nome) {
         super(peso, idade, nome);
     }
-   
-    /**
-     *
-     * @param energiaAtual
-     */
-    
     @Override
-    public void setEnergiaAtual(int energiaAtual){
-        this.energiaAtual = energiaAtual;  
+    public void setCurrentEnergy(int energiaAtual) {
+        this.currentEnergy = energiaAtual;
     }
-    
     
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
         Warrior warrior = (Warrior) timeB.get(0);
-        warrior.loseEnergy(20);
+        int qt=0;
         Iterator it = timeA.iterator();
-        if (it.hasNext()){
-            Warrior warrior2= (Warrior) timeA.get(1);
-            warrior2.setEnergiaAtual(warrior2.getEnergiaAtual() + 20);
-        }        
+        while (it.hasNext()){
+            if (timeA.getClass().getSimpleName().equals("FehriWolf")){
+                qt++;
+            } else {
+                break;
+            }     
+        }
+        qt = qt*8;
+        warrior.loseEnergy(40+qt);
     }
 }

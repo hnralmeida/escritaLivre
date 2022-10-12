@@ -3,24 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thefinalqueue;
+package warrior;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
  *
  * @author 2021122760224
  */
-public class Cyclope extends Warrior {
-    
-    public Cyclope(int peso, int idade, String nome) {
+public class Satiro extends Warrior {
+
+    public Satiro(int peso, int idade, String nome) {
         super(peso, idade, nome);
     }
 
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
-        Warrior warrior2 = (Warrior) timeB.get(0);
-        warrior2.loseEnergy(40);
-        warrior2.ready = 0;
-    }    
+        Iterator it = timeB.iterator();
+        Warrior warrior;
+        while (it.hasNext()){
+            warrior= (Warrior) it.next();
+            warrior.loseEnergy(5);
+        }
+        
+    }
+    
 }

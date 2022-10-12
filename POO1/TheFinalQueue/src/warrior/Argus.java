@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thefinalqueue;
+package warrior;
 
 import java.util.LinkedList;
 
@@ -11,15 +11,18 @@ import java.util.LinkedList;
  *
  * @author 2021122760224
  */
-public class Prometeano extends Warrior {
+public class Argus extends Warrior {
 
-    public Prometeano(int tipo, int peso, int idade, String nome) {
-        super(tipo, peso, idade, nome);
+    public Argus(int peso, int idade, String nome) {
+        super(peso, idade, nome);
+        this.setMaxEnergy(60);
+        this.setCurrentEnergy(60);
     }
 
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
-        
+        Warrior warrior = (Warrior) timeB.get(0);
+        warrior.setCurrentEnergy(0);
     }
     
 }

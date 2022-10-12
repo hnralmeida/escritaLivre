@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thefinalqueue;
+package warrior;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -26,16 +26,16 @@ public class Leao extends Warrior {
     
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
-        Iterator it = timeB.iterator();
-        Warrior warrior2 = (Warrior) timeB.get(0);
-        warrior2.loseEnergy(30);
+        Iterator<Warrior> it = timeB.iterator();
+        Warrior warrior = it.next();
+        warrior.loseEnergy(30);
+        
         if (it.hasNext()){
-            Warrior warriorProximo = (Warrior) timeB.get(1);
-            warriorProximo.loseEnergy(15);
-            it.next();
+            warrior = it.next();
+            warrior.loseEnergy(15);
             if (it.hasNext()){
-                Warrior warriorProximo2 = (Warrior) timeB.get(2);
-                warriorProximo2.loseEnergy(15);           
+                warrior = it.next();
+                warrior.loseEnergy(15);           
             } 
         }       
     }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package thefinalqueue;
+package warrior;
 
 import java.util.LinkedList;
 
@@ -14,17 +14,17 @@ import java.util.LinkedList;
 public class Hydra extends Warrior {
     private int heads;
     
-    public Hydra(String nome, int peso, int idade) {
-        super(nome, peso, idade);
+    public Hydra(int peso, int idade, String nome) {
+        super(peso, idade, nome);
         this.heads = 1;
     }
     
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
-         Warrior warrior2 = (Warrior) timeB.get(0);
+         Warrior warrior = (Warrior) timeB.get(0);
          int dano=50+((this.heads-1)*10);
-         warrior2.loseEnergy(dano);
-         if (warrior2.getEnergiaAtual()< 1){
+         warrior.loseEnergy(dano);
+         if (warrior.getCurrentEnergy()< 1){
              this.heads++;
          }
     }
