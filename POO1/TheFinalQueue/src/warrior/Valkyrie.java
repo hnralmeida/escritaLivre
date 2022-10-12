@@ -14,8 +14,8 @@ import java.util.LinkedList;
  */
 public class Valkyrie extends Warrior {
 
-    public Valkyrie(int peso, int idade, String nome) {
-        super(peso, idade, nome);
+    public Valkyrie(int weight, int age, String name) {
+        super(weight, age, name);
     }
    
     /**

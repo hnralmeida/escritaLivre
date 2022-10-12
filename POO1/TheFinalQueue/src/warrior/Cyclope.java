@@ -13,8 +13,8 @@ import java.util.LinkedList;
  */
 public class Cyclope extends Warrior {
     
-    public Cyclope(int peso, int idade, String nome) {
-        super(peso, idade, nome);
+    public Cyclope(int weight, int age, String name) {
+        super(weight, age, name);
     }
 
     @Override

@@ -14,8 +14,8 @@ import java.util.LinkedList;
  */
 public class FehriWolf extends Warrior {    
     
-    public FehriWolf(int peso, int idade, String nome) {
-        super(peso, idade, nome);
+    public FehriWolf(int weight, int age, String name) {
+        super(weight, age, name);
     }
     @Override
     public void setCurrentEnergy(int energiaAtual) {

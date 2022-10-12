@@ -14,8 +14,8 @@ import java.util.LinkedList;
 public class Hydra extends Warrior {
     private int heads;
     
-    public Hydra(int peso, int idade, String nome) {
-        super(peso, idade, nome);
+    public Hydra(int weight, int age, String name) {
+        super(weight, age, name);
         this.heads = 1;
     }
     

@@ -14,8 +14,8 @@ import java.util.LinkedList;
  */
 public class Satiro extends Warrior {
 
-    public Satiro(int peso, int idade, String nome) {
-        super(peso, idade, nome);
+    public Satiro(int weight, int age, String name) {
+        super(weight, age, name);
     }
 
     @Override

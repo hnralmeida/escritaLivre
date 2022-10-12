@@ -14,8 +14,8 @@ import java.util.LinkedList;
  */
 public class Leao extends Warrior {
 
-    public Leao(int peso, int idade, String nome) {
-        super(peso, idade, nome);
+    public Leao(int weight, int age, String name) {
+        super(weight, age, name);
     }
   
     /**

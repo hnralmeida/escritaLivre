@@ -64,13 +64,13 @@ public class Match {
             int age = Integer.parseInt(tokens[2]);
             int weight = Integer.parseInt(tokens[3]);
             switch(type){
-                case 1 -> this.teamA.add(new Cyclope(weight, age, name));
-                case 2 -> this.teamA.add(new Leao(weight, age, name));
-                case 3 -> this.teamA.add(new Hydra(weight, age, name));
-                case 4 -> this.teamA.add(new Valkyrie(weight, age, name));
-                case 5 -> this.teamA.add(new FehriWolf(weight, age, name));
-                default -> System.out.println("Tipo não identificado para (" + type + ") ("+ name + ", " + 
-                            age + ", " + weight + ")");
+                case 1: this.teamA.add(new Cyclope(weight, age, name)); break;
+                case 2: this.teamA.add(new Leao(weight, age, name)); break;
+                case 3: this.teamA.add(new Hydra(weight, age, name)); break;
+                case 4: this.teamA.add(new Valkyrie(weight, age, name)); break;
+                case 5: this.teamA.add(new FehriWolf(weight, age, name)); break;
+                default: System.out.println("Tipo não identificado para (" + type + ") ("+ name + ", " + 
+                            age + ", " + weight + ")");break;
             }
         }
             
@@ -85,13 +85,13 @@ public class Match {
             int age = Integer.parseInt(tokens[2]);
             int weight = Integer.parseInt(tokens[3]);
             switch(type){
-                case 1 -> this.teamB.add(new Prometeano(weight, age, name));
-                case 2 -> this.teamB.add(new Satiro(weight, age, name));
-                case 3 -> this.teamB.add(new Argus(weight, age, name));
-                 case 4 -> this.teamB.add(new Anubite(weight, age, name));
-                case 5 -> this.teamB.add(new Mumia(weight, age, name));
-                default -> System.out.println("Tipo não identificado para (" + type + ") ("+ name + ", " + 
-                            age + ", " + weight + ")");
+                case 1: this.teamB.add(new Prometeano(weight, age, name)); break;
+                case 2: this.teamB.add(new Satiro(weight, age, name)); break;
+                case 3: this.teamB.add(new Argus(weight, age, name)); break;
+                case 4: this.teamB.add(new Anubite(weight, age, name)); break;
+                case 5: this.teamB.add(new Mumia(weight, age, name)); break;
+                default: System.out.println("Tipo não identificado para (" + type + ") ("+ name + ", " + 
+                            age + ", " + weight + ")"); break;
             }
         }
     }

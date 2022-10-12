@@ -13,8 +13,8 @@ import java.util.LinkedList;
  */
 public class Prometeano extends Warrior {
 
-    public Prometeano(int peso, int idade, String nome) {
-        super(peso, idade, nome);
+    public Prometeano(int weight, int age, String name) {
+        super(weight, age, name);
     }
 
     @Override

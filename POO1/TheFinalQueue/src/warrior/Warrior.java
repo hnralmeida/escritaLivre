@@ -24,10 +24,10 @@ public abstract class Warrior {
         return name + ", " + weight + ", " + age;
     }
 
-    public Warrior(int peso, int idade, String nome) {
-        this.name = nome;
-        this.weight = peso;
-        this.age = idade;
+    public Warrior(int weight, int age, String name) {
+        this.name = name;
+        this.weight = weight;
+        this.age = age;
         this.maxEnergy = 100;
         this.currentEnergy = 100;
         this.ready = 1;

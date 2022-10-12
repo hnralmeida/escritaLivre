@@ -13,8 +13,8 @@ import java.util.LinkedList;
  */
 public class Argus extends Warrior {
 
-    public Argus(int peso, int idade, String nome) {
-        super(peso, idade, nome);
+    public Argus(int weight, int age, String name) {
+        super(weight, age, name);
         this.setMaxEnergy(60);
         this.setCurrentEnergy(60);
     }

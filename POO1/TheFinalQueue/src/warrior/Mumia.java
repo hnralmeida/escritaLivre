@@ -13,8 +13,8 @@ import java.util.LinkedList;
  */
 public class Mumia extends Warrior {
 
-    public Mumia(int peso, int idade, String nome) {
-        super(peso, idade, nome);
+    public Mumia(int weight, int age, String name) {
+        super(weight, age, name);
     }
     
     @Override

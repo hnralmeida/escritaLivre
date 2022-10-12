@@ -13,8 +13,8 @@ import java.util.LinkedList;
  */
 public class Anubite extends Warrior {
 
-    public Anubite(int peso, int idade, String nome) {
-        super(peso, idade, nome);
+    public Anubite(int weight, int age, String name) {
+        super(weight, age, name);
     }
 
     @Override
