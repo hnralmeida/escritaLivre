@@ -98,13 +98,13 @@ public class Match {
         for (int i = 0; i < teamA.size(); i++) {
             weighttotal += teamA.get(i).getWeight();
         }
-        System.out.println("Gregos e Nórdicos pesam  (" + weighttotal + ") unidades ");
+        System.out.println("Gregos e Nordicos pesam  (" + weighttotal + ") unidades ");
         
         weighttotal=0;
         for (int i = 0; i < teamB.size(); i++) {
             weighttotal += teamB.get(i).getWeight();
         }
-        System.out.println("Atlantes e Egípcios pesam  (" + weighttotal + ") unidades ");
+        System.out.println("Atlantes e Egipcios pesam  (" + weighttotal + ") unidades ");
         
         String nome= "";
         int idadeMax=0;
@@ -128,9 +128,9 @@ public class Match {
         }
         
         if (idadeMax > idadeMax2){
-            System.out.println("" + nome + " é o mais velho (" + idadeMax + ")");
+            System.out.println("" + nome + " e o mais velho (" + idadeMax + ")");
         } else {
-            System.out.println("" + nome2 + " é o mais velho (" + idadeMax2 + ")");
+            System.out.println("" + nome2 + " e o mais velho (" + idadeMax2 + ")");
         }
     }
     
