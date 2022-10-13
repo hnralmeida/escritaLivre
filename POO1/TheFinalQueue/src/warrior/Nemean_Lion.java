@@ -12,9 +12,9 @@ import java.util.LinkedList;
  *
  * @author 2021122760224
  */
-public class Leao extends Warrior {
+public class Nemean_Lion extends Warrior {
 
-    public Leao(int weight, int age, String name) {
+    public Nemean_Lion(int weight, int age, String name) {
         super(weight, age, name);
     }
   

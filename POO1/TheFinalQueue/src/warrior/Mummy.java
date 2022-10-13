@@ -11,9 +11,9 @@ import java.util.LinkedList;
  *
  * @author 2021122760224
  */
-public class Mumia extends Warrior {
+public class Mummy extends Warrior {
 
-    public Mumia(int weight, int age, String name) {
+    public Mummy(int weight, int age, String name) {
         super(weight, age, name);
     }
     
@@ -28,7 +28,7 @@ public class Mumia extends Warrior {
     
     @Override
     public void killsWarrior (LinkedList<Warrior> timeA, LinkedList<Warrior> timeB, LinkedList<Warrior> deadB){
-        timeA.add(new MortoVivo(timeB.get(0).getWeight(), timeB.get(0).getAge(), timeB.get(0).getName()));
+        timeA.add(new Undead(timeB.get(0).getWeight(), timeB.get(0).getAge(), timeB.get(0).getName()));
         super.killsWarrior(timeA, timeB, deadB);
     }
 

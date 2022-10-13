@@ -12,9 +12,9 @@ import java.util.LinkedList;
  *
  * @author 2021122760224
  */
-public class FehriWolf extends Warrior {    
+public class FerisWolf extends Warrior {    
     
-    public FehriWolf(int weight, int age, String name) {
+    public FerisWolf(int weight, int age, String name) {
         super(weight, age, name);
     }
     @Override

@@ -11,9 +11,9 @@ import java.util.LinkedList;
  *
  * @author 2021122760224
  */
-public class MortoVivo extends Mumia {
+public class Undead extends Mummy {
     
-    public MortoVivo(int weight, int age, String name) {
+    public Undead(int weight, int age, String name) {
         super(weight, age, name);
     }
     

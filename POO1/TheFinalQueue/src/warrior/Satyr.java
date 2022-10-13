@@ -12,9 +12,9 @@ import java.util.LinkedList;
  *
  * @author 2021122760224
  */
-public class Satiro extends Warrior {
+public class Satyr extends Warrior {
 
-    public Satiro(int weight, int age, String name) {
+    public Satyr(int weight, int age, String name) {
         super(weight, age, name);
     }
 
