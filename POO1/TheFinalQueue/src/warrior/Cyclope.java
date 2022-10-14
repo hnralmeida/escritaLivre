@@ -11,12 +11,16 @@ import java.util.LinkedList;
  *
  * @author 2021122760224
  */
+
+//Cyclope herda de Guerreiro
 public class Cyclope extends Warrior {
     
+    //Construtor de Cyclope
     public Cyclope(int weight, int age, String name) {
         super(weight, age, name);
     }
 
+    //Método atacar sobreescrito de Guerreiro
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
         Warrior warrior = (Warrior) timeB.get(0);

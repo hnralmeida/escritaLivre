@@ -67,7 +67,8 @@ public class Match {
      * @brief realiza leitura dos arquivos com nome passado por parametro
      * @param timeA nome do primeiro arquivo a ser lido
      * @param timeB nome do segundo arquivo a ser lido
-     * @throws IOException 
+     * @throws IOException
+     * tokens = "recorta" a linha
      */
     private void init(String timeA, String timeB) throws IOException{
         FileInputStream file1 = new FileInputStream(timeA);
@@ -164,7 +165,7 @@ public class Match {
         // posição para ser devidamente eliminados 
         if(!this.teamA.isEmpty()){
             for(int i = 0; i< this.teamA.size(); i++){
-                if (this.teamA.get(i).getCurrentEnergy()<1){
+                if (this.teamA.get(i).getCurrentEnergy() < 1){
                     this.teamA.addFirst(this.teamA.remove(i));
                     attackerB.killsWarrior(this.teamB, this.teamA, this.deadA);
                 }

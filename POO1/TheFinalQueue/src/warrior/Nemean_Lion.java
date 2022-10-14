@@ -12,8 +12,11 @@ import java.util.LinkedList;
  *
  * @author 2021122760224
  */
+
+//Nemean_Lion herda de guerreiro
 public class Nemean_Lion extends Warrior {
 
+    //Construtor de Nemean_Lion
     public Nemean_Lion(int weight, int age, String name) {
         super(weight, age, name);
     }
@@ -24,6 +27,13 @@ public class Nemean_Lion extends Warrior {
      * @param timeB
      */
     
+    /*Sobreescrita do método atacar de guerreiro
+    Cria um iterator usando de base o timeB
+    pega o primeiro guerreiro e ataca com dano de 30
+    se existir um guerreiro atrás do primeiro guerreiro, ataca com 15
+    e se existir um guerreiro atrás do segundo guerreiro, também ataca com 15
+    (it.next pula para o próximo item da lista)
+    */
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
         Iterator<Warrior> it = timeB.iterator();

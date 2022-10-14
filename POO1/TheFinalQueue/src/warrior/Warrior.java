@@ -164,10 +164,11 @@ public abstract class Warrior {
     
     /**
      * @brief Um guerreiro perde energia igual ao parametro
-     * @param i Quantidade de energia perdida
+     * @param i = Quantidade de energia perdida
+     * função setCurrentEnergy para setar a energia atual do guerreiro que sofreu o ataque
      */
     public void loseEnergy (int i){
-        int hp = this.getCurrentEnergy()-i;
+        int hp = this.getCurrentEnergy()- i;
         this.setCurrentEnergy(hp);
     }
 }

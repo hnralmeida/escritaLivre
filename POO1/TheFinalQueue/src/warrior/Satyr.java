@@ -12,12 +12,18 @@ import java.util.LinkedList;
  *
  * @author 2021122760224
  */
+
+//Satyr herda de guerreiro
 public class Satyr extends Warrior {
 
+    //Construtor de Satyr
     public Satyr(int weight, int age, String name) {
         super(weight, age, name);
     }
 
+    /* Sobreescrita do método atacar de guerreiro
+    cria um iterator no timeB, e enquanto há guerreiros na lista, ele retira 5 de dano de cada.
+    */
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
         Iterator it = timeB.iterator();

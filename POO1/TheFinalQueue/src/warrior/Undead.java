@@ -11,12 +11,16 @@ import java.util.LinkedList;
  *
  * @author 2021122760224
  */
+
+//Undead herda de mumia
 public class Undead extends Mummy {
     
+    //Construtor de Undead
     public Undead(int weight, int age, String name) {
         super(weight, age, name);
     }
     
+    //Sobreescrita do método atacar de guerreiro, pega o primeiro do timeB e ataca em -5
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
         Warrior warrior = (Warrior) timeB.get(0);

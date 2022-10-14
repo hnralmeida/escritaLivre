@@ -23,7 +23,7 @@ public class Battle extends JPanel{
     private int i;
     
     public Battle(Match match){
-        ImageIcon reff = new ImageIcon("data\\cenario.png");
+        ImageIcon reff = new ImageIcon("data\\cenario.jpg");
         this.bg = reff.getImage();
         this.match = match;
         this.i=0;

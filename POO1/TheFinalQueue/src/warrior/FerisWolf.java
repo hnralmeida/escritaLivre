@@ -12,15 +12,30 @@ import java.util.LinkedList;
  *
  * @author 2021122760224
  */
+
+//Classe FerisWolf herda de Guerreiro
+
 public class FerisWolf extends Warrior {    
     
+    //Construtor de FerisWolf
     public FerisWolf(int weight, int age, String name) {
         super(weight, age, name);
     }
+    
+    //Sobreescrita do método setCurrentEnergy de guerreiro, respeitando o limite (100)
     @Override
     public void setCurrentEnergy(int energiaAtual) {
         this.currentEnergy = energiaAtual;
     }
+    
+    /*Sobreescrita do método atacar de guerreiro
+    Cria uma váriavel guerreiro, pegando o primeiro da lista do timeB
+    Cria uma váriavel it do tipo Iterator, iterando sobre o timeA
+    Enquanto há próximo na lista, verifica se a classe após o lobo é do seu mesmo tipo
+    se for, adiciona na variavel quantidade
+    após verificar todos os itens na lista, seta qt como qt*8 (energia que ele irá ganhar)
+    chama o método loseEnergy, passando 40 (ataque padrão) + qt (se houver)
+    */
     
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
