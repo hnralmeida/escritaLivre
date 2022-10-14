@@ -16,8 +16,6 @@ public class Cyclope extends Warrior {
     public Cyclope(int weight, int age, String name) {
         super(weight, age, name);
         this.setIcon("data\\Cyclope.png");
-        this.setX(90);
-        this.setY(215);
     }
 
     @Override

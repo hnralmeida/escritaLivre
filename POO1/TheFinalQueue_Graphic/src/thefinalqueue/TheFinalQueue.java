@@ -27,6 +27,8 @@ public class TheFinalQueue {
             teste.fight(tela);
         }catch (FileNotFoundException erro) {
             System.out.print("Arquivos não encontrados");
+        }catch (InterruptedException erro){
+            System.out.println("Esse "+ erro);
         }catch(IOException erro){
             System.out.println("Esse "+ erro);
         }

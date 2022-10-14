@@ -15,14 +15,10 @@ public class Container extends JFrame{
     public Container(Match match){
         this.add(new Battle(match));
         setTitle("The Final Queue");
-        setSize(1024, 728);
+        setSize((1024), (728));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         this.setResizable(false);
         setVisible(true);
-    }
-    
-    public void create_text(String text){
-        
     }
 }

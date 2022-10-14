@@ -15,8 +15,6 @@ public class Mumia extends Warrior {
 
     public Mumia(int weight, int age, String name) {
         super(weight, age, name);
-        this.setX(500);
-        this.setY(200);
         this.setIcon("data\\Mummy.png");
     }
     

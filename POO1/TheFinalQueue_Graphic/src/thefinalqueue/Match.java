@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import warrior.Warrior;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import warrior.Anubite;
 import warrior.Argus;
 import warrior.Cyclope;
@@ -29,6 +30,16 @@ public class Match {
     LinkedList<Warrior> teamB;
     LinkedList<Warrior> deadA;
     LinkedList<Warrior> deadB;
+    int nTeamA;
+    int nTeamB;
+
+    public int getnTeamA() {
+        return nTeamA;
+    }
+
+    public int getnTeamB() {
+        return nTeamB;
+    }
 
     /**
      *
@@ -41,6 +52,8 @@ public class Match {
         teamB = new LinkedList();
         deadA = new LinkedList();
         deadB = new LinkedList();
+        this.nTeamA = 0;
+        this.nTeamB = 0;
         this.init(timeA, timeB);
     }
     
@@ -96,6 +109,7 @@ public class Match {
                 default: System.out.println("Tipo não identificado para (" + type + ") ("+ name + ", " + 
                             age + ", " + weight + ")");break;
             }
+            this.nTeamA++;
         }
             
         
@@ -117,6 +131,7 @@ public class Match {
                 default: System.out.println("Tipo não identificado para (" + type + ") ("+ name + ", " + 
                             age + ", " + weight + ")"); break;
             }
+            this.nTeamB++;
         }
         int weighttotal=0;
         for (int i = 0; i < teamA.size(); i++) {
@@ -168,6 +183,7 @@ public class Match {
         if(!this.teamA.isEmpty()){
             for(int i = 0; i< this.teamA.size(); i++){
                 if (this.teamA.get(i).getCurrentEnergy()<1){
+                    this.nTeamA--;
                     this.teamA.addFirst(this.teamA.remove(i));
                     attackerB.killsWarrior(this.teamB, this.teamA, this.deadA);
                 }
@@ -177,6 +193,7 @@ public class Match {
         if(!this.teamB.isEmpty()){
             for(int i = 0; i< this.teamB.size(); i++){
                 if (this.teamB.get(i).getCurrentEnergy()<1){
+                    this.nTeamB--;
                     this.teamB.addFirst(this.teamB.remove(i));
                     attackerA.killsWarrior(this.teamA, this.teamB, this.deadB);
                 }
@@ -187,8 +204,9 @@ public class Match {
     /**
      *
      * @param tela
+     * @throws java.lang.InterruptedException
      */
-    public void fight(Container tela){
+    public void fight(Container tela) throws InterruptedException{
         int war1, war2;
         do{
             // Define o primeiro Warrior de cada fila como apto a batalhar
@@ -219,6 +237,8 @@ public class Match {
             if(war1!=0) this.teamA.addLast(this.teamA.removeFirst());
             if(war2!=0) this.teamB.addLast(this.teamB.removeFirst());
             // Se alguma fila estiver com 0 Warrior, termina o programa
+            tela.repaint();
+            TimeUnit.SECONDS.sleep(2);
         } while(war1!=0 && war2!=0);
                 
         // Quando a batalha termina, verifica qual fila está vazia (Perdeu)

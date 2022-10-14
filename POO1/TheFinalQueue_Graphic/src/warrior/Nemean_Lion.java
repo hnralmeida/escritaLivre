@@ -17,8 +17,6 @@ public class Nemean_Lion extends Warrior {
     public Nemean_Lion(int weight, int age, String name) {
         super(weight, age, name);
         this.setIcon("data\\Nemean_Lion.png");
-        this.setX(-80);
-        this.setY(190);
     }
   
     /**

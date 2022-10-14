@@ -17,6 +17,8 @@ public class FerisWolf extends Warrior {
     public FerisWolf(int weight, int age, String name) {
         super(weight, age, name);
         this.setIcon("data\\Fenris_Wolf.png");
+        this.setX(90);
+        this.setY(570);
     }
     @Override
     public void setCurrentEnergy(int energiaAtual) {

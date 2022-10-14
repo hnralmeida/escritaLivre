@@ -27,6 +27,17 @@ public abstract class Warrior {
     private int width, height;
 
     
+    public Warrior(int weight, int age, String name) {
+        this.name = name;
+        this.weight = weight;
+        this.age = age;
+        this.maxEnergy = 100;
+        this.currentEnergy = 100;
+        this.ready = 1;
+        this.y = 570;
+        this.x = 512;
+    }
+        
     /**
      * 
      * @Funcao Grafica 
@@ -99,15 +110,6 @@ public abstract class Warrior {
     @Override
     public String toString() {
         return name + ", " + weight + ", " + age;
-    }
-
-    public Warrior(int weight, int age, String name) {
-        this.name = name;
-        this.weight = weight;
-        this.age = age;
-        this.maxEnergy = 100;
-        this.currentEnergy = 100;
-        this.ready = 1;
     }
 
     public String getName() {
