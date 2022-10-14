@@ -20,13 +20,13 @@ public class Prometean extends Warrior {
     @Override
     public void dies (LinkedList<Warrior> time, LinkedList<Warrior> dead){
         if(this.getMaxEnergy()>1){
-            time.addLast(new Prometean(this.weight, this.age, this.name));
-            time.getLast().setMaxEnergy(maxEnergy/2);
-            time.getLast().setCurrentEnergy(this.maxEnergy);
+            time.addLast(new Prometean(this.getWeight(), this.getAge(), this.getName()));
+            time.getLast().setMaxEnergy(this.getMaxEnergy()/2);
+            time.getLast().setCurrentEnergy(this.getMaxEnergy());
 
-            time.addLast(new Prometean(this.weight, this.age, this.name));
-            time.getLast().setMaxEnergy(maxEnergy/2);
-            time.getLast().setCurrentEnergy(this.maxEnergy);
+            time.addLast(new Prometean(this.getWeight(), this.getAge(), this.getName()));
+            time.getLast().setMaxEnergy(this.getMaxEnergy()/2);
+            time.getLast().setCurrentEnergy(this.getMaxEnergy());
         }
         super.dies(time, dead);
     }

@@ -8,22 +8,30 @@ package warrior;
 import java.util.LinkedList;
 
 /**
- *
+ * Guerreiro é a classe principal de personagens no jogo, da qual são criados
+ * os tipos de guerreiro especialiados
  * @author 2021122760224
  */
 public abstract class Warrior {
-    String name;
-    int weight;
-    int maxEnergy;
-    int currentEnergy;
-    int age;
-    int ready;
+    final private String name;
+    private int weight;
+    private int maxEnergy;
+    protected int currentEnergy;
+    private int age;
+    private int ready;
 
     @Override
     public String toString() {
         return name + ", " + weight + ", " + age;
     }
 
+    /**
+     * @brief Um guerreiro pronto para batalha é criado com os parametros 
+     * passados e com energia base 100
+     * @param weight peso
+     * @param age idade
+     * @param name nome
+     */
     public Warrior(int weight, int age, String name) {
         this.name = name;
         this.weight = weight;
@@ -33,69 +41,131 @@ public abstract class Warrior {
         this.ready = 1;
     }
 
+    /*
+    * @brief retorna nome do guerreiro
+    */
     public String getName() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
     
+    /**
+     * @brief Retorna se um guerreiro está apto a atacar
+     * @return true or false
+     */
     public int getReady() {
         return this.ready;
     }
 
+    /**
+     * @brief Define se um guerreiro está preparado ou não
+     * @param ready o novo status
+     */
     public void setReady(int ready) {
         this.ready = ready;
     }
 
+    /**
+     * @brief Retorna o valor do peso do guerreiro
+     * @return o peso do guerreiro
+     */
     public int getWeight() {
-        return weight;
+        return this.weight;
     }
 
+    /**
+     * @brief Define um novo peso para o guerreiro
+     * @param weight 
+     */
     public void setWeight(int weight) {
         this.weight = weight;
     }
 
+    /**
+     * @brief Retorna a energia máxima do guerreiro
+     * @return 
+     */
     public int getMaxEnergy() {
         return maxEnergy;
     }
 
+    /**
+     * @brief Define um novo valor de energia máxima para o guerreiro
+     * @param maxEnergy O novo valor de energia máximo
+     */
     public void setMaxEnergy(int maxEnergy) {
         this.maxEnergy = maxEnergy;
     }
 
+    /**
+     * @brief Retorna o valor da energia atual do guerreiro
+     * @return a energia atual
+     */
     public int getCurrentEnergy() {
-        return currentEnergy;
+        return this.currentEnergy;
     }
 
+    /**
+     * @brief Define o valor da energia atual respeitando o máximo
+     * @param currentEnergy 
+     */
     public void setCurrentEnergy(int currentEnergy) {
-        if(currentEnergy>100) currentEnergy = 100;
+        if(currentEnergy>this.getMaxEnergy()) currentEnergy = this.getMaxEnergy();
         this.currentEnergy = currentEnergy;
     }
 
+    /**
+     * @brief Retona o valor da idade do guerreiro
+     * @return idade do guerreiro
+     */
     public int getAge() {
-        return age;
+        return this.age;
     }
 
+    /**
+     * @brief Define um valor de idade para o guerreiro passado como parametro
+     * @param age A nova idade do guerreiro
+     */
     public void setAge(int age) {
         this.age = age;
     }
 
+    /**
+     * @brief Todo Guerreiro deve saber atacar, um ataque ocorre a partir da 
+     * primeira lista, timeA, e tem alvo na segunda lista, timeB, o tipo de 
+     * ataque (guerreiro atacante que chama a função) define a interação com
+     * ambas as filas
+     * @param timeA o lado atacante
+     * @param timeB o lado alvo
+     */
     public abstract void atacar (LinkedList timeA, LinkedList timeB); 
     
-    public void dies (LinkedList<Warrior> time, LinkedList<Warrior> dead){
+    /**
+     * @brief Um guerreiro morto é colocado na lista de guerreiros mortos
+     * @param time o lado ao qual pertence o guerreiro
+     * @param dead o lado de mortos ao qual vai ser adicionado
+     */
+    protected void dies (LinkedList<Warrior> time, LinkedList<Warrior> dead){
         this.setCurrentEnergy(0);
         this.setMaxEnergy(0);
         this.setReady(0);
         dead.addLast(this);
     }
     
+    /**
+     * @brief O guerreiro da fila alvo é removido da fila
+     * @param timeA
+     * @param timeB
+     * @param deadB 
+     */
     public void killsWarrior (LinkedList<Warrior> timeA, LinkedList<Warrior> timeB, LinkedList<Warrior> deadB){
         Warrior warrior = (Warrior) timeB.removeFirst();
         warrior.dies(timeB, deadB);
     }
     
+    /**
+     * @brief Um guerreiro perde energia igual ao parametro
+     * @param i Quantidade de energia perdida
+     */
     public void loseEnergy (int i){
         int hp = this.getCurrentEnergy()-i;
         this.setCurrentEnergy(hp);

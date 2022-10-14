@@ -19,16 +19,22 @@ import warrior.Mummy;
 import warrior.Prometean;
 import warrior.Satyr;
 import warrior.Valkyrie;
+
 /**
- *
+ * 
  * @author 2021122760046
  */
 public class Match {
-    LinkedList<Warrior> teamA;
-    LinkedList<Warrior> teamB;
-    LinkedList<Warrior> deadA;
-    LinkedList<Warrior> deadB;
+    private final LinkedList<Warrior> teamA;
+    private final LinkedList<Warrior> teamB;
+    private final LinkedList<Warrior> deadA;
+    private final LinkedList<Warrior> deadB;
 
+    /**
+    * @brief inicializa os 2 times de uma partida a partir de arquivos
+    * @param timeA O nome do primeiro arquivo a ser lido
+    * @param timeB O nome do segundo arquivo a ser lido
+    */
     public Match(String timeA, String timeB) throws IOException{
         teamA = new LinkedList();
         teamB = new LinkedList();
@@ -37,22 +43,32 @@ public class Match {
         this.init(timeA, timeB);
     }
     
+    /**
+     * @brief retorna um guerreiro na posição i no paremetro no timeA
+     * @param i posição desejada para vasculhar
+     * @return O guerreiro procurado, se a posição for válida para o timeA
+     */
     public Warrior getTeamA(int i) {
+        if(this.teamA.size() <= i) return null;
         return (Warrior) this.teamA.get(i);
     }
-
-    public void setTeamA(Warrior member) {
-        this.teamA.add(member);
-    }
-    
+   
+    /**
+     * @brief retorna um guerreiro na posição i no paremetro no timeB
+     * @param i posição desejada para vasculhar
+     * @return O guerreiro procurado, se a posição for válida para o timeB
+     */
     public Warrior getTeamB(int i) {
+        if(this.teamB.size() <= i) return null;
         return (Warrior) this.teamB.get(i);
     }
 
-    public void setTeamB(Warrior member) {
-        this.teamB.add(member);
-    }
-    
+    /**
+     * @brief realiza leitura dos arquivos com nome passado por parametro
+     * @param timeA nome do primeiro arquivo a ser lido
+     * @param timeB nome do segundo arquivo a ser lido
+     * @throws IOException 
+     */
     private void init(String timeA, String timeB) throws IOException{
         FileInputStream file1 = new FileInputStream(timeA);
         Scanner scan1 = new Scanner(file1);
@@ -73,8 +89,7 @@ public class Match {
                             age + ", " + weight + ")");break;
             }
         }
-            
-        
+
         FileInputStream file2 = new FileInputStream(timeB);
         Scanner scan2 = new Scanner(file2);
         while(scan2.hasNextLine()){
@@ -94,6 +109,7 @@ public class Match {
                             age + ", " + weight + ")"); break;
             }
         }
+        
         int weighttotal=0;
         for (int i = 0; i < teamA.size(); i++) {
             weighttotal += teamA.get(i).getWeight();
@@ -134,12 +150,17 @@ public class Match {
         }
     }
     
+    /**
+     * @brief percorre ambas filas de guerreiros verificando se há guerreiros 
+     * mortos e faz com que o primeiro da fila inimiga elimine 
+     * (warrior.killWarrior) um guerreiro com energia<0
+     */
     private void check(){
         // Separa os atacantes de cada fila
         Warrior attackerA = this.teamA.get(0);
         Warrior attackerB = this.teamB.get(0);
 
-        // Verifica se há na fila mortos, remove eles e os coloca na primeira 
+        // Verifica se há na fila A mortos, remove eles e os coloca na primeira 
         // posição para ser devidamente eliminados 
         if(!this.teamA.isEmpty()){
             for(int i = 0; i< this.teamA.size(); i++){
@@ -150,6 +171,8 @@ public class Match {
             }
         }
         
+        // Verifica se há na fila B mortos, remove eles e os coloca na primeira 
+        // posição para ser devidamente eliminados 
         if(!this.teamB.isEmpty()){
             for(int i = 0; i< this.teamB.size(); i++){
                 if (this.teamB.get(i).getCurrentEnergy()<1){
@@ -160,6 +183,10 @@ public class Match {
         }
     }
 
+    /**
+     * @brief funcao principal da classe, realiza uma luta entre as filas que 
+     * possui como atributo.
+     */
     public void fight(){
         
         int war1, war2;

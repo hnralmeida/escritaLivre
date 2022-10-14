@@ -16,8 +16,8 @@ import java.io.*;
 public class TheFinalQueue {
 
     /**
+     * @brief Age of Mythology – The Final Queue
      * @param args the command line arguments
-     * @throws java.io.IOException
      */
     public static void main(String[] args) {
         try{

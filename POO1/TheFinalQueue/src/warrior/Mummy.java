@@ -19,10 +19,10 @@ public class Mummy extends Warrior {
     
     @Override
     public void dies (LinkedList<Warrior> time, LinkedList<Warrior> dead){
-        time.addLast(new Anubite(60, 0, this.name));
-        time.addLast(new Anubite(60, 0, this.name));
-        time.addLast(new Anubite(60, 0, this.name));
-        time.addLast(new Anubite(60, 0, this.name));
+        time.addLast(new Anubite(60, 0, this.getName()));
+        time.addLast(new Anubite(60, 0, this.getName()));
+        time.addLast(new Anubite(60, 0, this.getName()));
+        time.addLast(new Anubite(60, 0, this.getName()));
         super.dies(time, dead);
     }
     

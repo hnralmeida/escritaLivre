@@ -21,6 +21,6 @@ public class Cyclope extends Warrior {
     public void atacar(LinkedList timeA, LinkedList timeB) {
         Warrior warrior = (Warrior) timeB.get(0);
         warrior.loseEnergy(40);
-        warrior.ready = 0;
+        warrior.setReady(0);
     }    
 }
