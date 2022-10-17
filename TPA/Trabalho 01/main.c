@@ -116,7 +116,7 @@ int menu(){
 		printf("\n|   OPCAO INVALIDA!!!                             |");
 		printf("\n|                                                 |");
 		printf("\n|   Tente outra vez.                              |");
-		printf("\n+-------------------------------------------------+\n\n");
+		printf("\n+-------------------------------------------------+\n");
 		system("PAUSE");
 	}
 	return opcao;
