@@ -51,10 +51,11 @@ int treeHigh(TTree* node){
 }
 
 // funcao que inicializa a sentinela vaiza e com 0 nos
-void inicitializeSentinel(TSentinel *L){
-	L->root = NULL;
-	L->total = 0;
-	L->high = 0;
+void inicitializeSentinel(TSentinel **L){
+	(*L) = (TSentinel*) malloc(sizeof(TSentinel));
+	(*L)->root = NULL;
+	(*L)->total = 0;
+	(*L)->high = 0;
 }
 
 // serie de subfuncao de inseraNaSentinela implementa rotacoes
@@ -150,7 +151,7 @@ void treeAVL(TTree** root){
 }
 
 // Funcao para inserir um aluno com nome e matricula
-void insertRegister(TSentinel *L){
+void insertRegister(TSentinel **L){
     int reg;
 	TTree* valid;
 
@@ -159,13 +160,13 @@ void insertRegister(TSentinel *L){
 	scanf("%d", &reg);
 	
 	// verifica se ja nao existe o valor passado na arvore
-	valid = digThrowTree(L->root, reg); 
-	L->high = treeHigh(L->root);
+	valid = digThrowTree((*L)->root, reg); 
+	(*L)->high = treeHigh((*L)->root);
 	printf("\nAVL going on");
-	if(L->root!=NULL) treeAVL(&(L->root));
+	if((*L)->root!=NULL) treeAVL(&((*L)->root));
 	printf("\nAVL OK");
  	
-	if (valid==NULL) insereNaSentinela(&L, reg); // se nao estiver adicionado, adiciona o registro
+	if (valid==NULL) insereNaSentinela(L, reg); // se nao estiver adicionado, adiciona o registro
 	else printf("Valor ja existe na arvore");
 }
 

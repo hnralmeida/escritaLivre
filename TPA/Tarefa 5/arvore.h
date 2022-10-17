@@ -42,8 +42,8 @@ void limparBuffer();
 
 // Função de Lista SEABB
 int treeHigh(TTree* node);
-void inicitializeSentinel(TSentinel *L);
-void insertRegister(TSentinel *L);
+void inicitializeSentinel(TSentinel **L);
+void insertRegister(TSentinel **L);
 void preOrderList(TSentinel *L);
 void inOrderList(TSentinel *L);
 void posOrderList(TSentinel *L);

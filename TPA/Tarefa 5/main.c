@@ -29,7 +29,7 @@ void main(){
     // INICIALIZAR VARIAVEIS DO PROGRAMA
 	int op;
     unsigned long long int size;
-	TSentinel lista;
+	TSentinel* lista;
 	setlocale(LC_ALL, "Portuguese");
 	inicitializeSentinel(&lista);
 
@@ -52,13 +52,13 @@ void main(){
 
 		switch(op){
 		   case 1: insertRegister(&lista); break;
-		   case 2: RemoveNode(&lista); break;
-		   case 3: searchNode(&lista); break;
-           case 4: saveBase(&lista); break;
-		   case 5: preOrderList(&lista); break;
-		   case 6: inOrderList(&lista); break;
-           case 7: posOrderList(&lista); break;
-		   case 222: automatico(&lista); break;
+		   case 2: RemoveNode(lista); break;
+		   case 3: searchNode(lista); break;
+           case 4: saveBase(lista); break;
+		   case 5: preOrderList(lista); break;
+		   case 6: inOrderList(lista); break;
+           case 7: posOrderList(lista); break;
+		   case 222: automatico(lista); break;
 		}//switch
 		printf("\nPressione qualquer tecla para continuar. . .");
 		limparBuffer();
