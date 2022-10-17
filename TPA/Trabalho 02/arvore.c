@@ -262,12 +262,12 @@ void RemoveNode(TSentinel *L){
 // funcao que adiciona valores default
 void automatico(TSentinel *L){
 	string nome[10] = {"Yuri Duarte","Luiz Felipe Nascimento", "Calebe Fernandes" ,
-						"Maria Vitória Pires", "Diogo da Mota","Yasmin da Paz" ,
+						"Maria Vitoria Pires", "Diogo da Mota","Yasmin da Paz" ,
 						"Maria Julia Sales","Juliana Duarte", "Kaique da Rocha",
 						"Lucas Gabriel Sales"};
 
-	string matricula[10] = {"0x01", "0x02", "0x03", "0x04", "0x05", "0x06", "0x07",
-							"0x08", "0x09", "0x0A"};
+	string matricula[10] = {"0x0000001", "0x0000002", "0x000003", "0x0000004", 
+"0x0000005", "0x0000006", "0x0000007","0x0000008", "0x0000009", "0x000000A"};
 	int i;
 	for (i=0; i<10; i++)
 		insereNaArvore(&(L->root), nome[i], matricula[i]);

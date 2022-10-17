@@ -38,7 +38,7 @@ void main(){
 	fileLoad = fopen( "Lista_Aluno_Matricula.txt" , "r" );  // Cria um arquivo texto para gravação
 
 	if (fileLoad == NULL){
-		printf("Problemas na Leitura do arquivo\n");
+		printf("Problemas na Leitura do arquivo...\n");
 		return;
 	}
 
