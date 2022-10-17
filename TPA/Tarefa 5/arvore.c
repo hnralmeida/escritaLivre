@@ -128,11 +128,12 @@ TTree *insereNaArvore(TTree **node, int reg){
 void insereNaSentinela(TSentinel **L, int reg){
 	(*L)->total++;
 	TTree* root = (*L)->root;
-	 root = insereNaArvore(&(*L)->root, reg);
+	root = insereNaArvore(&(*L)->root, reg);
 }
 
 // subfuncao de insertRegister, cuida do balanceamento
 void treeAVL(TTree** root){
+	printf("\ntreeAvl");
 	int diff = ((*root)->nl - (*root)->nr);
 	if( diff > 1) {
 		if( (*root)->left!=NULL && (*root)->reg < (*root)->left->reg )
@@ -145,9 +146,12 @@ void treeAVL(TTree** root){
 		else
 			rotateRL(root);
 	}
-	if((*root)->left!=NULL) treeAVL(&(*root)->left);
+	printf("\ntest if");
+	if((*root)!=NULL&&(*root)->left!=NULL) {
+		printf("\nif root->left");
+		treeAVL(&(*root)->left);}
 	printf("\ngoin' R");
-	if((*root)->right!=NULL) treeAVL(&(*root)->right);
+	if((*root)!=NULL&&(*root)->right!=NULL) treeAVL(&(*root)->right);
 }
 
 // Funcao para inserir um aluno com nome e matricula
