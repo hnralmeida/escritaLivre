@@ -1,0 +1,79 @@
+DROP TABLE exibicao;
+DROP TABLE cinema;
+DROP TABLE filme;
+
+/**
+Atividade 1
+**/
+CREATE TABLE cinema(
+    idCinema SERIAL PRIMARY KEY,
+    nome VARCHAR[50] NOT NULL UNIQUE,
+    cidade VARCHAR[50] DEFAULT 'Colatina',
+    estado VARCHAR[50],
+    lotacao INTEGER
+);
+
+CREATE TABLE filme(
+    idFilme SERIAL PRIMARY KEY,
+    nomeFilme VARCHAR[50] UNIQUE,
+    genero VARCHAR[50],
+    valorIngresso NUMERIC CHECK (valorIngresso > 20)
+);
+
+CREATE TABLE exibicao(
+    idCinema INTEGER REFERENCES cinema(idCinema) ON DELETE CASCADE,
+    idFilme INTEGER REFERENCES filme(idFilme) ON DELETE RESTRICT,
+    PRIMARY KEY(idCinema, idFilme),
+    numExibicoesDias INTEGER,
+    dtInicio DATE NOT NULL,
+    dtFim DATE NOT NULL
+);
+
+INSERT INTO cinema (nome, estado, lotacao) VALUES ('Cine Gama', 'ES', '90');
+INSERT INTO cinema (nome, cidade, estado, lotacao) VALUES ('Cine Hits', 'Serra', 'ES', '120');
+INSERT INTO cinema (nome, cidade, estado, lotacao) VALUES ('Cine Jardins', 'Vitoria', 'ES', '60');
+INSERT INTO cinema (nome, cidade, estado, lotacao) VALUES ('Cinemark', 'Vitoria', 'ES', '120');
+INSERT INTO cinema (nome, cidade, estado, lotacao) VALUES ('Kinoplex', 'Vila Velha', 'ES', '90');
+
+INSERT INTO filme (nomeFilme, genero, valorIngresso) VALUES ('Os Vingadores', 'Ação', 30);
+INSERT INTO filme (nomeFilme, genero, valorIngresso) VALUES ('The Woman King', 'Drama', 20);
+INSERT INTO filme (nomeFilme, genero, valorIngresso) VALUES ('Amsterdan', 'Comédia', 25);
+INSERT INTO filme (nomeFilme, genero, valorIngresso) VALUES ('Smile', 'Terror', 30);
+INSERT INTO filme (nomeFilme, genero, valorIngresso) VALUES ('Avatar 2', 'Fantasia', 35);
+
+INSERT INTO exibicao(idCinema, idFilme, numExibicoesDias, dtInicio, dtFim) VALUES (1, 1, 2, '17-10-2012', '17-10-2013');
+INSERT INTO exibicao(idCinema, idFilme, numExibicoesDias, dtInicio, dtFim) VALUES (2, 1, 1, '17-10-2012', '17-10-2013');
+INSERT INTO exibicao(idCinema, idFilme, numExibicoesDias, dtInicio, dtFim) VALUES (2, 3, 1, '01-10-2022', '01-12-2022');
+INSERT INTO exibicao(idCinema, idFilme, numExibicoesDias, dtInicio, dtFim) VALUES (3, 2, 2, '01-10-2022', '01-01-2023');
+INSERT INTO exibicao(idCinema, idFilme, numExibicoesDias, dtInicio, dtFim) VALUES (4, 5, 1, '01-12-2022', '01-01-2023');
+INSERT INTO exibicao(idCinema, idFilme, numExibicoesDias, dtInicio, dtFim) VALUES (5, 4, 1, '01-10-2022', '01-01-2023');
+
+
+
+SELECT f.nomeFilme, f.idFilme, e.dtInicio, e.dtFim, c.nome
+    FROM (filme f JOIN exibicao e USING idFilme) JOIN cinema c USING idCinema
+	WHERE EXTRACT(DAY FROM NOW()) = EXTRACT(DAY FROM e.dtInicio);
+
+
+
+CREATE TABLE genero(
+    idGenero SERIAL PRIMARY KEY,
+    nomeGenero VARCHAR[40] NOT NULL
+);
+
+ALTER TABLE filme ADD idGenero INTEGER REFERENCES genero(idGenero);
+
+INSERT INTO genero (nomeGenero) 
+VALUES ('Ação'), ('Drama'), ('Comédia'), ('Terror'), ('Fantasia');
+
+UPDATE filme f
+SET idGenero = (SELECT idGenero FROM genero WHERE nomeGenero = F.genero)
+
+ALTER TABLE filme DROP COLUMN genero RESTRICT;
+
+
+
+
+/**
+Atividade 2
+**/

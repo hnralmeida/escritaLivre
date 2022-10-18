@@ -1,0 +1,84 @@
+DROP CONSULTA
+DROP EXAME
+DROP POSSUI
+DROP MODALIDADE
+DROP ATENDE
+DROP MEDICO
+DROP PACIENTE
+DROP PESSOA
+DROP ENDERECO
+
+CREATE TABLE ENDERECO(
+	ed_endereco SERIAL PRIMARY KEY,
+	rua VARCHAR[40] NOT NULL,
+	numero INTEGER,
+	cep INTEGER NOT NULL
+);
+
+CREATE TABLE PESSOA(
+	id_pessoa SERIAL PRIMARY KEY,
+	ed_endereco INTEGER REFERENCES ENDERECO(ed_endereco),
+	nome VARCHAR[40] NOT NULL,
+	telefone INTEGER NOT NULL
+	
+);
+
+CREATE TABLE PACIENTE(
+	id_paciente SERIAL,
+	id_pessoa INTEGER REFERENCES PESSOA(id_pessoa)
+	PRIMARY KEY(id_paciemte, id_pessoa)
+);
+
+CREATE TABLE MEDICO(
+	id_medico SERIAL,
+	id_pessoa INTEGER REFERENCES PESSOA(id_pessoa),
+	PRIMARY KEY(id_medico, id_pessoa)
+);
+
+CREATE TABLE ATENDE(
+	id_modalidade INTEGER REFERENCES MODALIDADE(id_modalidade),
+	id_medico INTEGER REFENCES MEDICO(id_medico),
+	PRIMARY KEY(id_modalidade, id_medico)
+);
+
+CREATE TABLE MODALIDADE(
+	id_modalidade SERIAL,
+	descricao VARCHAR[] NOT NULL,
+	preco REAL;
+);
+
+CREATE TABLE POSSUI(
+	id_exame INTEGER REFERENCES(id_exame),
+	
+);
+
+CREATE TABLE EXAME(
+	id_exame SERIAL NOT NULL,
+	custo REAL NOT NULL,
+);
+
+CREATE TABLE CONSULTA(
+	id_medico INTEGER REFERENCES MEDICO(id_medico),
+	id_paciente INTEGER REFERENCES PACIENTE(id_paciente),
+	id_modalidade INTEGER REFERENCES MODALIDADE(id_modalidade ),
+);
+
+DELETE FROM CONSULTA *
+DELETE FROM EXAME *
+DELETE FROM POSSUI *
+DELETE FROM MODALIDADE *
+DELETE FROM ATENDE *
+DELETE FROM MEDICO *
+DELETE FROM PACIENTE *
+DELETE FROM PESSOA * 
+DELETE FROM ENDERECO *
+
+INSERT INTO ENDERECO (rua, numero, cep) VALUES ()
+INSERT INTO PESSOA (id_endereco, nome, telefone) VALUES ()
+INSERT INTO MEDICO (id_medico, id_pessoa) VALUES ()
+INSERT INTO PACIENTE (id_paciente, id_pessoa) VALUES ()
+INSERT INTO EXAME (custo) VALUES ()
+INSERT INTO MODALIDADE (id_modalidade, descricao, preco) VALUES ()
+INSERT INTO ATENDE (id_modalidade, id_medico) VALUES ()
+INSERT INTO POSSUI (id_exame) VALUES ()
+INSERT INTO CONSULTA (id_medico, id_paciente, id_modalidade) VALUES ()
