@@ -11,6 +11,9 @@ import java.io.IOException;
 import warrior.Warrior;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import warrior.Anubite;
 import warrior.Argus;
 import warrior.Cyclope;
@@ -208,6 +211,10 @@ public class Match {
      */
     public void fight(Container tela) throws InterruptedException{
         int war1, war2;
+        tela.repaint();
+        TimeUnit.SECONDS.sleep(2);
+        tela.repaint();
+        TimeUnit.SECONDS.sleep(2);
         do{
             // Define o primeiro Warrior de cada fila como apto a batalhar
             

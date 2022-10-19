@@ -34,8 +34,8 @@ public abstract class Warrior {
         this.maxEnergy = 100;
         this.currentEnergy = 100;
         this.ready = 1;
-        this.y = 515;
-        this.x = 512;
+        this.y = 525;
+        this.x = 500;
     }
         
     /**

@@ -4,6 +4,7 @@
  */
 package graphic;
 
+import java.awt.Graphics;
 import javax.swing.JFrame;
 import thefinalqueue.Match;
 
@@ -21,4 +22,5 @@ public class Container extends JFrame{
         this.setResizable(false);
         setVisible(true);
     }
+    
 }
