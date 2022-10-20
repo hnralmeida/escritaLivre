@@ -198,6 +198,10 @@ public class Match {
             Warrior warrior2 = (Warrior) this.teamB.get(0);
             warrior1.setReady(1);
             warrior2.setReady(1);
+            System.out.println("Atcker 1: " + warrior1.getName() + " HP: " + warrior1.getCurrentEnergy() + 
+                    "/" +warrior1.getMaxEnergy());
+            System.out.println("Atcker 2: " + warrior2.getName() + " HP: " + warrior2.getCurrentEnergy() + 
+                    "/" +warrior2.getMaxEnergy());
             
             // Escole quem vai atacar primeiro e realiza os ataques da rodada
             int random = (int) ( 10*Math.random() );

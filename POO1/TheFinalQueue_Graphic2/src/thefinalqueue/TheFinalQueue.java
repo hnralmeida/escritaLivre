@@ -11,11 +11,12 @@
 package thefinalqueue;
 
 import java.io.*;
+import Users/User/Downloads/Java%20FX/javafx-sdk-19/lib/javafx.web.jar!/;
 /**
  *
  * @2021122760046
  */
-public class TheFinalQueue {
+public class TheFinalQueue extends Application{
 
     /**
      * @brief Age of Mythology – The Final Queue
