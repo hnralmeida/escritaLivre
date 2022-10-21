@@ -22,11 +22,11 @@ public class Prometean extends Warrior {
     public void dies (LinkedList<Warrior> time, LinkedList<Warrior> dead){
         if(this.getMaxEnergy()>1){
             time.addLast(new Prometean(this.getWeight(), this.getAge(), this.getName()));
-            time.getLast().setMaxEnergy(getMaxEnergy()/2);
+            time.getLast().setMaxEnergy(this.getMaxEnergy()/2);
             time.getLast().setCurrentEnergy(this.getMaxEnergy()/2);
 
             time.addLast(new Prometean(this.getWeight(), this.getAge(), this.getName()));
-            time.getLast().setMaxEnergy(getMaxEnergy()/2);
+            time.getLast().setMaxEnergy(this.getMaxEnergy()/2);
             time.getLast().setCurrentEnergy(this.getMaxEnergy()/2);
         }
         super.dies(time, dead);

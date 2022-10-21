@@ -11,9 +11,6 @@ import java.io.IOException;
 import warrior.Warrior;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import warrior.Anubite;
 import warrior.Argus;
 import warrior.Cyclope;
@@ -189,6 +186,7 @@ public class Match {
                     this.nTeamA--;
                     this.teamA.addFirst(this.teamA.remove(i));
                     attackerB.killsWarrior(this.teamB, this.teamA, this.deadA);
+                    i=0;
                 }
             }
         }
@@ -199,6 +197,7 @@ public class Match {
                     this.nTeamB--;
                     this.teamB.addFirst(this.teamB.remove(i));
                     attackerA.killsWarrior(this.teamA, this.teamB, this.deadB);
+                    i=0;
                 }
             }
         }
