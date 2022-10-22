@@ -20,6 +20,7 @@ public class Hydra extends Warrior {
     public Hydra(int weight, int age, String name) {
         super(weight, age, name);
         this.heads = 1;
+        this.setIcon("data\\" + this.getClass().getSimpleName() + ".png");
     }
     
     /*Sobreescrita do método atacar de Guerreiro (abstrato)
@@ -36,6 +37,7 @@ public class Hydra extends Warrior {
          warrior.loseEnergy(dano);
          if (warrior.getCurrentEnergy()< 1){
              this.heads++;
+             this.setCurrentEnergy(currentEnergy+10);
          }
     }
     

@@ -19,6 +19,7 @@ public class Valkyrie extends Warrior {
     //Construtor de Valkyrie
     public Valkyrie(int weight, int age, String name) {
         super(weight, age, name);
+        this.setIcon("data\\" + this.getClass().getSimpleName() + ".png");
     }
    
     /**
@@ -29,7 +30,8 @@ public class Valkyrie extends Warrior {
     //Sobreescrita do método setCurrentEnergy de guerreiro, validando o máximo de vida como (100)
     @Override
     public void setCurrentEnergy(int energiaAtual){
-        this.currentEnergy = energiaAtual;  
+        this.currentEnergy = energiaAtual;
+        if(this.currentEnergy>this.getMaxEnergy()) this.setMaxEnergy(this.currentEnergy);
     }
     
     /*Sobreescrita do método atacar de guerreiro
@@ -42,9 +44,10 @@ public class Valkyrie extends Warrior {
         Warrior warrior = (Warrior) timeB.get(0);
         warrior.loseEnergy(20);
         Iterator it = timeA.iterator();
+        it.next();
         if (it.hasNext()){
-            Warrior warrior2= (Warrior) timeA.get(1);
-            warrior2.setCurrentEnergy(warrior2.getCurrentEnergy() + 20);
+            warrior= (Warrior) timeA.get(1);
+            warrior.setCurrentEnergy(warrior.getCurrentEnergy() + 20);
         }        
     }
 }

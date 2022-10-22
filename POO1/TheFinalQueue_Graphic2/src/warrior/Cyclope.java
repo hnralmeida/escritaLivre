@@ -18,6 +18,7 @@ public class Cyclope extends Warrior {
     //Construtor de Cyclope
     public Cyclope(int weight, int age, String name) {
         super(weight, age, name);
+        this.setIcon("data\\" + this.getClass().getSimpleName() + ".png");
     }
 
     //Método atacar sobreescrito de Guerreiro

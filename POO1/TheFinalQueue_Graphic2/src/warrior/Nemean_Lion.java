@@ -19,6 +19,7 @@ public class Nemean_Lion extends Warrior {
     //Construtor de Nemean_Lion
     public Nemean_Lion(int weight, int age, String name) {
         super(weight, age, name);
+        this.setIcon("data\\" + this.getClass().getSimpleName() + ".png");
     }
   
     /**

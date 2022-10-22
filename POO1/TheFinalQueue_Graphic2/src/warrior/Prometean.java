@@ -18,6 +18,7 @@ public class Prometean extends Warrior {
     //Construtor de Prometean
     public Prometean(int weight, int age, String name) {
         super(weight, age, name);
+        this.setIcon("data\\" + this.getClass().getSimpleName() + ".png");
     }
 
     /*Sobreescrita do método dies de guerreiro
@@ -28,12 +29,12 @@ public class Prometean extends Warrior {
     public void dies (LinkedList<Warrior> time, LinkedList<Warrior> dead){
         if(this.getMaxEnergy() > 1){
             time.addLast(new Prometean(this.getWeight(), this.getAge(), this.getName()));
-            time.getLast().setMaxEnergy(time.getFirst().getMaxEnergy()/2);
-            time.getLast().setCurrentEnergy(time.getFirst().getMaxEnergy());
+            time.getLast().setMaxEnergy(this.getMaxEnergy()/2);
+            time.getLast().setCurrentEnergy(this.getMaxEnergy()/2);
 
             time.addLast(new Prometean(this.getWeight(), this.getAge(), this.getName()));
-            time.getLast().setMaxEnergy(time.getFirst().getMaxEnergy()/2);
-            time.getLast().setCurrentEnergy(time.getFirst().getMaxEnergy());
+            time.getLast().setMaxEnergy(this.getMaxEnergy()/2);
+            time.getLast().setCurrentEnergy(this.getMaxEnergy()/2);
         }
         super.dies(time, dead);
     }

@@ -19,6 +19,7 @@ public class Mummy extends Warrior {
     //Construtor de Mumia
     public Mummy(int weight, int age, String name) {
         super(weight, age, name);
+        this.setIcon("data\\" + this.getClass().getSimpleName() + ".png");
     }
     
     

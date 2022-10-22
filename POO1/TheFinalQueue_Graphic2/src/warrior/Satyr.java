@@ -19,6 +19,7 @@ public class Satyr extends Warrior {
     //Construtor de Satyr
     public Satyr(int weight, int age, String name) {
         super(weight, age, name);
+        this.setIcon("data\\" + this.getClass().getSimpleName() + ".png");
     }
 
     /* Sobreescrita do método atacar de guerreiro

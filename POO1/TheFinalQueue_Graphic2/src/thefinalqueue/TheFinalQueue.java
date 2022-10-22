@@ -10,13 +10,13 @@
 */
 package thefinalqueue;
 
+import graphic.Container;
 import java.io.*;
-import Users/User/Downloads/Java%20FX/javafx-sdk-19/lib/javafx.web.jar!/;
 /**
  *
  * @2021122760046
  */
-public class TheFinalQueue extends Application{
+public class TheFinalQueue {
 
     /**
      * @brief Age of Mythology – The Final Queue
@@ -28,12 +28,13 @@ public class TheFinalQueue extends Application{
         // tenta
         try{
             Match teste = new Match("lado1.txt", "lado2.txt");
-            teste.fight();
+            Container tela = new Container(teste);
+            teste.fight(tela);
         }catch (FileNotFoundException erro) {
-            //exceção de não achar o arquivo
-            System.out.print("Arquivos não encontrados");
+            System.out.println("Arquivos não encontrados");
+        }catch (InterruptedException erro){
+            System.out.println("Programa Interrompido: "+ erro);
         }catch(IOException erro){
-            // tipo de tratamento de qualquer erro que houver
             System.out.println(erro);
         }
     }

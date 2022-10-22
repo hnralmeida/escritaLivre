@@ -18,6 +18,7 @@ public class Undead extends Mummy {
     //Construtor de Undead
     public Undead(int weight, int age, String name) {
         super(weight, age, name);
+        this.setIcon("data\\" + this.getClass().getSimpleName() + ".png");
     }
     
     //Sobreescrita do método atacar de guerreiro, pega o primeiro do timeB e ataca em -5

@@ -5,7 +5,9 @@
  */
 package warrior;
 
+import java.awt.Image;
 import java.util.LinkedList;
+import javax.swing.ImageIcon;
 
 /**
  * Guerreiro é a classe principal de personagens no jogo, da qual são criados
@@ -19,11 +21,11 @@ public abstract class Warrior {
     protected int currentEnergy;
     private int age;
     private int ready;
-
-    @Override
-    public String toString() {
-        return name + ", " + weight + ", " + age;
-    }
+    
+    // Parte Grafica
+    private int x,y;
+    private Image icon;
+    private int width, height;
 
     /**
      * @brief Um guerreiro pronto para batalha é criado com os parametros 
@@ -39,6 +41,82 @@ public abstract class Warrior {
         this.maxEnergy = 100;
         this.currentEnergy = 100;
         this.ready = 1;
+        this.y = 525;
+        this.x = 640;
+    }
+        
+    /**
+     * 
+     * @return width
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    
+    /**
+     * 
+     * @return height 
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    
+    /**
+     * 
+     * @return x position 
+     */
+    public int getX() {
+        return x;
+    }
+ 
+    /**
+     * 
+     * @param x new x position 
+     */
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    /**
+     * 
+     * @return y position 
+     */
+    public int getY() {
+        return y;
+    }
+
+    /**
+     * 
+     * @param y new y position 
+     */
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    /**
+     * 
+     * @return Graphic warrior img
+     */
+    public Image getIcon() {
+        return icon;
+    }
+
+    /**
+     * 
+     * @param path dir to the image of warrior img
+     */
+    public void setIcon(String path) {
+        ImageIcon reff = new ImageIcon(path);
+        this.icon = reff.getImage();
+        width = this.icon.getWidth(null);
+        this.height = this.icon.getHeight(null);
+    }
+
+    @Override
+    public String toString() {
+        return name + ", " + weight + ", " + age;
     }
 
     /*
@@ -158,8 +236,7 @@ public abstract class Warrior {
      * @param deadB 
      */
     public void killsWarrior (LinkedList<Warrior> timeA, LinkedList<Warrior> timeB, LinkedList<Warrior> deadB){
-        Warrior warrior = (Warrior) timeB.removeFirst();
-        warrior.dies(timeB, deadB);
+        timeB.removeFirst().dies(timeB, deadB);
     }
     
     /**

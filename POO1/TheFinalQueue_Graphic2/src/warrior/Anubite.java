@@ -16,8 +16,16 @@ import java.util.LinkedList;
 public class Anubite extends Warrior {
 
     // Construtor de Anubite
+
+    /**
+     *
+     * @param weight
+     * @param age
+     * @param name
+     */
     public Anubite(int weight, int age, String name) {
         super(weight, age, name);
+        this.setIcon("data\\" + this.getClass().getSimpleName() + ".png");
     }
     
     /*Método atacar de Anubite, utilizando como sobreescrita o método abstrato atacar de guerreiro
@@ -29,8 +37,10 @@ public class Anubite extends Warrior {
     public void atacar(LinkedList timeA, LinkedList timeB) {
         Warrior warrior = (Warrior) timeB.get(0);
         warrior.loseEnergy(15);
-        warrior = (Warrior) timeB.getLast();
-        warrior.loseEnergy(15);
+        if(timeB.size()>1){
+            warrior = (Warrior) timeB.getLast();
+            warrior.loseEnergy(15);
+        }
     }
     
 }

@@ -5,14 +5,16 @@
  */
 package thefinalqueue;
 
+import graphic.Container;
 import java.io.FileInputStream;
 import java.io.IOException;
 import warrior.Warrior;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import warrior.Anubite;
 import warrior.Argus;
 import warrior.Cyclope;
-import warrior.FerisWolf;
+import warrior.Feris_Wolf;
 import warrior.Hydra;
 import warrior.Nemean_Lion;
 import warrior.Mummy;
@@ -29,11 +31,14 @@ public class Match {
     private final LinkedList<Warrior> teamB;
     private final LinkedList<Warrior> deadA;
     private final LinkedList<Warrior> deadB;
+    
+    private final long TIME_PAUSE = (long) 1.5;
 
     /**
     * @brief inicializa os 2 times de uma partida a partir de arquivos
     * @param timeA O nome do primeiro arquivo a ser lido
     * @param timeB O nome do segundo arquivo a ser lido
+    * @throws java.io.IOException
     */
     public Match(String timeA, String timeB) throws IOException{
         teamA = new LinkedList();
@@ -45,22 +50,18 @@ public class Match {
     
     /**
      * @brief retorna um guerreiro na posição i no paremetro no timeA
-     * @param i posição desejada para vasculhar
-     * @return O guerreiro procurado, se a posição for válida para o timeA
+     * @return a lista de guerreiro, se a posição for válida para o timeA
      */
-    public Warrior getTeamA(int i) {
-        if(this.teamA.size() <= i) return null;
-        return (Warrior) this.teamA.get(i);
+    public LinkedList getTeamA() {
+        return (LinkedList) this.teamA;
     }
    
     /**
      * @brief retorna um guerreiro na posição i no paremetro no timeB
-     * @param i posição desejada para vasculhar
      * @return O guerreiro procurado, se a posição for válida para o timeB
      */
-    public Warrior getTeamB(int i) {
-        if(this.teamB.size() <= i) return null;
-        return (Warrior) this.teamB.get(i);
+    public LinkedList getTeamB() {
+        return (LinkedList) this.teamB;
     }
 
     /**
@@ -85,7 +86,7 @@ public class Match {
                 case 2: this.teamA.add(new Nemean_Lion(weight, age, name)); break;
                 case 3: this.teamA.add(new Hydra(weight, age, name)); break;
                 case 4: this.teamA.add(new Valkyrie(weight, age, name)); break;
-                case 5: this.teamA.add(new FerisWolf(weight, age, name)); break;
+                case 5: this.teamA.add(new Feris_Wolf(weight, age, name)); break;
                 default: System.out.println("Tipo não identificado para (" + type + ") ("+ name + ", " + 
                             age + ", " + weight + ")");break;
             }
@@ -168,6 +169,7 @@ public class Match {
                 if (this.teamA.get(i).getCurrentEnergy() < 1){
                     this.teamA.addFirst(this.teamA.remove(i));
                     attackerB.killsWarrior(this.teamB, this.teamA, this.deadA);
+                    i=-1;
                 }
             }
         }
@@ -179,43 +181,52 @@ public class Match {
                 if (this.teamB.get(i).getCurrentEnergy()<1){
                     this.teamB.addFirst(this.teamB.remove(i));
                     attackerA.killsWarrior(this.teamA, this.teamB, this.deadB);
+                    i=-1;
                 }
             }
         }
     }
+    
+    private void printScene(Container tela) throws InterruptedException{
+        tela.repaint();
+        TimeUnit.SECONDS.sleep(TIME_PAUSE);
+    }
 
     /**
-     * @brief funcao principal da classe, realiza uma luta entre as filas que 
+     * @brief funcao principal da classe, realiza uma luta entre as filas que  
      * possui como atributo.
+     * @throws java.lang.InterruptedException
+     * @param tela parte grafica
      */
-    public void fight(){
-        
+    public void fight(Container tela) throws InterruptedException{
+        this.printScene(tela);
+        this.printScene(tela);
         int war1, war2;
         do{
             // Define o primeiro Warrior de cada fila como apto a batalhar
-            
+            this.printScene(tela);
             Warrior warrior1 = (Warrior) this.teamA.get(0);
             Warrior warrior2 = (Warrior) this.teamB.get(0);
             warrior1.setReady(1);
             warrior2.setReady(1);
-            System.out.println("Atcker 1: " + warrior1.getName() + " HP: " + warrior1.getCurrentEnergy() + 
-                    "/" +warrior1.getMaxEnergy());
-            System.out.println("Atcker 2: " + warrior2.getName() + " HP: " + warrior2.getCurrentEnergy() + 
-                    "/" +warrior2.getMaxEnergy());
             
             // Escole quem vai atacar primeiro e realiza os ataques da rodada
             int random = (int) ( 10*Math.random() );
             if(random%2==1){
                 if(warrior1.getReady()==1) warrior1.atacar(teamA, teamB);
+                this.printScene(tela);
                 if(warrior2.getReady()==1 && warrior2.getCurrentEnergy()>0) warrior2.atacar(teamB, teamA);           
             }
             else {
-                if(warrior2.getReady()==1) warrior2.atacar(teamB, teamA);           
+                if(warrior2.getReady()==1) warrior2.atacar(teamB, teamA);        
+                this.printScene(tela);
                 if(warrior1.getReady()==1 && warrior1.getCurrentEnergy()>0) warrior1.atacar(teamA, teamB);
             }
             
             // Verifica se existem mortos nas filas
+            this.printScene(tela);
             this.check();
+            this.printScene(tela);
             
             // Verifica a quantidade de Guerreiro e passa o primeiro para o ultimo
             // Acontece só se tiver ao menos 1 guerreiro

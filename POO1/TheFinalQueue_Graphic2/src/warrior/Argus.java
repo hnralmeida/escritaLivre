@@ -21,6 +21,7 @@ public class Argus extends Warrior {
         super(weight, age, name);
         this.setMaxEnergy(60);
         this.setCurrentEnergy(60);
+        this.setIcon("data\\" + this.getClass().getSimpleName() + ".png");
     }
 
     // Sobreescrita do método atacar de guerreiro
