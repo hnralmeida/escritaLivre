@@ -17,14 +17,21 @@ import java.util.LinkedList;
 public class Nemean_Lion extends Warrior {
 
     //Construtor de Nemean_Lion
+
+    /**
+     *
+     * @param weight peso do Nemean Lion
+     * @param age idade do Nemean Lion
+     * @param name nome do Nemean Lion
+     */
     public Nemean_Lion(int weight, int age, String name) {
         super(weight, age, name);
     }
   
     /**
      *
-     * @param timeA
-     * @param timeB
+     * @param timeA Linked list timeA
+     * @param timeB Linked list timeB
      */
     
     /*Sobreescrita do método atacar de guerreiro

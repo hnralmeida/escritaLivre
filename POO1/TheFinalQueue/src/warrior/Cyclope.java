@@ -16,6 +16,13 @@ import java.util.LinkedList;
 public class Cyclope extends Warrior {
     
     //Construtor de Cyclope
+
+    /**
+     *
+     * @param weight peso do Cyclope
+     * @param age idade do Cyclope
+     * @param name nome do Cyclope
+     */
     public Cyclope(int weight, int age, String name) {
         super(weight, age, name);
     }

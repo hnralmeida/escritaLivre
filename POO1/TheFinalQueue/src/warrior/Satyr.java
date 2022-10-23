@@ -17,6 +17,13 @@ import java.util.LinkedList;
 public class Satyr extends Warrior {
 
     //Construtor de Satyr
+
+    /**
+     *
+     * @param weight peso do Satyr
+     * @param age idade do Satyr
+     * @param name nome do Satyr
+     */
     public Satyr(int weight, int age, String name) {
         super(weight, age, name);
     }

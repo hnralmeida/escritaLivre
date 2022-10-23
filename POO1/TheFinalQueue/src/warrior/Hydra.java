@@ -17,6 +17,13 @@ public class Hydra extends Warrior {
     private int heads;
     
     //Construtor de Hydra, setando sua cabeça padrão como 1
+
+    /**
+     *
+     * @param weight peso da Hydra
+     * @param age idade da Hydra
+     * @param name nome da Hydra
+     */
     public Hydra(int weight, int age, String name) {
         super(weight, age, name);
         this.heads = 1;

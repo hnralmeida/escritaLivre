@@ -17,13 +17,20 @@ import java.util.LinkedList;
 public class Valkyrie extends Warrior {
 
     //Construtor de Valkyrie
+
+    /**
+     *
+     * @param weight peso da valkyrie
+     * @param age   idade da valkyrie
+     * @param name  nome da valkyrie
+     */
     public Valkyrie(int weight, int age, String name) {
         super(weight, age, name);
     }
    
     /**
      *
-     * @param energiaAtual
+     * @param energiaAtual energia atual do guerreiro
      */
     
     //Sobreescrita do método setCurrentEnergy de guerreiro, validando o máximo de vida como (100)

@@ -18,6 +18,13 @@ import java.util.LinkedList;
 public class FerisWolf extends Warrior {    
     
     //Construtor de FerisWolf
+
+    /**
+     *
+     * @param weight peso de FerisWolf
+     * @param age idade de FerisWolf
+     * @param name nome de FerisWolf
+     */
     public FerisWolf(int weight, int age, String name) {
         super(weight, age, name);
     }

@@ -17,6 +17,13 @@ public class Mummy extends Warrior {
 
     
     //Construtor de Mumia
+
+    /**
+     *
+     * @param weight peso da Mumia
+     * @param age idade da Mumia
+     * @param name nome da Mumia
+     */
     public Mummy(int weight, int age, String name) {
         super(weight, age, name);
     }

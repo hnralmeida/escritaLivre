@@ -31,7 +31,8 @@ public class Match {
     private final LinkedList<Warrior> deadB;
 
     /**
-    * @brief inicializa os 2 times de uma partida a partir de arquivos
+     * @throws java.io.IOException tratando a IOException
+    * inicializa os 2 times de uma partida a partir de arquivos
     * @param timeA O nome do primeiro arquivo a ser lido
     * @param timeB O nome do segundo arquivo a ser lido
     */
@@ -44,7 +45,7 @@ public class Match {
     }
     
     /**
-     * @brief retorna um guerreiro na posição i no paremetro no timeA
+     * retorna um guerreiro na posição i no paremetro no timeA
      * @param i posição desejada para vasculhar
      * @return O guerreiro procurado, se a posição for válida para o timeA
      */
@@ -54,7 +55,7 @@ public class Match {
     }
    
     /**
-     * @brief retorna um guerreiro na posição i no paremetro no timeB
+     * retorna um guerreiro na posição i no paremetro no timeB
      * @param i posição desejada para vasculhar
      * @return O guerreiro procurado, se a posição for válida para o timeB
      */
@@ -185,7 +186,7 @@ public class Match {
     }
 
     /**
-     * @brief funcao principal da classe, realiza uma luta entre as filas que 
+     * funcao principal da classe, realiza uma luta entre as filas que 
      * possui como atributo.
      */
     public void fight(){

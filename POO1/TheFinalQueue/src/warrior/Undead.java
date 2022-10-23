@@ -16,6 +16,13 @@ import java.util.LinkedList;
 public class Undead extends Mummy {
     
     //Construtor de Undead
+
+    /**
+     *
+     * @param weight peso do Morto Vivo
+     * @param age idade do Morto Vivo
+     * @param name nome do Morto Vivo
+     */
     public Undead(int weight, int age, String name) {
         super(weight, age, name);
     }

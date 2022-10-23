@@ -17,6 +17,13 @@ public class Argus extends Warrior {
     
     // Construtor de Argus
     // Seta energia máxima e atual como 60
+
+    /**
+     *
+     * @param weight peso do Argus
+     * @param age   idade do Argus
+     * @param name  nome do Argus
+     */
     public Argus(int weight, int age, String name) {
         super(weight, age, name);
         this.setMaxEnergy(60);

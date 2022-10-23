@@ -16,6 +16,13 @@ import java.util.LinkedList;
 public class Anubite extends Warrior {
 
     // Construtor de Anubite
+
+    /**
+     *
+     * @param weight peso do Anubite
+     * @param age   idade do Anubite
+     * @param name nome do Anubite
+     */
     public Anubite(int weight, int age, String name) {
         super(weight, age, name);
     }

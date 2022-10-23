@@ -16,6 +16,13 @@ import java.util.LinkedList;
 public class Prometean extends Warrior {
 
     //Construtor de Prometean
+
+    /**
+     *
+     * @param weight peso do Prometeano
+     * @param age idade do Prometeano
+     * @param name nome do Prometeano
+     */
     public Prometean(int weight, int age, String name) {
         super(weight, age, name);
     }
