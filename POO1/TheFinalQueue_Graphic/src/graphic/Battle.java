@@ -17,7 +17,7 @@ import warrior.Warrior;
 
 /**
  *
- * @author User
+ * 
  */
 public class Battle extends JPanel{
     private final Image bg;
@@ -25,6 +25,10 @@ public class Battle extends JPanel{
     private int init;
     private int i;
     
+    /**
+     *
+     * @param match partida
+     */
     public Battle(Match match){
         ImageIcon reff = new ImageIcon("data\\cenario.png");
         this.bg = reff.getImage();
@@ -33,6 +37,10 @@ public class Battle extends JPanel{
         this.init=1;
     }
     
+    /**
+     *
+     * @param g nome dado para uma variável do tipo Graphics
+     */
     @Override
     public void paint(Graphics g){
         Graphics2D graficos = (Graphics2D) g;

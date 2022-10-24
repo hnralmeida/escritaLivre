@@ -13,11 +13,22 @@ import java.util.LinkedList;
  */
 public class Cyclope extends Warrior {
     
+    /**
+     *
+     * @param weight peso do Cyclope
+     * @param age idade do Cyclope
+     * @param name nome do Cyclope
+     */
     public Cyclope(int weight, int age, String name) {
         super(weight, age, name);
         this.setIcon("data\\Cyclope.png");
     }
 
+    /**
+     *
+     * @param timeA LinkedList timeA 
+     * @param timeB LinkedList timeB
+     */
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
         Warrior warrior = (Warrior) timeB.get(0);

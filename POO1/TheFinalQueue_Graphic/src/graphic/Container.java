@@ -4,7 +4,6 @@
  */
 package graphic;
 
-import java.awt.Graphics;
 import javax.swing.JFrame;
 import thefinalqueue.Match;
 
@@ -13,6 +12,11 @@ import thefinalqueue.Match;
  * @author User
  */
 public class Container extends JFrame{
+
+    /**
+     *
+     * @param match partida
+     */
     public Container(Match match){
         this.add(new Battle(match));
         setTitle("The Final Queue");

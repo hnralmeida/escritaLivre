@@ -14,6 +14,12 @@ import java.util.LinkedList;
  */
 public class Nemean_Lion extends Warrior {
 
+    /**
+     *
+     * @param weight peso do Leao
+     * @param age idade do Leao
+     * @param name nome do Leao
+     */
     public Nemean_Lion(int weight, int age, String name) {
         super(weight, age, name);
         this.setIcon("data\\Nemean_Lion.png");
@@ -21,8 +27,8 @@ public class Nemean_Lion extends Warrior {
   
     /**
      *
-     * @param timeA
-     * @param timeB
+     * @param timeA LinkedList timeA 
+     * @param timeB LinkedList timeB
      */
     
     @Override

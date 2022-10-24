@@ -13,11 +13,22 @@ import java.util.LinkedList;
  */
 public class Anubite extends Warrior {
 
+    /**
+     *
+     * @param weight peso do Anubite
+     * @param age idade do Anubite
+     * @param name nome do Anubite
+     */
     public Anubite(int weight, int age, String name) {
         super(weight, age, name);
         this.setIcon("data\\Anubite.png");
     }
 
+    /**
+     *
+     * @param timeA LinkedList timeA
+     * @param timeB LinkedList timeB
+     */
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
         Warrior warrior = (Warrior) timeB.get(0);

@@ -14,12 +14,23 @@ import java.util.LinkedList;
 public class Hydra extends Warrior {
     private int heads;
     
+    /**
+     *
+     * @param weight peso da Hydra
+     * @param age idade da Hydra
+     * @param name nome da Hydra
+     */
     public Hydra(int weight, int age, String name) {
         super(weight, age, name);
         this.setIcon("data\\Hydra.png");
         this.heads = 1;
     }
     
+    /**
+     *
+     * @param timeA LinkedList timeA
+     * @param timeB LinkedList timeB
+     */
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
          Warrior warrior = (Warrior) timeB.get(0);

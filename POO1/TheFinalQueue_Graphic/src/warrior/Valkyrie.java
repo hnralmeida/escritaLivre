@@ -21,7 +21,7 @@ public class Valkyrie extends Warrior {
    
     /**
      *
-     * @param energiaAtual
+     * @param energiaAtual energia atual do guerreiro
      */
     
     @Override

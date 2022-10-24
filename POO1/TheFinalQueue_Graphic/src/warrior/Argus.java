@@ -13,6 +13,12 @@ import java.util.LinkedList;
  */
 public class Argus extends Warrior {
 
+    /**
+     *
+     * @param weight peso do Argus
+     * @param age idade do Argus
+     * @param name nome do Argus
+     */
     public Argus(int weight, int age, String name) {
         super(weight, age, name);
         this.setMaxEnergy(60);
@@ -20,6 +26,11 @@ public class Argus extends Warrior {
         this.setIcon("data\\Argus.png");
     }
 
+    /**
+     *
+     * @param timeA LinkedList timeA
+     * @param timeB LinkedList timeB
+     */
     @Override
     public void atacar(LinkedList timeA, LinkedList timeB) {
         Warrior warrior = (Warrior) timeB.get(0);

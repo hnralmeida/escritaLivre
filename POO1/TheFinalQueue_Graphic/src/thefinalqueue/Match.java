@@ -23,7 +23,7 @@ import warrior.Satyr;
 import warrior.Valkyrie;
 /**
  *
- * @author 2021122760046
+ * 
  */
 public class Match {
     LinkedList<Warrior> teamA;
@@ -43,9 +43,9 @@ public class Match {
 
     /**
      *
-     * @param timeA
-     * @param timeB
-     * @throws IOException
+     * @param timeA recebe linked list timeA
+     * @param timeB recebe linked list timeB     
+     * @throws java.io.IOException tratamento da exceção   
      */
     public Match(String timeA, String timeB) throws IOException{
         teamA = new LinkedList();
@@ -60,7 +60,7 @@ public class Match {
     /**
      *
      * 
-     * @return
+     * @return timeA
      */
     public LinkedList getTeamA() {
         return (LinkedList) this.teamA;
@@ -68,7 +68,7 @@ public class Match {
 
     /**
      *
-     * @param member
+     * @param member adiciona membro do timeA
      */
     public void setTeamA(Warrior member) {
         this.teamA.add(member);
@@ -76,7 +76,7 @@ public class Match {
     
     /**
      *
-     * @return
+     * @return time B
      */
     public LinkedList getTeamB() {
         return (LinkedList) this.teamB;
@@ -84,7 +84,7 @@ public class Match {
 
     /**
      *
-     * @param member
+     * @param member adiciona membro no timeB
      */
     public void setTeamB(Warrior member) {
         this.teamB.add(member);
@@ -205,8 +205,8 @@ public class Match {
 
     /**
      *
-     * @param tela
-     * @throws java.lang.InterruptedException
+     * @param tela recebe uma tela do tipo Container
+     * @throws java.lang.InterruptedException trata a exceção
      */
     public void fight(Container tela) throws InterruptedException{
         int war1, war2;

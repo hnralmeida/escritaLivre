@@ -40,7 +40,8 @@ public abstract class Warrior {
         
     /**
      * 
-     * @Funcao Grafica 
+     * @return largura
+     * 
      */
     public int getWidth() {
         return width;
@@ -49,7 +50,8 @@ public abstract class Warrior {
     
     /**
      * 
-     * @Funcao Grafica 
+     * @return altura
+     * 
      */
     public int getHeight() {
         return height;
@@ -58,7 +60,8 @@ public abstract class Warrior {
     
     /**
      * 
-     * @Funcao Grafica 
+     *  
+     * @return x
      */
     public int getX() {
         return x;
@@ -66,7 +69,8 @@ public abstract class Warrior {
  
     /**
      * 
-     * @Funcao Grafica 
+     * @param x x da funcao grafica
+     *  
      */
     public void setX(int x) {
         this.x = x;
@@ -74,7 +78,8 @@ public abstract class Warrior {
 
     /**
      * 
-     * @Funcao Grafica 
+     * 
+     * @return y da funcao grafica
      */
     public int getY() {
         return y;
@@ -82,7 +87,8 @@ public abstract class Warrior {
 
     /**
      * 
-     * @Funcao Grafica 
+     * @param y seta o y na funcao grafica
+     *  
      */
     public void setY(int y) {
         this.y = y;
@@ -90,7 +96,8 @@ public abstract class Warrior {
 
     /**
      * 
-     * @Funcao Grafica 
+     * 
+     * @return icone 
      */
     public Image getIcon() {
         return icon;
@@ -98,7 +105,8 @@ public abstract class Warrior {
 
     /**
      * 
-     * @Funcao Grafica 
+     * @param path string 
+     *  
      */
     public void setIcon(String path) {
         ImageIcon reff = new ImageIcon(path);

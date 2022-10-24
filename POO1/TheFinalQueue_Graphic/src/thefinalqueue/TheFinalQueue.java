@@ -10,15 +10,11 @@ package thefinalqueue;
 
 import graphic.Container;
 import java.io.*;
-/**
- *
- * @2021122760046
- */
+
 public class TheFinalQueue {
 
     /**
-     * @param args the command line arguments
-     * @throws java.io.IOException
+     * @param args argumentos
      */
     public static void main(String[] args) {
         try{
@@ -27,9 +23,7 @@ public class TheFinalQueue {
             teste.fight(tela);
         }catch (FileNotFoundException erro) {
             System.out.print("Arquivos não encontrados");
-        }catch (InterruptedException erro){
-            System.out.println("Esse "+ erro);
-        }catch(IOException erro){
+        }catch (InterruptedException | IOException erro){
             System.out.println("Esse "+ erro);
         }
     }
