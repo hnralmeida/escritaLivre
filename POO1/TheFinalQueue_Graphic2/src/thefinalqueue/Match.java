@@ -35,10 +35,10 @@ public class Match {
     private final long TIME_PAUSE = (long) 1.5;
 
     /**
-    * @brief inicializa os 2 times de uma partida a partir de arquivos
+    * inicializa os 2 times de uma partida a partir de arquivos
     * @param timeA O nome do primeiro arquivo a ser lido
     * @param timeB O nome do segundo arquivo a ser lido
-    * @throws java.io.IOException
+    * @throws java.io.IOException tratamento da exceção
     */
     public Match(String timeA, String timeB) throws IOException{
         teamA = new LinkedList();
@@ -49,7 +49,7 @@ public class Match {
     }
     
     /**
-     * @brief retorna um guerreiro na posição i no paremetro no timeA
+     * retorna um guerreiro na posição i no paremetro no timeA
      * @return a lista de guerreiro, se a posição for válida para o timeA
      */
     public LinkedList getTeamA() {
@@ -57,7 +57,7 @@ public class Match {
     }
    
     /**
-     * @brief retorna um guerreiro na posição i no paremetro no timeB
+     * retorna um guerreiro na posição i no paremetro no timeB
      * @return O guerreiro procurado, se a posição for válida para o timeB
      */
     public LinkedList getTeamB() {
@@ -193,9 +193,9 @@ public class Match {
     }
 
     /**
-     * @brief funcao principal da classe, realiza uma luta entre as filas que  
+     * funcao principal da classe, realiza uma luta entre as filas que  
      * possui como atributo.
-     * @throws java.lang.InterruptedException
+     * @throws java.lang.InterruptedException tratamento da exceção
      * @param tela parte grafica
      */
     public void fight(Container tela) throws InterruptedException{

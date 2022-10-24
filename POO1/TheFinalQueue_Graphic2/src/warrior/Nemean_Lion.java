@@ -24,8 +24,8 @@ public class Nemean_Lion extends Warrior {
   
     /**
      *
-     * @param timeA
-     * @param timeB
+     * @param timeA linked list time A
+     * @param timeB linked list time B
      */
     
     /*Sobreescrita do método atacar de guerreiro

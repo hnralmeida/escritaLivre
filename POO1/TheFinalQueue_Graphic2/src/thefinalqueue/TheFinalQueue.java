@@ -12,14 +12,11 @@ package thefinalqueue;
 
 import graphic.Container;
 import java.io.*;
-/**
- *
- * @2021122760046
- */
+
 public class TheFinalQueue {
 
     /**
-     * @brief Age of Mythology – The Final Queue
+     * Age of Mythology – The Final Queue
      * @param args the command line arguments
      * cria uma variável teste com o tipo Match (LinkedList), cria uma luta
      * com os arquivos de texto - lado1 e lado2

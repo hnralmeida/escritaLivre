@@ -19,9 +19,9 @@ public class Anubite extends Warrior {
 
     /**
      *
-     * @param weight
-     * @param age
-     * @param name
+     * @param weight peso do Anubite
+     * @param age idade do Anubite
+     * @param name nome do Anubite
      */
     public Anubite(int weight, int age, String name) {
         super(weight, age, name);

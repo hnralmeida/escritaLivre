@@ -4,16 +4,16 @@
  */
 package graphic;
 
-import java.awt.Graphics;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import thefinalqueue.Match;
 
-/**
- *
- * @author User
- */
+
 public class Container extends JFrame{
+
+    /**
+     *
+     * @param match partida
+     */
     public Container(Match match){
         this.add(new VisualBattle(match));
         setTitle("The Final Queue");

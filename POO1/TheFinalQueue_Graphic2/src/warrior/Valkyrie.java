@@ -24,7 +24,7 @@ public class Valkyrie extends Warrior {
    
     /**
      *
-     * @param energiaAtual
+     * @param energiaAtual energia atual do guerreiro
      */
     
     //Sobreescrita do método setCurrentEnergy de guerreiro, validando o máximo de vida como (100)

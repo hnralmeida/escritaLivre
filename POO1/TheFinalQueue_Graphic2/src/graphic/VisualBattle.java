@@ -26,6 +26,10 @@ public class VisualBattle extends JPanel{
     private int i;
     private Font font;
     
+    /**
+     *
+     * @param match partida
+     */
     public VisualBattle(Match match){
         ImageIcon reff = new ImageIcon("data\\cenario.png");
         this.bg = reff.getImage();
@@ -34,6 +38,10 @@ public class VisualBattle extends JPanel{
         this.init=1;
     }
     
+    /**
+     *
+     * @param g variavel g do tipo Graphics
+     */
     @Override
     public void paint(Graphics g){
         Graphics2D graficos = (Graphics2D) g;
