@@ -213,7 +213,8 @@ void search(Tgraph* graph){
 
 	// recebe dados do usuario
 	printf("\nDigite o nome da cidade a procurar: ");
-	scanf("%s", name);
+	limparBuffer();
+	("%s", name);
 
 	// verifica se existe
 	valid = searchCity((graph), name); 
@@ -223,6 +224,43 @@ void search(Tgraph* graph){
         printf("Cidade %s", valid->city_name);
         printAdjacent(valid->adjacent);
     }
+}
+
+int mine(Tgraph* graph, Tvertex** way){
+	return 5;
+}
+
+void makeWay(Tgraph* graph){
+	Tvertex** way = (Tvertex**) malloc(20*sizeof(Tvertex*));
+	int n, i;
+	for(i=0; i<20; i++) way[i]=NULL;
+	Tvertex* valid;
+	string cidade;
+	
+	printf("\nQual cidade de origem?\n");
+	limparBuffer();
+	scanf("%s", cidade);
+
+	// verifica se existe
+	valid = searchCity((graph), cidade);
+
+    if(valid==NULL) printf("\nCidade nao existe");
+    else{
+        printf("Cidade %s", valid->city_name);
+        way[0] = valid;
+        n = mine(graph, way);
+    }
+    
+    printf("\n{");
+    
+    for(i=0; i<20; i++){
+    	if(way[i+1]!=NULL) printf("%s, ", way[i]->city_name);
+    	else{
+    		printf("%s}", way[i]->city_name);
+    		i=20;
+		}
+	}
+	printf("\nCusto Total da Árvore: %d", n);
 }
 
 Tgraph* initializeCities(Tgraph* graph){

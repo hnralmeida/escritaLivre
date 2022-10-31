@@ -54,5 +54,7 @@ void printCity(Tgraph* graph);
 void createEdge(Tgraph** graph);
 // Procurar e retorna a cidade, vertice, com nome correspondente e suas adjacencias
 void search(Tgraph* graph);
+// Procurar um caminho para percorrer
+void makeWay(Tgraph* graph);
 
 #endif

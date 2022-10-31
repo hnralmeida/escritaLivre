@@ -9,7 +9,7 @@ Objetivos:
 - Implementar uma lista de adjacência para representar uma Matriz Adjacancia.
 - Implementar uma lista de adjacência para representar uma Matriz Adjacancia (grafo 
 ponderado -> matriz de pesos).
-=========================================================================================
+========================0=================================================================
 */
 
 #include<stdio.h>
@@ -43,6 +43,7 @@ void main(){
 		   case 2: createEdge(&cidades); break;
 		   case 3: printCity(cidades); break;
 		   case 4: search(cidades); break;
+		   case 5: makeWay(cidades); break;
 		   default: break;
 		}//switch
 		printf("\nPressione qualquer tecla para continuar. . .");
@@ -63,6 +64,7 @@ int menu(){
 	printf("2 - Criar Caminho entre Cidades.\n");
 	printf("3 - Listar Cidades.\n");
 	printf("4 - Procurar Cidade.\n");
+	printf("5 - Procurar menor caminho.\n");
 
     printf("================================================\n");
 
