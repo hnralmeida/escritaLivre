@@ -1,0 +1,99 @@
+DROP TABLE posgraduacao;
+DROP TABLE graduacao;
+DROP TABLE cursa;
+DROP TABLE aluno;
+DROP TABLE prerequisito;
+DROP TABLE disciplina;
+DROP TABLE orientador;
+DROP TABLE departamento;
+
+/* 1. */
+
+CREATE TABLE departamento(
+    codigodepartamento SERIAL PRIMARY KEY,
+    nome VARCHAR(40) NOT NULL
+);
+
+CREATE TABLE orientador(
+    codigoorientador SERIAL PRIMARY KEY,
+    nome VARCHAR(40) NOT NULL,
+    codigodepartamento INTEGER REFERENCES departamento(codigodepartamento)
+);
+
+CREATE TABLE disciplina(
+    codigodisciplina SERIAL PRIMARY KEY,
+    nome VARCHAR(40) NOT NULL,
+    ementa VARCHAR(40) NOT NULL,
+    codigoorientador INTEGER REFERENCES orientador(codigoorientador)
+);
+
+CREATE TABLE prerequisito(
+    codigodisciplina INTEGER REFERENCES disciplina(codigodisciplina),
+    codigorequisito INTEGER REFERENCES disciplina(codigodisciplina),
+    PRIMARY KEY(codigodisciplina, codigorequisito)
+);
+
+CREATE TABLE aluno(
+    codigoaluno SERIAL PRIMARY KEY,
+    nome VARCHAR(40) NOT NULL,
+    endereco VARCHAR(40),
+    telefone VARCHAR(11)
+);
+
+CREATE TABLE cursa(
+    codigoaluno INTEGER REFERENCES aluno(codigoaluno),
+    codigodisciplina INTEGER REFERENCES disciplina(codigodisciplina),
+    PRIMARY KEY(codigoaluno, codigodisciplina),
+    media REAL,
+    frequencia INTEGER
+);
+
+CREATE TABLE graduacao(
+    codigoaluno INTEGER REFERENCES aluno(codigoaluno),
+    codigograduacao SERIAL,
+    PRIMARY KEY(codigoaluno, codigograduacao),
+    anoingresso INTEGER NOT NULL
+);
+
+CREATE TABLE posgraduacao(
+    codigoaluno INTEGER REFERENCES aluno(codigoaluno),
+    codigoposgraduacao SERIAL,
+    PRIMARY KEY(codigoaluno, codigoposgraduacao),
+    orientado INTEGER REFERENCES orientadOr(codigoorientador),
+    formacao INTEGER NOT NULL
+);  
+
+/* 2. */
+
+INSERT INTO departamento(nome)
+VALUES ('Arquitetura'), ('Sistemas de Informação'), ('Administração');
+
+INSERT INTO orientador (nome, codigodepartamento)
+VALUES ('Renilson', 1), ('Igor', 2), ('Fernando', 3);
+
+INSERT INTO disciplina (nome, ementa, codigoorientador)
+VALUES  ('Fundamentos de Arquitetura', 'Aprender o que Arquitetura faz', 1),
+        ('Fundamentos de Sistemas de Informação', 'Aprender o que SI faz', 2),
+        ('Fundamentos de Administração', 'Aprender o que Administração faz', 3),
+        ('Matematica Discreta', 'Matematica para desenvolvedores', 2),
+        ('Teoria Geral de Sistemas', 'Sistemas segundo Bertanfly', 2);
+
+INSERT INTO prerequisito (codigodisciplina, codigorequisito)
+VALUES (4, 1), (5, 1), (5, 4);
+
+INSERT INTO aluno (nome, endereco, telefone)
+VALUES  ('Ana', 'Colatina', '27998653232'),
+        ('Gabriel', 'Colatina', '27993827145'),
+        ('Lucas', 'Baixo Guandu', '27999784512');
+
+INSERT INTO cursa (codigoaluno, codigodisciplina, media, frequencia)
+VALUES  (1, 1, 89.5, 90),
+        (2, 2, 68, 75),
+        (3, 3, 95, 75);
+
+INSERT INTO graduacao (codigoaluno, anoingresso)
+VALUES (1, 2021), (2, 2021), (3, 2021);
+
+/* 3. */
+SELECT or.nome, d.nome
+FROM orientador as or, disciplina as d;
