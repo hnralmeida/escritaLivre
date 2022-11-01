@@ -12,6 +12,8 @@ Professor: Eduardo Max Amaral
 #include<stdlib.h>
 #include "grafo.h"
 
+#define NMAP 20
+
 /*
 =========================================================================================
 			Implementacao
@@ -231,66 +233,49 @@ void search(Tgraph* graph){
 // 0 significa que a cidade não esta no caminho
 int checkWay(Tvertex** way, string city){
     int i;
-    for(i=0; i<sizeof(way); i++){
-        if(way[i]==NULL) break;
+    for(i=0; i<NMAP; i++){
+        if(way[i]==NULL)break;
         if(!strcmp(way[i]->city_name, city)) return 1;
     }
     return 0;
 }
 
-// subfuncao que cria arvore minima
-int mine(Tgraph* graph, Tvertex** way, int size){
-    Tvertex* node = way[size-1], *lesser;
-    Tadjacent* aux = node->adjacent;
+// subfuncao recursiva que cria arvore minima
+int mine(Tvertex** way, int size){
+    Tvertex* node,* lesser;
+    Tadjacent* aux;
     int i, min=0;
 
-    for(i=0; i< node->number_adjacent; i++){
-        if(aux!=NULL && !checkWay(way, aux->vertex->city_name)){
-            if(min==0||min>aux->distance){
-                min = aux->distance;
-                lesser = aux->vertex;
-                printf("\n%s -> %d", aux->vertex->city_name, aux->distance);
-            } 
-        }
-        aux=aux->next;
-    } 
     // Verifica qual a menor aresta não percorrida no grafo para
     // o ponto atual, considera vertices anteriores também
-    int vert=2;
+    int vert=1;
     while(size-vert>=0){        
         node = way[size-vert];
         aux = node->adjacent;
-        for(i=0; i< node->number_adjacent; i++){
-            if(!checkWay(way, aux->vertex->city_name))
+        while(aux!=NULL){
+            // a subfuncao chama no if verifica se ha um vertice no caminho
+            // com o mesmo nome de uma adjacencia
+            if(!checkWay(way, aux->vertex->city_name)){
                 if(min==0||min>aux->distance){
                     min = aux->distance;
                     lesser = aux->vertex;
-                    printf("\n%s -> %d", aux->vertex->city_name, aux->distance);
                 } 
+            }
             aux=aux->next;
         } 
         vert++;
     }
+
+    // condicao de parada
     if(min!=0){
         way[size] = lesser;
-        printf("\n{");
-        for(i=0; i<20; i++){
-            if(way[i+1]!=NULL) printf("%s, ", way[i]->city_name);
-            else{
-                printf("%s}", way[i]->city_name);
-                i=20;
-            }
-        }
-        printf("\nCusto Total da arvore: %d", min);
-        return (min)+mine(graph, way, size+1);
-    } 
-    
-	return min;
+        return (min)+mine(way, size+1);
+    }else return min;
 }
 
 // Funcao chamada para criar arvore minima a partir de input de cidade origem
 void makeWay(Tgraph* graph){
-	Tvertex** way = (Tvertex**) malloc(20*sizeof(Tvertex*));
+	Tvertex** way = (Tvertex**) malloc(NMAP*sizeof(Tvertex*));
 	int n, i;
 	for(i=0; i<20; i++) way[i]=NULL;
 	Tvertex* valid;
@@ -303,14 +288,15 @@ void makeWay(Tgraph* graph){
 	// verifica se existe
 	valid = searchCity((graph), cidade);
 
+    // se existir a cidade, chama a subfuncao que traça o menor caminho
     if(valid==NULL) printf("\nCidade nao existe");
     else{
         way[0] = valid;
-        n = mine(graph, way, 1);
+        n = mine(way, 1);
     }
     
+    // Saida esperada pelo usuário
     printf("\n{");
-    
     for(i=0; i<20; i++){
     	if(way[i+1]!=NULL) printf("%s, ", way[i]->city_name);
     	else{
