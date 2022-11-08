@@ -24,7 +24,8 @@ CREATE TABLE disciplina(
     codigodisciplina SERIAL PRIMARY KEY,
     nome VARCHAR(40) NOT NULL,
     ementa VARCHAR(40) NOT NULL,
-    codigoorientador INTEGER REFERENCES orientador(codigoorientador)
+    codigoorientador INTEGER REFERENCES orientador(codigoorientador),
+	codigodepartamento INTEGER REFERENCES departamento(codigodepartamento)
 );
 
 CREATE TABLE prerequisito(
@@ -71,12 +72,12 @@ VALUES ('Arquitetura'), ('Sistemas de Informação'), ('Administração');
 INSERT INTO orientador (nome, codigodepartamento)
 VALUES ('Renilson', 1), ('Igor', 2), ('Fernando', 3);
 
-INSERT INTO disciplina (nome, ementa, codigoorientador)
-VALUES  ('Fundamentos de Arquitetura', 'Aprender o que Arquitetura faz', 1),
-        ('Fundamentos de Sistemas de Informação', 'Aprender o que SI faz', 2),
-        ('Fundamentos de Administração', 'Aprender o que Administração faz', 3),
-        ('Matematica Discreta', 'Matematica para desenvolvedores', 2),
-        ('Teoria Geral de Sistemas', 'Sistemas segundo Bertanfly', 2);
+INSERT INTO disciplina (nome, ementa, codigodepartamento, codigoorientador)
+VALUES  ('Fundamentos de Arquitetura', 'Aprender o que Arquitetura faz', 1, 1),
+        ('Fundamentos de Sistemas de Informação', 'Aprender o que SI faz', 2, 2),
+        ('Fundamentos de Administração', 'Aprender o que Administração faz', 3, 3),
+        ('Matematica Discreta', 'Matematica para desenvolvedores', 2, 2),
+        ('Teoria Geral de Sistemas', 'Sistemas segundo Bertanfly', 3, 2);
 
 INSERT INTO prerequisito (codigodisciplina, codigorequisito)
 VALUES (4, 1), (5, 1), (5, 4);
@@ -84,16 +85,75 @@ VALUES (4, 1), (5, 1), (5, 4);
 INSERT INTO aluno (nome, endereco, telefone)
 VALUES  ('Ana', 'Colatina', '27998653232'),
         ('Gabriel', 'Colatina', '27993827145'),
-        ('Lucas', 'Baixo Guandu', '27999784512');
+        ('Lucas', 'Baixo Guandu', '27999784512'),
+		('Vixen', 'Tailand', '27100078921');
 
 INSERT INTO cursa (codigoaluno, codigodisciplina, media, frequencia)
-VALUES  (1, 1, 89.5, 90),
-        (2, 2, 68, 75),
-        (3, 3, 95, 75);
+VALUES  (1, 1, 7, 90),
+        (2, 2, 6, 75),
+        (3, 3, 6, 85),
+		(2, 4, 9, 95),
+		(2, 5, 5, 65),
+		(4, 2, 9, 100),
+		(4, 4, 10, 95),
+		(4, 5, 9, 100);
 
 INSERT INTO graduacao (codigoaluno, anoingresso)
 VALUES (1, 2021), (2, 2021), (3, 2021);
 
+INSERT INTO posgraduacao(codigoaluno, formacao)
+VALUES (4, 2024);
+
 /* 3. */
-SELECT or.nome, d.nome
-FROM orientador as or, disciplina as d;
+SELECT o.nome, d.nome
+FROM orientador o JOIN disciplina d USING (codigoorientador);
+
+/* 4. */
+SELECT au.nome, d.nome
+FROM aluno au, disciplina d
+INNER JOIN cursa c 
+ON c.codigodisciplina = d.codigodisciplina 
+WHERE c.codigoaluno = au.codigoaluno;
+
+/* 5. */
+SELECT au.nome, d.nome
+FROM aluno au, disciplina d
+INNER JOIN cursa c 
+ON c.codigodisciplina = d.codigodisciplina 
+WHERE c.codigoaluno = au.codigoaluno AND c.media<6;
+
+/* 6. */
+SELECT d1.nome, d2.nome
+FROM disciplina d1
+INNER JOIN prerequisito pre ON pre.codigodisciplina = d1.codigodisciplina 
+INNER JOIN disciplina d2 ON d2.codigodisciplina = pre.codigorequisito;
+
+/* 7. */
+SELECT au.nome, d.nome, dep.nome, o.nome
+FROM aluno au
+INNER JOIN cursa cu ON cu.codigoaluno = au.codigoaluno
+INNER JOIN disciplina d ON cu.codigodisciplina = d.codigodisciplina
+INNER JOIN orientador o ON o.codigoorientador = d.codigoorientador
+INNER JOIN departamento dep ON dep.codigodepartamento = o.codigodepartamento;
+
+/* 8. */
+SELECT au.nome
+FROM aluno au
+INNER JOIN posgraduacao pos ON pos.codigoaluno = au.codigoaluno
+WHERE pos.orientado IS NULL;
+
+/* 9. */ 
+SELECT DISTINCT au.nome
+FROM aluno au
+INNER JOIN cursa cu ON cu.codigoaluno = au.codigoaluno
+INNER JOIN disciplina d ON cu.codigodisciplina = d.codigodisciplina
+INNER JOIN orientador o ON o.codigoorientador = d.codigoorientador
+INNER JOIN departamento dep ON dep.codigodepartamento = o.codigodepartamento;
+
+/* 10. */
+SELECT DISTINCT o.nome, dep_prof.nome, d.nome, dep_aula.nome
+FROM orientador o 
+INNER JOIN disciplina d ON o.codigoorientador = d.codigoorientador
+INNER JOIN departamento dep_prof ON dep_prof.codigodepartamento = o.codigodepartamento
+INNER JOIN departamento dep_aula ON dep_aula.codigodepartamento = d.codigodepartamento
+WHERE o.codigodepartamento != d.codigodepartamento;
