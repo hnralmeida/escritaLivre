@@ -1,3 +1,6 @@
+/* Data: 31-10 */
+/* Aluno: Henrique Almeida*/
+
 DROP TABLE posgraduacao;
 DROP TABLE graduacao;
 DROP TABLE cursa;
