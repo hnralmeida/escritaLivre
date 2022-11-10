@@ -109,30 +109,32 @@ VALUES (4, 2024);
 
 /* 3. */
 SELECT o.nome, d.nome
-FROM orientador o JOIN disciplina d USING (codigoorientador);
+FROM orientador o JOIN disciplina d USING (codigoorientador)
+ORDER BY o.nome;
 
 /* 4. */
-SELECT au.nome, d.nome
-FROM aluno au, disciplina d
-INNER JOIN cursa c 
-ON c.codigodisciplina = d.codigodisciplina 
+SELECT au.nome as Aluno, d.nome as disciplina,
+CASE WHEN gr.codigoaluno = au.codigoaluno THEN 'Graduação' ELSE 'Pós-Graduação' END tipo 
+FROM aluno au, graduacao gr
+INNER JOIN cursa c ON c.codigoaluno = au.codigoaluno
+INNER JOIN disciplina d ON c.codigodisciplina = d.codigodisciplina
 WHERE c.codigoaluno = au.codigoaluno;
 
 /* 5. */
-SELECT au.nome, d.nome
+SELECT au.nome as Aluno, d.nome as Disciplina, c.media as nota
 FROM aluno au, disciplina d
 INNER JOIN cursa c 
 ON c.codigodisciplina = d.codigodisciplina 
 WHERE c.codigoaluno = au.codigoaluno AND c.media<6;
 
 /* 6. */
-SELECT d1.nome, d2.nome
+SELECT d1.nome as Disciplina, d2.nome as Requisito
 FROM disciplina d1
 INNER JOIN prerequisito pre ON pre.codigodisciplina = d1.codigodisciplina 
 INNER JOIN disciplina d2 ON d2.codigodisciplina = pre.codigorequisito;
 
 /* 7. */
-SELECT au.nome, d.nome, dep.nome, o.nome
+SELECT au.nome as Aluno, d.nome as disciplina, dep.nome as departamento, o.nome as professor
 FROM aluno au
 INNER JOIN cursa cu ON cu.codigoaluno = au.codigoaluno
 INNER JOIN disciplina d ON cu.codigodisciplina = d.codigodisciplina
@@ -146,15 +148,20 @@ INNER JOIN posgraduacao pos ON pos.codigoaluno = au.codigoaluno
 WHERE pos.orientado IS NULL;
 
 /* 9. */ 
-SELECT DISTINCT au.nome
+SELECT DISTINCT au.nome, d.nome as Disciplina, dep.nome as Departamento
 FROM aluno au
 INNER JOIN cursa cu ON cu.codigoaluno = au.codigoaluno
 INNER JOIN disciplina d ON cu.codigodisciplina = d.codigodisciplina
 INNER JOIN orientador o ON o.codigoorientador = d.codigoorientador
-INNER JOIN departamento dep ON dep.codigodepartamento = o.codigodepartamento;
+INNER JOIN departamento dep ON dep.codigodepartamento = d.codigodepartamento
+WHERE(
+	SELECT COUNT(d2.codigodepartamento)
+	FROM departamento as d2, aluno as au2
+	WHERE d.codigodepartamento != d2.codigodepartamento AND au.nome = au2.nome
+)>=2;
 
 /* 10. */
-SELECT DISTINCT o.nome, dep_prof.nome, d.nome, dep_aula.nome
+SELECT DISTINCT o.nome as Professor, dep_prof.nome as Departamento1, d.nome as Departamento2, dep_aula.nome as Disciplina
 FROM orientador o 
 INNER JOIN disciplina d ON o.codigoorientador = d.codigoorientador
 INNER JOIN departamento dep_prof ON dep_prof.codigodepartamento = o.codigodepartamento
