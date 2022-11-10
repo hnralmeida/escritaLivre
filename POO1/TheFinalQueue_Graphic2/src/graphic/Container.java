@@ -23,4 +23,5 @@ public class Container extends JFrame{
         this.setResizable(false);
         setVisible(true);
     }
+    
 }

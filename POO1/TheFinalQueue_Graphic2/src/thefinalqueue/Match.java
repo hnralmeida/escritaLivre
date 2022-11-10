@@ -128,20 +128,20 @@ public class Match {
         int idadeMax=0;
         int aux;
         for (int i = 0; i < teamA.size(); i++) {
-          aux= teamA.get(i).getAge();
-          if (idadeMax < aux){
-              nome = teamA.get(i).getName();
-              idadeMax= aux;
-          }    
-       }
+            aux= teamA.get(i).getAge();
+            if (idadeMax < aux){
+                nome = teamA.get(i).getName();
+                idadeMax= aux;
+            }    
+        }
         String nome2= "";
         int idadeMax2=0;
         int aux2;
         for (int i = 0; i < teamB.size(); i++) {
-           aux2= teamB.get(i).getAge();
-           if (idadeMax2 < aux2){
-               nome2 = teamB.get(i).getName();
-               idadeMax2= aux2;
+            aux2= teamB.get(i).getAge();
+            if (idadeMax2 < aux2){
+                nome2 = teamB.get(i).getName();
+                idadeMax2= aux2;
            }    
         }
         
@@ -205,23 +205,25 @@ public class Match {
         do{
             // Define o primeiro Warrior de cada fila como apto a batalhar
             this.printScene(tela);
+            //<editor-fold defaultstate="collapsed" desc="realização dos ataques">    
             Warrior warrior1 = (Warrior) this.teamA.get(0);
             Warrior warrior2 = (Warrior) this.teamB.get(0);
             warrior1.setReady(1);
             warrior2.setReady(1);
-            
+                    
             // Escole quem vai atacar primeiro e realiza os ataques da rodada
             int random = (int) ( 10*Math.random() );
             if(random%2==1){
                 if(warrior1.getReady()==1) warrior1.atacar(teamA, teamB);
                 this.printScene(tela);
-                if(warrior2.getReady()==1 && warrior2.getCurrentEnergy()>0) warrior2.atacar(teamB, teamA);           
+                if(warrior2.getReady()==1 && warrior2.getCurrentEnergy()>0) warrior2.atacar(teamB, teamA);
             }
             else {
-                if(warrior2.getReady()==1) warrior2.atacar(teamB, teamA);        
+                if(warrior2.getReady()==1) warrior2.atacar(teamB, teamA);
                 this.printScene(tela);
                 if(warrior1.getReady()==1 && warrior1.getCurrentEnergy()>0) warrior1.atacar(teamA, teamB);
             }
+            //</editor-fold>
             
             // Verifica se existem mortos nas filas
             this.printScene(tela);
