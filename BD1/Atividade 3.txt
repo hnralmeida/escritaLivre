@@ -1,0 +1,43 @@
+DROP TABLE Representante;
+DROP TABLE Cliente;
+DROP TABLE Pessoa;
+DROP TABLE Cidade;
+DROP TABLE Estado;
+
+CREATE TABLE Estado(
+    idEstado SERIAL PRIMARY KEY,
+    nomeEstado VARCHAR(30)
+);
+
+CREATE TABLE Cidade(
+    idCidade SERIAL PRIMARY KEY,
+    nomeCidade VARCHAR(30),
+    idEstado INTEGER REFERENCES Estado(idEstado)
+);
+
+CREATE TABLE Pessoa(
+    idPessoa SERIAL PRIMARY KEY,
+    nomePessoa VARCHAR(30),
+    telefone VARCHAR(30),
+    idCidade INTEGER REFERENCES Cidade(idCidade)
+);
+
+CREATE TABLE Representante(
+    idRepresentante INTEGER PRIMARY KEY REFERENCES Pessoa(idPessoa),
+    comissoa FLOAT
+);
+
+CREATE TABLE Cliente(
+    idCliente INTEGER PRIMARY KEY REFERENCES Pessoa(idPessoa),
+    cnpj VARCHAR(30),
+    dtAniversario TIMESTAMP
+);
+
+CREATE TABLE Pedido(
+    idPedido SERIAL PRIMARY KEY,
+    idRepresentante INTEGER REFERENCES Representante(idRepresentante),
+    idCliente INTEGER REFERENCES Cliente(idCliente),
+    dataEmissao TIMESTAMP,
+    dataEntrega TIMESTAMP,
+    entregue BOOL
+);
