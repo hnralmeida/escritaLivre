@@ -1,5 +1,5 @@
 /* Data: 31-10 */
-/* Aluno: Henrique Almeida*/
+/* Aluno: Henrique Almeida*/ 
 
 DROP TABLE posgraduacao;
 DROP TABLE graduacao;
@@ -113,12 +113,12 @@ FROM orientador o JOIN disciplina d USING (codigoorientador)
 ORDER BY o.nome;
 
 /* 4. */
-SELECT au.nome as Aluno, d.nome as disciplina,
-CASE WHEN gr.codigoaluno = au.codigoaluno THEN 'Graduação' ELSE 'Pós-Graduação' END tipo 
-FROM aluno au, graduacao gr
-INNER JOIN cursa c ON c.codigoaluno = au.codigoaluno
-INNER JOIN disciplina d ON c.codigodisciplina = d.codigodisciplina
-WHERE c.codigoaluno = au.codigoaluno;
+SELECT DISTINCT a.nome as Aluno, d.nome as disciplina, CASE WHEN g.codigoaluno = a.codigoaluno THEN 'Graduação' ELSE 'Pós-Graduação' END tipo 
+FROM Aluno a, Disciplina d, Cursa c, Graduacao g
+WHERE a.codigoaluno = c.codigoaluno 
+	and a.codigoaluno = g.codigoaluno 
+	and d.codigodisciplina = c.codigodisciplina
+	ORDER BY a.nome;
 
 /* 5. */
 SELECT au.nome as Aluno, d.nome as Disciplina, c.media as nota
@@ -148,16 +148,12 @@ INNER JOIN posgraduacao pos ON pos.codigoaluno = au.codigoaluno
 WHERE pos.orientado IS NULL;
 
 /* 9. */ 
-SELECT DISTINCT au.nome, d.nome as Disciplina, dep.nome as Departamento
+SELECT DISTINCT au.nome
 FROM aluno au
-INNER JOIN cursa cu ON cu.codigoaluno = au.codigoaluno
-INNER JOIN disciplina d ON cu.codigodisciplina = d.codigodisciplina
-INNER JOIN orientador o ON o.codigoorientador = d.codigoorientador
-INNER JOIN departamento dep ON dep.codigodepartamento = d.codigodepartamento
 WHERE(
-	SELECT COUNT(d2.codigodepartamento)
-	FROM departamento as d2, aluno as au2
-	WHERE d.codigodepartamento != d2.codigodepartamento AND au.nome = au2.nome
+	SELECT COUNT(*)
+	FROM cursa cu
+	WHERE au.codigoaluno = cu.codigoaluno
 )>=2;
 
 /* 10. */
