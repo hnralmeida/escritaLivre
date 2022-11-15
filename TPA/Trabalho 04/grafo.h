@@ -25,16 +25,18 @@ typedef char string[40];
 typedef struct adjacent{
     Tvertex* vertex;
     Tadjacent* next;
-    int distance;
+    float distance;
 }Tadjacent;
 
 typedef struct vertex {
+    int code;
     string city_name;
 	Tadjacent* adjacent;
     int number_adjacent;
 }Tvertex;
 
 typedef struct graph {
+    int size;
 	Tvertex* item;
 	Tgraph* next;
 }Tgraph;
@@ -48,13 +50,15 @@ Tgraph* initializeGraph(Tgraph* graph);
 Tgraph* initializeCities(Tgraph* graph);
 // Insertir cidades com nome
 void createCity(Tgraph** graph);
-// Imprimir cidades e adjacencias
+// Imprimir somente cidades
 void printCity(Tgraph* graph);
+// Imprimir cidades e adjacencias
+void printGraph(Tgraph* graph);
 // Criar caminhos, arestas, entre cidades
 void createEdge(Tgraph** graph);
 // Procurar e retorna a cidade, vertice, com nome correspondente e suas adjacencias
 void search(Tgraph* graph);
 // Procurar um caminho para percorrer
-void makeWay(Tgraph* graph);
+void djiskra(Tgraph* graph);
 
 #endif

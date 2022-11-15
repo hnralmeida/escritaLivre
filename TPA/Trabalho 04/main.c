@@ -30,7 +30,7 @@ void main(){
 	int op;
     int size;
 	Tgraph* cidades;
-	setlocale(LC_ALL, "Portuguese");
+	setlocale(LC_ALL, "en-US");
 	cidades = initializeGraph(cidades);
 	cidades = initializeCities(cidades);
 
@@ -39,11 +39,10 @@ void main(){
 		op = menu();
 
 		switch(op){
-		   case 1: createCity(&cidades); break;
-		   case 2: createEdge(&cidades); break;
-		   case 3: printCity(cidades); break;
-		   case 4: search(cidades); break;
-		   case 5: makeWay(cidades); break;
+		   case 1: printCity(cidades); break;
+		   case 2: printGraph(cidades); break;
+		   case 3: search(cidades); break;
+		   case 4: djiskra(cidades); break;
 		   default: break;
 		}//switch
 		printf("\nPressione qualquer tecla para continuar. . .");
@@ -60,11 +59,10 @@ int menu(){
 	int opcao;
     printf("\n================| MENU |================\n\n");
     printf("0 - SAIR (Encerrar Programa).\n\n");
-    printf("1 - Inserir nova cidade.\n");
-	printf("2 - Criar Caminho entre Cidades.\n");
-	printf("3 - Listar Cidades.\n");
-	printf("4 - Procurar Cidade.\n");
-	printf("5 - Procurar menor caminho.\n");
+	printf("1 - Listar Cidades.\n");
+	printf("2 - Listar Estradas de Cidades.\n");
+	printf("3 - Procurar Cidade.\n");
+	printf("4 - Procurar menor caminho.\n");
 
     printf("================================================\n");
 
@@ -72,7 +70,7 @@ int menu(){
     scanf("%d",&opcao);
     printf("\n================================================\n");
 
-	if ((opcao > 6) || (opcao < 0)){
+	if ((opcao > 4) || (opcao < 0)){
 		printf("\n\n\n");
 		printf("\n\t+------------------------+");
 		printf("\n\t|   ERRO:                |");
