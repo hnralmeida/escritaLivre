@@ -1,0 +1,108 @@
+DROP TABLE itemPedido;
+DROP TABLE pedido;
+DROP TABLE cliente;
+DROP TABLE representante;
+DROP TABLE pessoa;
+DROP TABLE cidade;
+DROP TABLE estado;
+DROP TABLE produto;
+DROP TABLE tipoProduto;
+
+/* 1. */
+CREATE TABLE estado(
+    idEstado serial primary key,
+    nomeEstado varchar(30)
+);
+
+CREATE TABLE cidade(
+    idCidade serial primary key,
+    nomeCidade varchar(30),
+    idEstado integer references estado(idEstado)
+);
+
+CREATE TABLE pessoa(
+    idPessoa serial primary key,
+    nomePessoa varchar(30),
+    telefone varchar(20),
+    idCidade integer references cidade(idCidade)
+);
+
+CREATE TABLE representante(
+    idPessoa integer references pessoa(idPessoa),
+    PRIMARY KEY(idPessoa),
+    comissao float
+);
+
+CREATE TABLE cliente(
+    idPessoa integer references pessoa(idPessoa),
+    PRIMARY KEY(idPessoa),
+    cnpj varchar(15),
+    dtAniversario timestamp
+);
+
+CREATE TABLE pedido(
+    idPedido serial unique not null,
+    idRepresentante integer references representante(idPessoa),
+    idCliente integer references cliente(idPessoa),
+    PRIMARY KEY(idPedido, idRepresentante, idCliente),
+    dataEmissao timestamp,
+    dataEntrega timestamp,
+    entregue bool
+);
+
+CREATE TABLE tipoProduto(
+    idTipoProduto serial primary key,
+    tipo varchar(20)
+);
+
+CREATE TABLE produto(
+    idProduto serial primary key,
+    nomeProduto varchar(30),
+    preco float,
+    idTipoProduto integer references TipoProduto(idTipoProduto)
+);
+
+CREATE TABLE itemPedido(
+    idPedido integer references pedido(idPedido),
+    idProduto integer references produto(idProduto),
+    PRIMARY KEY(idPedido, idProduto),
+    quantidade integer
+)
+
+/* 2. */
+INSERT INTO estado(nomeEstado) 
+VALUES  ('Espirito Santo'), 
+        ('Minas Gerais'), 
+        ('Rio de Janeiro'), 
+        ('Sao Paulo'), 
+        ('Bahia');
+
+INSERT INTO cidade(nomeCidade, idCidade)
+VALUES  ('Colatina', 1), 
+        ('Marilandia', 1), 
+        ('Baixo Guandu', 1), 
+        ('Aimores', 2), 
+        ('Rio de Janeiro', 3);
+        
+INSERT INTO pessoa(nomePessoa, telefone, idCidade)
+VALUES  ('Luiz Eduardo', '27996896969', 3),
+        ('Amanda', '27998646565', 1),
+        ('Henrique', '27988424236', 2),
+        ('Gustavo', '33997646421', 4),
+        ('Fernando', '21988645464', 5),
+        ('Plus Vitta', '2733896969', 3),
+        ('Carrissimo', '2732646565', 1),
+        ('Antoline', '2733424236', 2),
+        ('Capel ltda.', '3332646421', 4),
+        ('Inhanguera', '2126645464', 5);
+        
+INSERT INTO representante(idPessoa, comissao)
+VALUES  (1, 2.2),
+        (2, 3.5),
+        (3, 10),
+        (4, 3.5),
+        (5, 3.0);
+        
+INSERT INTO cliente(idPessoa, cnpj, dtAniversario)
+VALUES  (6, '11222333/0001-01', '12-02-1989'),
+        (7, '11222333/0001-01', '12-02-1989'),
