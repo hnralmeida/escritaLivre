@@ -47,7 +47,7 @@ CREATE TABLE pedido(
     PRIMARY KEY(idPedido, idRepresentante, idCliente),
     dataEmissao timestamp,
     dataEntrega timestamp,
-    entregue bool
+    entregue bool DEFAULT FALSE
 );
 
 CREATE TABLE tipoProduto(
@@ -67,7 +67,7 @@ CREATE TABLE itemPedido(
     idProduto integer references produto(idProduto),
     PRIMARY KEY(idPedido, idProduto),
     quantidade integer
-)
+);
 
 /* 2. */
 INSERT INTO estado(nomeEstado) 
@@ -104,5 +104,11 @@ VALUES  (1, 2.2),
         (5, 3.0);
         
 INSERT INTO cliente(idPessoa, cnpj, dtAniversario)
-VALUES  (6, '11222333/0001-01', '12-02-1989'),
-        (7, '11222333/0001-01', '12-02-1989'),
+VALUES  (6, '11222333/7801-10', '12-01-1997'),
+        (7, '08222345/5001-27', '06-08-1964'),
+        (8, '69022367/0701-01', '24-11-2022'),
+        (9, '50222378/1211-78', '30-05-2009'),
+        (10, '54222389/3501-45', '19-02-1999');
+        
+INSERT INTO pedido(idRepresentante, idCliente, dataEmissao, dataEntrega)
+VALUES (1, 6, '17-11-2022', '15-12-2022');
