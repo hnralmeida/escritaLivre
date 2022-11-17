@@ -51,7 +51,7 @@ Tvertex* searchCode(Tgraph* graph, int code){
 	Tgraph* aux = graph;
 
 	while(aux!=NULL){
-		if(code == (aux->item)->code)
+		if(code != aux->item->code)
 			aux = aux->next;
 		else
 			return aux->item;
@@ -298,10 +298,12 @@ float mine(Tgraph* graph, Tvertex** way, Tvertex* destiny, int size){
         aux1 = way[n+1];
         n++;
     } 
+    printf("\nVisitando %s", aux1->city_name);
 
+    Tadjacent* aux2 = aux1->adjacent;
+    Tvertex *aux3;
     for(i=0; i<aux1->number_adjacent; i++){
-        Tadjacent* aux2 = aux1->adjacent;
-        Tvertex *aux3;
+        aux2 = aux1->adjacent;
         while(aux2!=NULL){
             if(!inTheWay(way, aux2->vertex)){
                 if(!strcmp(aux2->vertex->city_name, destiny->city_name)) return 0;
@@ -311,6 +313,7 @@ float mine(Tgraph* graph, Tvertex** way, Tvertex* destiny, int size){
                 if(lesser!=0 && dist>lesser) way[n+1] = aux3;
                 else lesser = dist;
             }
+            aux2=aux2->next;
         }
     }
 }
@@ -343,13 +346,15 @@ void djiskra(Tgraph* graph){
         way[0] = origin;
         dist = mine(graph, way, destiny, 1);
     }
+    i=0;
+    while(way[i]!=NULL) i++;
+    way[++i] = destiny;
 
     // Listar Saida
-    Tvertex* aux = way[0];
+    printf("\nCidade Percorridas (%d/%d): (", i, graph->size);
     i=0;
-    printf("Cidade Percorridas (%d/%d): (", sizeof(way), graph->size);
-    while(i<(graph->size-1)){
-        printf("%s, ", way[i]);
+    while(way[i+1]!=NULL){
+        printf("%s, ", way[i]->city_name);
         i++;
     }
     printf("%s)\nDistancia Total: %.2f km", way[i], dist);
