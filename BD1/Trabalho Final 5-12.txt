@@ -41,10 +41,9 @@ CREATE TABLE cliente(
 );
 
 CREATE TABLE pedido(
-    idPedido serial unique not null,
+    idPedido serial PRIMARY KEY,
     idRepresentante integer references representante(idPessoa),
     idCliente integer references cliente(idPessoa),
-    PRIMARY KEY(idPedido, idRepresentante, idCliente),
     dataEmissao timestamp,
     dataEntrega timestamp,
     entregue bool DEFAULT FALSE
@@ -77,7 +76,7 @@ VALUES  ('Espirito Santo'),
         ('Sao Paulo'), 
         ('Bahia');
 
-INSERT INTO cidade(nomeCidade, idCidade)
+INSERT INTO cidade(nomeCidade, idEstado)
 VALUES  ('Colatina', 1), 
         ('Marilandia', 1), 
         ('Baixo Guandu', 1), 
@@ -104,11 +103,69 @@ VALUES  (1, 2.2),
         (5, 3.0);
         
 INSERT INTO cliente(idPessoa, cnpj, dtAniversario)
-VALUES  (6, '11222333/7801-10', '12-01-1997'),
-        (7, '08222345/5001-27', '06-08-1964'),
-        (8, '69022367/0701-01', '24-11-2022'),
-        (9, '50222378/1211-78', '30-05-2009'),
-        (10, '54222389/3501-45', '19-02-1999');
+VALUES  (6, '11222333780110', '12-01-1997'),
+        (7, '08222345500127', '06-08-1964'),
+        (8, '69022367070101', '24-11-2022'),
+        (9, '50222378121178', '30-05-2009'),
+        (10, '54222389350145', '19-02-1999');
         
 INSERT INTO pedido(idRepresentante, idCliente, dataEmissao, dataEntrega)
-VALUES (1, 6, '17-11-2022', '15-12-2022');
+VALUES  (1, 6, '17-11-2022', '1-12-2022'),
+        (2, 7, '8-11-2022', '15-12-2022'),
+        (3, 8, '16-11-2022', '22-12-2022'),
+        (4, 9, '23-11-2022', '31-12-2022'),
+        (5, 10, '5-11-2022', '9-12-2022');
+        
+INSERT INTO tipoProduto(tipo)
+VALUES  ('Alimentação'),
+        ('Eletronicos'),
+        ('Higiene'),
+        ('Telefonia'),
+        ('Vestuário');
+        
+INSERT INTO produto(nomeProduto, preco, idTipoProduto)
+VALUES  ('Pipoca', 1.22, 1),
+        ('Headset', 78.57, 2),
+        ('Escova', 4.29, 3),
+        ('Redphone', 1345.60, 4),
+        ('Bermuda', 51.89, 5);
+        
+INSERT INTO itemPedido(idPedido, idProduto, quantidade)
+VALUES  (1, 1, 20),
+        (1, 2, 8),
+        (2, 4, 5),
+        (3, 5, 5),
+        (4, 3, 20),
+        (4, 5, 30),
+        (5, 2, 10),
+        (5, 3, 10);
+
+/* 3. */
+DELETE FROM itemPedido
+WHERE idPedido in (
+    SELECT p1.idPedido 
+    FROM pedido p1, pessoa p2
+    WHERE p1.idCliente = p2.idPessoa and p2.nomePessoa = 'Plus Vitta'
+);
+
+SELECT ip.idPedido, ip.idProduto, c.idpessoa
+FROM itemPedido ip, cliente c, pedido p
+WHERE ip.idPedido=p.idPedido and p.idcliente = c.idpessoa;
+
+DELETE FROM pedido
+WHERE idCliente in (
+    SELECT p.idPessoa
+    FROM pessoa p
+    WHERE p.nomePessoa = 'Plus Vitta'
+);
+
+DELETE FROM cliente
+WHERE idPessoa in (
+    SELECT p.idPessoa
+    FROM pessoa p
+    WHERE p.nomePessoa = 'Plus Vitta'
+);
+
+DELETE FROM pessoa
+WHERE nomePessoa = 'Plus Vitta';
+
