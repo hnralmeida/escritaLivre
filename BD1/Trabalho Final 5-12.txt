@@ -82,6 +82,10 @@ VALUES  ('Colatina', 1),
         ('Baixo Guandu', 1), 
         ('Aimores', 2), 
         ('Rio de Janeiro', 3);
+		
+INSERT INTO cidade(nomeCidade)
+VALUES  ('Astapor'), 
+        ('Meereen');
         
 INSERT INTO pessoa(nomePessoa, telefone, idCidade)
 VALUES  ('Luiz Eduardo', '27996896969', 3),
@@ -105,15 +109,16 @@ VALUES  (1, 2.2),
 INSERT INTO cliente(idPessoa, cnpj, dtAniversario)
 VALUES  (6, '11222333780110', '12-01-1997'),
         (7, '08222345500127', '06-08-1964'),
-        (8, '69022367070101', '24-11-2022'),
+        (8, '69022367070101', '22-11-2020'),
         (9, '50222378121178', '30-05-2009'),
         (10, '54222389350145', '19-02-1999');
         
 INSERT INTO pedido(idRepresentante, idCliente, dataEmissao, dataEntrega)
 VALUES  (1, 6, '17-11-2022', '1-12-2022'),
-        (2, 7, '8-11-2022', '15-12-2022'),
-        (3, 8, '16-11-2022', '22-12-2022'),
-        (4, 9, '23-11-2022', '31-12-2022'),
+        (2, 7, '8-11-2020', '15-12-2020'),
+        (3, 8, '16-11-2021', '22-12-2021'),
+        (4, 9, '12-8-2019', '30-11-2019'),
+		(5, 9, '23-11-2022', '31-12-2022'),
         (5, 10, '5-11-2022', '9-12-2022');
         
 INSERT INTO tipoProduto(tipo)
@@ -137,10 +142,13 @@ VALUES  (1, 1, 20),
         (3, 5, 5),
         (4, 3, 20),
         (4, 5, 30),
-        (5, 2, 10),
-        (5, 3, 10);
+		(5, 2, 3),
+        (6, 2, 10),
+        (6, 3, 10);
 
-/* 3. */
+/* 3. 
+Crie a sequência de comandos necessários para excluir um cliente.
+*/
 DELETE FROM itemPedido
 WHERE idPedido in (
     SELECT p1.idPedido 
@@ -169,3 +177,109 @@ WHERE idPessoa in (
 DELETE FROM pessoa
 WHERE nomePessoa = 'Plus Vitta';
 
+/* 4. 
+Crie um comando que retorne o nome do cliente, o numero do pedido, a data da compra, e
+o valor total do pedido do ano de 2022.
+*/
+SELECT p1.nomePessoa as "Nome do Cliente", 
+	p2.idPedido as "Número do Pedido", 
+	to_char(date(p2.dataEmissao), 'DD-MM-YYYY') as "Data de Compra", 
+	ROUND(SUM(p3.preco*ip.quantidade)::numeric, 2) as "Total"
+FROM pessoa p1, cliente c, pedido p2, produto p3, itemPedido ip
+WHERE ip.idProduto=p3.idProduto 
+	and ip.idPedido=p2.idPedido 
+	and p2.idCliente=c.idPessoa 
+	and c.idPessoa=p1.idPessoa 
+	and EXTRACT(year from p2.dataEmissao) = '2022'
+GROUP BY p1.nomePessoa, p2.idPedido;
+
+/* 5. 
+Utilize as tabelas de cidade e estado e demonstre a aplicação de cada comando (Inner
+Join, Left Join, Right Join, Outer Join, Left Excluding Join, Right Excluding Join, Outer
+Excluding Join).
+*/
+SELECT c.nomeCidade as "Cidade", e.nomeEstado as "Estado"
+FROM cidade c
+INNER JOIN estado e ON e.idEstado=c.idEstado; /** Inner Join */
+
+SELECT c.nomeCidade as "Cidade", e.nomeEstado as "Estado"
+FROM cidade c
+RIGHT JOIN estado e ON e.idEstado=c.idEstado; /** Right Join */
+
+SELECT c.nomeCidade as "Cidade", e.nomeEstado as "Estado"
+FROM cidade c
+LEFT JOIN estado e ON e.idEstado=c.idEstado; /** Left Join */
+
+SELECT c.nomeCidade as "Cidade", e.nomeEstado as "Estado"
+FROM cidade c
+LEFT JOIN estado e ON e.idEstado=c.idEstado
+WHERE e.idEstado is NULL; /** Left Excluding Join */
+
+SELECT c.nomeCidade as "Cidade", e.nomeEstado as "Estado"
+FROM cidade c
+RIGHT JOIN estado e ON e.idEstado=c.idEstado
+WHERE c.idEstado is NULL; /** Right Excluding Join */
+
+SELECT c.nomeCidade as "Cidade", e.nomeEstado as "Estado"
+FROM cidade c
+FULL JOIN estado e ON e.idEstado=c.idEstado
+WHERE c.idEstado is NULL or e.idEstado is NULL; /** Outer Excluding Join */
+
+/* 6. 
+Crie um comando que liste somente as cidades que tiveram venda no mês de novembro,
+ordene pelo nome da cidade (use o distinct).
+*/
+SELECT DISTINCT c1.nomeCidade
+FROM cidade c1, pessoa p1, cliente c2, pedido p2
+WHERE c1.idCidade=p1.idCidade 
+	and p1.idPessoa=c2.idPessoa 
+	and c2.idPessoa = p2.idCliente
+	and EXTRACT(MONTH FROM p2.dataEmissao) = 11
+ORDER BY c1.nomeCidade;
+
+/* 7.
+Crie um comando que liste os pedido, nome do cliente, a data de entrega, o nome do
+representante dos pedidos que não foram entregues e estão atrasados em relação a data
+atual. (use a função de datas “age”)
+*/
+SELECT p2.idPedido as "Pedido", 
+	p1.nomePessoa as "Cliente", 
+	to_char(date(p2.dataEntrega), 'DD-MM-YYYY') as "Data de Entrega", 
+	p3.nomePessoa as "Representante"
+FROM pessoa p1, cliente c, representante r, pedido p2, pessoa p3
+WHERE p2.idCliente=c.idPessoa
+	and c.idPessoa = p1.idPessoa
+	and p2.idRepresentante = r.idPessoa
+	and r.idPessoa = p3.idPessoa
+	and AGE(p2.dataEntrega, p2.dataEmissao)>AGE(current_date, p2.dataEmissao);
+	
+/* 8.
+Crie um comando para retornar os aniversariantes que fazem aniversário na data atua
+(hoje, use a função “part” para separar o dia das datas). O mesmo comando deve
+funcionar para todos os dias do ano.
+*/
+SELECT p.idPessoa, p.nomePessoa
+FROM pessoa p, cliente c
+WHERE c.idPessoa=p.idPessoa 
+	and EXTRACT(DAY FROM current_date) = EXTRACT(DAY FROM date(c.dtaniversario))
+	and EXTRACT(MONTH FROM current_date) = EXTRACT(MONTH FROM date(c.dtaniversario));
+	
+/*9.
+Monte um comando que retorne somente o nome do cliente e a data da última compra, a
+data da primeira compra, dos clientes que compraram no mês de outubro e não
+compraram no mês de novembro, ordene pela data da última compra.
+*/
+SELECT da.nomePessoa as "Nome do Cliente", 
+	to_char(date(da.dataEmissao), 'DD-MM-YYYY') as "Ultima Compra" 
+	/*p3.dataEmissao as "Primeira Compra"*/
+FROM (
+	SELECT	p1.idPessoa,
+			p1.nomePessoa, 
+			p2.dataEmissao, 
+			RANK() OVER (PARTITION  BY p1.nomePessoa ORDER BY p2.dataEmissao) as pos
+	FROM pessoa p1, cliente c, pedido p2
+	WHERE p1.idPessoa=c.idPessoa
+		and c.idPessoa=p2.idCliente
+) as da
+WHERE da.pos<2
+ORDER BY da.dataEmissao;
