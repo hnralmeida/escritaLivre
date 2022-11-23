@@ -114,12 +114,19 @@ VALUES  (6, '11222333780110', '12-01-1997'),
         (10, '54222389350145', '19-02-1999');
         
 INSERT INTO pedido(idRepresentante, idCliente, dataEmissao, dataEntrega)
-VALUES  (1, 6, '17-11-2022', '1-12-2022'),
+VALUES  (1, 6, '17-10-2022', '1-12-2022'),
         (2, 7, '8-11-2020', '15-12-2020'),
         (3, 8, '16-11-2021', '22-12-2021'),
-        (4, 9, '12-8-2019', '30-11-2019'),
-		(5, 9, '23-11-2022', '31-12-2022'),
-        (5, 10, '5-11-2022', '9-12-2022');
+        (4, 9, '12-08-2019', '30-11-2019'),
+		(5, 9, '12-10-2022', '13-12-2022'),
+        (5, 9, '23-10-2021', '31-12-2021'),
+        (5, 9, '21-10-2022', '02-12-2022'),
+        (5, 10, '5-05-2022', '9-6-2022'),
+        (4, 10, '5-06-2022', '9-7-2022'),
+        (3, 10, '5-07-2022', '9-8-2022'),
+        (4, 10, '5-08-2022', '9-9-2022'),
+        (2, 10, '5-10-2022', '9-11-2022'),
+        (1, 10, '5-11-2022', '9-12-2022');
         
 INSERT INTO tipoProduto(tipo)
 VALUES  ('Alimentação'),
@@ -251,7 +258,7 @@ WHERE p2.idCliente=c.idPessoa
 	and c.idPessoa = p1.idPessoa
 	and p2.idRepresentante = r.idPessoa
 	and r.idPessoa = p3.idPessoa
-	and AGE(p2.dataEntrega, p2.dataEmissao)>AGE(current_date, p2.dataEmissao);
+	and AGE(p2.dataEntrega, p2.dataEmissao)>AGE(CURRENT_DATE, p2.dataEmissao);
 	
 /* 8.
 Crie um comando para retornar os aniversariantes que fazem aniversário na data atua
@@ -271,7 +278,6 @@ compraram no mês de novembro, ordene pela data da última compra.
 */
 SELECT da.nomePessoa as "Nome do Cliente", 
 	to_char(date(da.dataEmissao), 'DD-MM-YYYY') as "Ultima Compra" 
-	/*p3.dataEmissao as "Primeira Compra"*/
 FROM (
 	SELECT	p1.idPessoa,
 			p1.nomePessoa, 
@@ -280,6 +286,29 @@ FROM (
 	FROM pessoa p1, cliente c, pedido p2
 	WHERE p1.idPessoa=c.idPessoa
 		and c.idPessoa=p2.idCliente
+        and EXTRACT(YEAR FROM p2.dataEmissao)=EXTRACT(YEAR FROM CURRENT_DATE)
 ) as da
 WHERE da.pos<2
+    and EXTRACT(MONTH FROM da.dataEmissao)=10
 ORDER BY da.dataEmissao;
+
+/* 10.
+Crie um comando que retorne o nome do representante e o valor total vendido por ele no
+mês de novembro e uma a consulta, em uma só, com uma consulta que retorne o nome do
+cliente e o valor total vendido, crie um campo que diferencie qual é cliente e qual é
+representante e ordene pelo nome.
+*/
+SELECT da.nomePessoa as "Nome", 
+    da.total as "Total"
+FROM (
+    SELECT	p1.idPessoa,
+			p1.nomePessoa, 
+			p2.dataEmissao, 
+			ROUND(SUM(p3.preco*ip.quantidade)::numeric, 2) as "total"
+	FROM pessoa p1, cliente c, pedido p2, itemPedido ip, Produto p3
+	WHERE ip.idProduto=p3.idProduto 
+	    and ip.idPedido=p2.idPedido 
+	    and p2.idCliente=c.idPessoa 
+	    and c.idPessoa=p1.idPessoa 
+    GROUP BY p1.idPessoa, p2.dataEmissao
+) as da
