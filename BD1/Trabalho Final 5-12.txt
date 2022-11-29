@@ -299,7 +299,8 @@ cliente e o valor total vendido, crie um campo que diferencie qual é cliente e 
 representante e ordene pelo nome.
 */
 SELECT da.nomePessoa as "Nome", 
-    da.total as "Total"
+    da.total as "Total",
+	'Cliente' as "Tipo"
 FROM (
     SELECT	p1.idPessoa,
 			p1.nomePessoa, 
@@ -312,3 +313,36 @@ FROM (
 	    and c.idPessoa=p1.idPessoa 
     GROUP BY p1.idPessoa, p2.dataEmissao
 ) as da
+UNION (
+    SELECT	p1.nomePessoa as "Nome", 
+			ROUND(SUM(p3.preco*ip.quantidade)::numeric, 2) as "Total",
+			'Representante' as "Tipo"
+	FROM pessoa p1, cliente c, pedido p2, itemPedido ip, Produto p3
+	WHERE ip.idProduto=p3.idProduto 
+	    and ip.idPedido=p2.idPedido 
+	    and p2.idCliente=c.idPessoa 
+	    and c.idPessoa=p1.idPessoa 
+    GROUP BY p1.idPessoa, p2.dataEmissao
+)
+ORDER BY 1;
+
+/* 11.
+Cire um comando que retorne o nome do cliente, o nome da cidade e o nome 
+do estado dos cliente que compraram em 2022, ordenando por estado, cidade 
+e pelo nome.
+*/
+SELECT da.nomePessoa as "Nome do Cliente", 
+	da.nomeCidade as "Nome da Cidade",
+	da.nomeEstado as "Nome do Estado"
+FROM pedido p, (
+	SELECT p.nomePessoa,
+		c2.nomeCidade,
+		e.nomeEstado,
+		c1.idPessoa
+	FROM cliente c1, pessoa p, cidade c2, estado e
+	WHERE c1.idPessoa=p.idPessoa
+		and p.idCidade=c2.idCidade
+		and c2.idEstado=e.idEstado
+) as da
+WHERE DATE_PART('year', p.dataEmissao)=2022
+ORDER BY "Nome do Estado", "Nome da Cidade", "Nome do Cliente"
