@@ -125,7 +125,7 @@ VALUES  (1, 6, '17-10-2022', '1-12-2022'),
         (4, 10, '5-06-2022', '9-7-2022'),
         (3, 10, '5-07-2022', '9-8-2022'),
         (4, 10, '5-08-2022', '9-9-2022'),
-        (2, 10, '5-10-2022', '9-11-2022'),
+        (2, 10, '5-10-2021', '9-11-2021'),
         (1, 10, '5-11-2022', '9-12-2022');
         
 INSERT INTO tipoProduto(tipo)
@@ -331,7 +331,7 @@ Cire um comando que retorne o nome do cliente, o nome da cidade e o nome
 do estado dos cliente que compraram em 2022, ordenando por estado, cidade 
 e pelo nome.
 */
-SELECT da.nomePessoa as "Nome do Cliente", 
+SELECT DISTINCT da.nomePessoa as "Nome do Cliente", 
 	da.nomeCidade as "Nome da Cidade",
 	da.nomeEstado as "Nome do Estado"
 FROM pedido p, (
@@ -345,4 +345,64 @@ FROM pedido p, (
 		and c2.idEstado=e.idEstado
 ) as da
 WHERE DATE_PART('year', p.dataEmissao)=2022
-ORDER BY "Nome do Estado", "Nome da Cidade", "Nome do Cliente"
+    and da.idPessoa = p.idCliente
+ORDER BY "Nome do Estado", "Nome da Cidade", "Nome do Cliente";
+
+/* 12.
+Crie um comando que retorne o tipo de produto, o valor total e a quantidade vendida para
+cada tipo de produto ordenado pelo valor total
+*/
+SELECT da.tipo as "Tipo de Produto", 
+    da.total as "Valor Total", 
+    da.qt as "Quantidade Vendida"
+FROM (
+    SELECT ROUND(SUM(p2.preco*ip.quantidade)::numeric, 2) as "total",
+        SUM(ip.quantidade) as "qt",
+        tp.tipo
+    FROM pedido p1, itemPedido ip, produto p2, tipoProduto tp
+    WHERE p1.idPedido=ip.idPedido
+        and ip.idProduto=p2.idProduto
+        and p2.idTipoProduto = tp.idTipoProduto
+    GROUP BY tp.tipo
+) as da
+ORDER BY da.tipo;
+
+/* 13.
+Monte um comando que retorne o nome do produto e o seu tipo nos produtos que não tiveram 
+venda no mês de outubro.
+*/
+SELECT da.nomeProduto as "Nome do Produto",
+    da.tipo as "Tipo de Produto"
+FROM (
+    SELECT p2.nomeProduto, tp.tipo
+    FROM pedido p1, itemPedido ip, produto p2, tipoProduto tp
+    WHERE p1.idPedido=ip.idPedido
+        and ip.idProduto=p2.idProduto
+        and p2.idTipoProduto=tp.idTipoProduto
+        and EXTRACT(month from p1.dataEmissao)!=10
+        and EXTRACT(year from p1.dataEmissao)!=2022
+    GROUP BY p2.nomeProduto, tp.tipo
+) as da
+ORDER BY da.nomeProduto;
+
+/* 14.
+Crie um comando que liste o nome do cliente e o número de dias existentes entre as datas 
+da primeira compra e a data atual. Ordene a consulta de forma que os clientes mais 
+antigos apareçam primeiro.
+*/
+SELECT da.nomePessoa as "Nome do Cliente",
+    da.dias as "Última Compra"
+FROM (
+    SELECT p1.nomePessoa, EXTRACT(day from current_date - min(p2.dataemissao)) as "dias"
+    FROM pessoa p1, cliente c1, pedido p2, itemPedido ip, produto p3
+    WHERE c1.idpessoa = p1.idpessoa
+        and c1.idpessoa = p2.idcliente
+    GROUP BY p1.nomePessoa
+) as da
+ORDER BY da.dias desc;
+
+/* 15.
+    Crie um comando que retorne a quantidade média, o valor total comprado por cliente 
+    no ano de 2022
+*/
+
