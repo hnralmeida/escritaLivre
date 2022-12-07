@@ -405,4 +405,78 @@ ORDER BY da.dias desc;
     Crie um comando que retorne a quantidade média, o valor total comprado por cliente 
     no ano de 2022
 */
+SELECT p1.nomePessoa as "Nome",
+    ROUND(AVG(p3.preco*ip.quantidade)::numeric,2) as "Média",
+    ROUND(SUM(p3.preco*ip.quantidade)::numeric,2) as "Total"
+FROM pessoa p1, cliente c1, pedido p2, itemPedido ip, produto p3
+WHERE c1.idpessoa = p1.idpessoa
+    and c1.idpessoa = p2.idcliente
+    and p2.idPedido = ip.idPedido
+    and ip.idProduto = p3.idProduto
+    and EXTRACT(YEAR FROM p2.dataEmissao) = 2022
+GROUP BY p1.nomePessoa;
 
+/* 29. 
+Crie um campo na tabela cliente com nome ValorTotal do tipo float, em seguida crie um
+comando update que coloque o valor total comprado por cada cliente nessa coluna.
+*/
+ALTER TABLE cliente ADD ValorTotal float;
+UPDATE cliente
+SET ValorTotal = da.total
+FROM(
+    SELECT SUM(p3.preco*ip.quantidade) as "total",
+        p1.idPessoa
+    FROM pessoa p1, cliente c1, pedido p2, itemPedido ip, produto p3
+    WHERE p1.idpessoa = c1.idpessoa 
+        and c1.idpessoa = p2.idcliente
+        and p2.idPedido = ip.idPedido
+        and ip.idProduto = p3.idProduto
+    GROUP BY p1.idPessoa
+) as da
+WHERE da.idPessoa=cliente.idPessoa;
+
+SELECT pessoa.nomePessoa as "Nome",
+    cliente.ValorTotal as "Valor Total"
+FROM pessoa, cliente
+WHERE pessoa.idPessoa = cliente.idPessoa;
+
+/* 33.
+Crie os comandos sql necessários para efetuar as seguintes alterações
+    - Crie um campo chamado classe do tipo inteiro na tabela representante;
+    - Este campo deve classificar os representantes em relação a suas vendas.
+    - A classificação deve ser feita usando os seguintes critérios, os representantes que
+venderam em 2022 até 1000 = 1, de 1000 até 2000 = 2, de 2000 até 3000 = 3, de
+3000 até 4000 = 4, acima de 4000 = 5.
+    - O comando deve efetuar o update para cada tipo já somando e alterando os
+representantes.
+    - Pode ser feito um comando de update para cada classificação, o valor total deve
+ser calculado de forma automática pelo comando.
+*/
+ALTER TABLE representante ADD classe INTEGER;
+
+UPDATE representante as r
+SET classe =
+CASE
+WHEN da.soma<1000 THEN 1
+WHEN da.soma>1000 and da.soma<2000 THEN 2
+WHEN da.soma>2000 and da.soma<3000 THEN 3
+WHEN da.soma>3000 and da.soma<4000 THEN 4
+WHEN da.soma>4000 THEN 5
+END
+FROM (
+    SELECT SUM(p3.preco*ip.quantidade) as "soma",
+        p1.idPessoa
+    FROM pessoa p1
+    INNER JOIN representante r1 ON p1.idpessoa = r1.idpessoa 
+    INNER JOIN pedido p2 ON r1.idpessoa = p2.idcliente
+    INNER JOIN itemPedido ip ON p2.idPedido = ip.idPedido
+    INNER JOIN produto p3 ON ip.idProduto = p3.idProduto 
+    WHERE EXTRACT(YEAR FROM p2.dataEmissao) = 2022
+    GROUP BY p1.idPessoa
+) as da
+WHERE da.idPessoa = r.idPessoa;
+
+SELECT pessoa.nomePessoa as "Nome",
+    representante.classe as "Classe"
+FROM pessoa, representante
+WHERE pessoa.idPessoa = representante.idPessoa;
