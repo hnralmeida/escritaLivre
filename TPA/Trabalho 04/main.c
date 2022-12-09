@@ -6,9 +6,8 @@ Disciplina: Tecnicas de Programacao Avancada
 Professor: Eduardo Max Amaral
 
 Objetivos:
-- Implementar uma lista de adjacência para representar uma Matriz Adjacancia.
-- Implementar uma lista de adjacência para representar uma Matriz Adjacancia (grafo 
-ponderado -> matriz de pesos).
+- Representar um grafo computacionalmente
+- Implementar o algoritmo de Dijkstra
 ========================0=================================================================
 */
 

@@ -278,94 +278,54 @@ void search(Tgraph* graph){
     }
 }
 
-int hasOpen(int vector[], int size){
-    int i, qt=0; 
-    for(i=0; i<size; i++){
-        if(vector[i]==1) qt++;
-    }
-    return qt;
-}
-
-Tvertex* nextOpen(int open[], Tvertex** pre, Tvertex* shortest){
-    Tvertex* aux = pre[shortest->code-1];
-    while(pre[aux->code-1]!=NULL) aux = pre[aux->code-1];
-    //printf("\n\tINIT - %s", aux->city_name);
+int hasOpen(int open[], Tvertex* origin){
+    Tadjacent* aux = origin->adjacent;
+    int total=0, closed=0;
     while(aux!=NULL){
-        Tadjacent* adjList = aux->adjacent;
-        while(adjList!=NULL){
-            if(open[adjList->vertex->code-1]){
-                //printf("\nnextOpen %d - %s", adjList->vertex->code, adjList->vertex->city_name);
-                return adjList->vertex;
-            }
-            adjList = adjList->next;
-        }
-        aux = aux->adjacent->vertex;
+        total++;
+        if(!open[aux->vertex->code-1]) closed++;
+        aux=aux->next;
     }
+    if(total==closed) return 0;
+    else return 1;
 }
 
-float mine(Tgraph* g, Tvertex** way, Tvertex* origin, Tvertex* destiny){
-    int n = g->size, i, open[n];
-    float dist[n], shortPath=INFINITY;
-    Tvertex** pre = (Tvertex**) malloc((g->size)*sizeof(Tvertex*));
-
-    // Inicializar o vetor de abertos, de distancias e precedecessores
-    for(i=0; i<n; i++){
-        open[i]=1;
-        dist[i]=INFINITY;
-        pre[i]=NULL;
-    }
-    dist[origin->code-1]=0;
-
+Tvertex** mine(Tvertex* pre[], int open[], float dist[], Tvertex* origin, Tvertex* destiny){
     // Enquanto houver vertices abertos
-    Tvertex* aux1 = origin, *shortest;
-    while(hasOpen(open, n)>1){
-        //printf("\npassando no %d - %s", aux1->code, aux1->city_name);
-        Tadjacent* aux2 = aux1->adjacent;
-        while(aux2!=NULL){
-            if(open[aux2->vertex->code-1]){
-                if(dist[aux2->vertex->code-1]>aux2->distance){
-                    dist[aux2->vertex->code-1]=aux2->distance+dist[aux1->code-1];
-                    pre[aux2->vertex->code-1]=aux1;
-                    if(shortPath>aux2->distance){
-                        shortPath = aux2->distance;
-                        shortest = aux2->vertex;
-                    }
-                }
-                //printf("\n\tpassando no %d - %s", aux2->vertex->code, aux2->vertex->city_name);
-            }
-            aux2=aux2->next;
-        }
-        //printf("\t ...");
-        open[aux1->code-1]=0;
+    Tadjacent* aux1 = origin->adjacent;
+    Tvertex* shortWay, **aux2;
+    float shortPath=INFINITY;
+    int i, n; 
 
-        if((hasOpen(open, n)==1)){
-            aux1 = pre[destiny->code-1];
-            i=1;
-            way[0]=destiny;
-            while(aux1!=NULL){
-                way[i] = aux1;
-                aux1 = pre[aux1->code-1];
-                i++;
-            }
-            return dist[destiny->code-1];
-        }
+    // fechar o nodo
+    open[origin->code-1]=0;
+    printf("\nNodo %d", origin->code);
 
-        if(open[shortest->code-1]&&shortest->code!=destiny->code) aux1 = shortest;
-        else{
-            aux1 = nextOpen(open, pre, shortest);
+    // recalcular as estimativas
+    while(aux1 != NULL){
+        if(open[aux1->vertex->code-1]){
+            printf("\n\tAberto %d", aux1->vertex->code);
+            if(aux1->distance < dist[aux1->vertex->code-1]){
+                dist[aux1->vertex->code-1] = aux1->distance+dist[origin->code-1];
+                pre[aux1->vertex->code-1] = origin;
+                shortWay = aux1->vertex;
+            }
         }
-        //printf("\n");
+        aux1 = aux1->next;
     }
+
+
+    // vertice aberto minimo e condicao de parada
+    if(destiny->code!=shortWay->code){
+        aux2= mine(pre, open, dist, shortWay, destiny);
+    }
+    return pre;
 }
 
 void djiskra(Tgraph* graph){
-    Tvertex** way = (Tvertex**) malloc((graph->size)*sizeof(Tvertex*));
-	int i, n;
-    float dist;
-    Tvertex *origin, *destiny;
-
-    // inicializar o caminho entre as cidades como nodos nulos
-	for(i=0; i<graph->size; i++) way[i]=NULL;
+    Tvertex *origin, *destiny, *aux, *prev;
+    int i, n;
+    float MIN_DIST=0;
 
     // entrada de cidade
 	printf("\nQual o codigo da cidade de origem?\n");
@@ -379,22 +339,48 @@ void djiskra(Tgraph* graph){
 	// verifica se existe a cidade passada de origem
 	destiny = searchCode((graph), n);
 
-    // se existir a cidade, chama a subfuncao que escreve o menor caminho
-    if(origin==NULL) printf("\nCidade origem nao existe");
-    else if(destiny==NULL) printf("\nCidade destino nao existe");
-    else{        
-        dist = mine(graph, way, origin, destiny);
+    Tvertex* pre[graph->size];
+    int open[graph->size];
+    float dist[graph->size];
+
+    // Inicializar o vetor de abertos, de distancias e precedecessores
+    for(i=0; i<graph->size; i++){
+        open[i]=1;
+        dist[i]=INFINITY;
+        pre[i]=NULL;
     }
-    i=0;
-    while(way[i]!=NULL) i++;
-    //way[++i] = destiny;
+
+    // modifica o nodo inicial
+    dist[origin->code-1]=0;
+
+    // se existir a cidade, chama a subfuncao que escreve o menor caminho
+    Tvertex** way = (Tvertex**) malloc((graph->size)*sizeof(Tvertex*));
+    if(origin==NULL) {
+        printf("\nCidade origem nao existe");
+        return;
+    }
+    else if(destiny==NULL) {
+        printf("\nCidade destino nao existe");
+        return;
+    }
+    else{        
+        way = mine(pre, open, dist, origin, destiny);
+    }
 
     // Listar Saida
-    printf("\nCidade Percorridas (%d/%d): (", i, graph->size);
-    for(i=n-1; i>0; i--){
-        if(way[i]!=NULL) printf("%s, ", way[i]->city_name);
+    aux = destiny;
+    printf("\n(");
+    while(aux->code!=origin->code){
+        printf("%s, ", aux->city_name);
+        prev = aux;
+        aux = way[aux->code-1];
+        if(aux!=NULL){ 
+            Tadjacent* auxAdj = aux->adjacent;
+            while(auxAdj!=NULL&&auxAdj->vertex->code!=prev->code) auxAdj=auxAdj->next;
+            MIN_DIST += auxAdj->distance;
+        }
     }
-    printf("%s)\nDistancia Total: %.2f km", way[0]->city_name, dist);
+    printf("%s)\nDistancia Total: %.2f km", origin->city_name, MIN_DIST);
 }
 
 Tgraph* initializeCities(Tgraph* graph){
