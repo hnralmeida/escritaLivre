@@ -1,11 +1,11 @@
 /*
 =========================================================================================
 AUTOR: 	Henrique Almeida de Oliveira
-Disciplina: Técnico de Programação Avançada
+Disciplina: TÃ©cnico de ProgramaÃ§Ã£o AvanÃ§ada
 Professor: Eduardo Max Amaral
 Objetivos:
-- Implementar uma lista de adjacência para representar uma Matriz Adjacência.
-- Implementar uma lista de adjacência para representar uma Matriz Adjacência (grafo 
+- Implementar uma lista de adjacÃªncia para representar uma Matriz AdjacÃªncia.
+- Implementar uma lista de adjacÃªncia para representar uma Matriz AdjacÃªncia (grafo 
 ponderado -> matriz de pesos).
 =========================================================================================
 			Tipo Abstrato de Dados
@@ -30,7 +30,7 @@ typedef struct adjacent{
 
 typedef struct vertex {
     int code;
-    string city_name;
+    string tile;
 	Tadjacent* adjacent;
     int number_adjacent;
 }Tvertex;

@@ -6,9 +6,8 @@ Disciplina: Tecnicas de Programacao Avancada
 Professor: Eduardo Max Amaral
 
 Objetivos:
-- Implementar uma lista de adjacÍncia para representar uma Matriz Adjacancia.
-- Implementar uma lista de adjacÍncia para representar uma Matriz Adjacancia (grafo 
-ponderado -> matriz de pesos).
+- Representar um grafo computacionalmente
+- Implementar o algoritmo de Dijkstra
 ========================0=================================================================
 */
 
@@ -34,7 +33,7 @@ void main(){
 	cidades = initializeGraph(cidades);
 	cidades = initializeCities(cidades);
 
-	// LOOP PRINCIPAL, INTERA«√O COM O USU¡RIO
+	// LOOP PRINCIPAL, INTERA√á√ÉO COM O USU√ÅRIO
 	do {
 		op = menu();
 

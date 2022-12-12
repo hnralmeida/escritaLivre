@@ -297,15 +297,14 @@ Tvertex** mine(Tvertex* pre[], int open[], float dist[], Tvertex* origin, Tverte
     float shortPath=INFINITY;
     int i, n; 
 
-    // fechar o nodo
+    // Fechar o nodo
     open[origin->code-1]=0;
-    printf("\nNodo %d", origin->code);
 
-    // recalcular as estimativas
+    // Recalcular as estimativas de distancias
     while(aux1 != NULL){
         if(open[aux1->vertex->code-1]){
-            printf("\n\tAberto %d", aux1->vertex->code);
-            if(aux1->distance < dist[aux1->vertex->code-1]){
+            // Se o nodo for mais curto que o registrado como predecessor, atualiza o predecessor
+            if(aux1->distance < dist[aux1->vertex->code-1]||aux1->vertex->code==destiny->code){
                 dist[aux1->vertex->code-1] = aux1->distance+dist[origin->code-1];
                 pre[aux1->vertex->code-1] = origin;
                 shortWay = aux1->vertex;
@@ -313,10 +312,9 @@ Tvertex** mine(Tvertex* pre[], int open[], float dist[], Tvertex* origin, Tverte
         }
         aux1 = aux1->next;
     }
-
-
+    
     // vertice aberto minimo e condicao de parada
-    if(destiny->code!=shortWay->code){
+    if(destiny->code!=shortWay->code&&hasOpen(open, shortWay)){
         aux2= mine(pre, open, dist, shortWay, destiny);
     }
     return pre;
@@ -365,13 +363,14 @@ void djiskra(Tgraph* graph){
     }
     else{        
         way = mine(pre, open, dist, origin, destiny);
+        printf("\nAchou");
     }
 
     // Listar Saida
     aux = destiny;
     printf("\n(");
     while(aux->code!=origin->code){
-        printf("%s, ", aux->city_name);
+        printf("%d - %s, ", aux->code, aux->city_name);
         prev = aux;
         aux = way[aux->code-1];
         if(aux!=NULL){ 
@@ -380,7 +379,7 @@ void djiskra(Tgraph* graph){
             MIN_DIST += auxAdj->distance;
         }
     }
-    printf("%s)\nDistancia Total: %.2f km", origin->city_name, MIN_DIST);
+    printf("%d - %s)\nDistancia Total: %.2f km", origin->code, origin->city_name, MIN_DIST);
 }
 
 Tgraph* initializeCities(Tgraph* graph){
