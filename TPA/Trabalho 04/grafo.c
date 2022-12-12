@@ -19,12 +19,21 @@ Professor: Eduardo Max Amaral
 =========================================================================================
 			Implementacao
 */
-
+/**
+ * @brief Retira do flush quaisquer dados
+ *
+ */
 void limparBuffer(){
     char c;
     while((c= getchar()) != '\n' && c != EOF);
 }
 
+/**
+ * @brief Cria um Grado vazio
+ * 
+ * @param graph 
+ * @return Tgraph* 
+ */
 Tgraph* initializeGraph(Tgraph* graph){
     graph = (Tgraph*)malloc(sizeof(Tgraph));
     graph->item=NULL;
@@ -32,11 +41,18 @@ Tgraph* initializeGraph(Tgraph* graph){
     return graph;
 }
 
-// procura o vertice com nome passado
+/**
+ * @brief Procura o vertice com nome passado
+ * 
+ * @param graph 
+ * @param name 
+ * @return Tvertex* 
+ */
 Tvertex* searchCity(Tgraph* graph, string name){
     if(graph->item == NULL) return NULL;
 	Tgraph* aux = graph;
 
+    // Percorre os nos do grafo em ordem de adição
 	while(aux!=NULL){
 		if(strcmp(name, (aux->item)->city_name)!=0)
 			aux = aux->next;
@@ -46,11 +62,18 @@ Tvertex* searchCity(Tgraph* graph, string name){
 	return NULL;
 }
 
-// procura o vertice com nome passado
+/**
+ * @brief Procura o vertice com código passado
+ * 
+ * @param graph 
+ * @param code 
+ * @return Tvertex* 
+ */
 Tvertex* searchCode(Tgraph* graph, int code){
     if(graph->item == NULL) return NULL;
 	Tgraph* aux = graph;
 
+    // Percorre os nos do grafo em ordem de adição
 	while(aux!=NULL){
 		if(code != aux->item->code)
 			aux = aux->next;
@@ -60,6 +83,13 @@ Tvertex* searchCode(Tgraph* graph, int code){
 	return NULL;
 }
 
+/**
+ * @brief Cria um vertice (nó) com código e nome passados, subfunção de newGraph
+ * 
+ * @param name 
+ * @param code 
+ * @return Tvertex* 
+ */
 Tvertex *initializeVertex(string name, int code){
     Tvertex *newCity = (Tvertex *)malloc(sizeof(Tvertex));
 	newCity->number_adjacent = 0;
@@ -69,6 +99,13 @@ Tvertex *initializeVertex(string name, int code){
     return newCity;
 }
 
+/**
+ * @brief Aloca espaço para um novo vertice (nó) com os parametros passados
+ * 
+ * @param name 
+ * @param code 
+ * @return Tgraph* 
+ */
 Tgraph *newGraph(string name, int code){
     Tgraph* newNode = (Tgraph *)malloc(sizeof(Tgraph));
 	newNode->item = initializeVertex(name, code);
@@ -76,6 +113,11 @@ Tgraph *newGraph(string name, int code){
     return newNode;
 }
 
+/**
+ * @brief Conta o número de nós no Grafo, subfunção de insertCity
+ * 
+ * @param graph 
+ */
 void count(Tgraph** graph){
     Tgraph* aux= *graph;
     int i=0;
@@ -91,6 +133,14 @@ void count(Tgraph** graph){
     }
 }
 
+/**
+ * @brief Procura a posição para adicionar um novo vertice (nó) ao grafo
+ * 
+ * @param graph 
+ * @param name 
+ * @param code 
+ * @return Tgraph* 
+ */
 Tgraph* insertCity(Tgraph** graph, string name, int code){
     int flag=0;
     if((*graph)->item==NULL){
@@ -121,6 +171,11 @@ Tgraph* insertCity(Tgraph** graph, string name, int code){
     return (*graph);
 }
 
+/**
+ * @brief Create a City object
+ * 
+ * @param graph 
+ */
 void createCity(Tgraph** graph){
     string name; int code;
 	Tvertex* valid = NULL;
@@ -139,6 +194,11 @@ void createCity(Tgraph** graph){
     else printf("Valor ja existe na lista");
 }
 
+/**
+ * @brief Lista os vertices adjacents ao vertex que chamou a função
+ * 
+ * @param adjacent 
+ */
 void printAdjacent(Tadjacent* adjacent){
     if(adjacent==NULL){
         printf("\n");
@@ -148,6 +208,11 @@ void printAdjacent(Tadjacent* adjacent){
     }
 }
 
+/**
+ * @brief Nomeia o vertice e faz chamar a subfunção para mostrar adjacências
+ * 
+ * @param vertex 
+ */
 void printVertex(Tvertex* vertex){
     if(vertex==NULL){
         printf("\n====================");
@@ -157,6 +222,11 @@ void printVertex(Tvertex* vertex){
     }
 }
 
+/**
+ * @brief Imprime as cidades com suas adjacências com auxílio das subfunções.
+ * 
+ * @param graph 
+ */
 void printGraph(Tgraph* graph){
     Tgraph* aux = graph;
     if(aux->item==NULL) printf("\nCidade Vazia");
@@ -168,6 +238,11 @@ void printGraph(Tgraph* graph){
     }
 }
 
+/**
+ * @brief Mostra a lista de cidades
+ * 
+ * @param graph 
+ */
 void printCity(Tgraph* graph){
     Tgraph* aux = graph;
     Tvertex* vertex;
@@ -185,6 +260,13 @@ void printCity(Tgraph* graph){
     }
 }
 
+/**
+ * @brief Cria uma adjac~encias para a lista de adjacências
+ * 
+ * @param city 
+ * @param distance 
+ * @return Tadjacent* 
+ */
 Tadjacent* initAdjacent(Tvertex* city, float distance){
     Tadjacent* aux = (Tadjacent*)malloc(sizeof(Tadjacent));
     aux->distance = distance;
@@ -193,8 +275,15 @@ Tadjacent* initAdjacent(Tvertex* city, float distance){
     return aux;
 }
 
+/**
+ * @brief cria uma conexão entra as cidades que são parâmetros
+ * 
+ * @param city1 
+ * @param city2 
+ * @param distance 
+ */
 void insertEdge(Tvertex* city1, Tvertex* city2, float distance){
-    // printf("\n%s -> %s", city1->city_name, city2->city_name);
+    
     if(city1==NULL){
         printf("\nCidade Origem não existe");
         return;
@@ -203,9 +292,11 @@ void insertEdge(Tvertex* city1, Tvertex* city2, float distance){
         return;
     }
 
+    // Se a lista de adjacências for vazia, cria uma nova
     if((city1)->adjacent==NULL){
         (city1)->adjacent = initAdjacent(city2, distance);
         (city1)->number_adjacent = 1;
+    // Procura a posição para adicionara cidade na lista
     }else if(strcmp(city2->city_name, (city1)->adjacent->vertex->city_name)<0){
         Tadjacent* aux = initAdjacent(city2, distance);
         aux->next = (city1)->adjacent;
@@ -230,6 +321,11 @@ void insertEdge(Tvertex* city1, Tvertex* city2, float distance){
     }
 }
 
+/**
+ * @brief Faz interação com usuário para chamar a função de inserir ligações
+ * 
+ * @param graph 
+ */
 void createEdge(Tgraph** graph){
     string name1, name2;
     int distance;
@@ -259,6 +355,11 @@ void createEdge(Tgraph** graph){
     else printf("Cidade %s nao existe", name1);
 }
 
+/**
+ * @brief Faz interface com o usuário para procurar uma cidade
+ * 
+ * @param graph 
+ */
 void search(Tgraph* graph){
     string name;
 	Tvertex* valid = NULL;
@@ -278,6 +379,13 @@ void search(Tgraph* graph){
     }
 }
 
+/**
+ * @brief Vê se há nós abertos na pesquisa
+ * 
+ * @param open 
+ * @param origin 
+ * @return int 
+ */
 int hasOpen(int open[], Tvertex* origin){
     Tadjacent* aux = origin->adjacent;
     int total=0, closed=0;
@@ -290,6 +398,16 @@ int hasOpen(int open[], Tvertex* origin){
     else return 1;
 }
 
+/**
+ * @brief Percorre os vertices e adjacências procurando o destino
+ * 
+ * @param pre 
+ * @param open 
+ * @param dist 
+ * @param origin 
+ * @param destiny 
+ * @return Tvertex** 
+ */
 Tvertex** mine(Tvertex* pre[], int open[], float dist[], Tvertex* origin, Tvertex* destiny){
     // Enquanto houver vertices abertos
     Tadjacent* aux1 = origin->adjacent;
@@ -320,6 +438,11 @@ Tvertex** mine(Tvertex* pre[], int open[], float dist[], Tvertex* origin, Tverte
     return pre;
 }
 
+/**
+ * @brief Função para procurar menor caminho
+ * 
+ * @param graph 
+ */
 void djiskra(Tgraph* graph){
     Tvertex *origin, *destiny, *aux, *prev;
     int i, n;
@@ -382,6 +505,12 @@ void djiskra(Tgraph* graph){
     printf("%d - %s)\nDistancia Total: %.2f km", origin->code, origin->city_name, MIN_DIST);
 }
 
+/**
+ * @brief Lê os dados do arquivo de entrada e coloca no grafo
+ * 
+ * @param graph 
+ * @return Tgraph* 
+ */
 Tgraph* initializeCities(Tgraph* graph){
     FILE* file;
     int n_cities, i, j;
