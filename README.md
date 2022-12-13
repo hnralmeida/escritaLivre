@@ -1,18 +1,18 @@
-# hnrEscritaLivre
+# hnrCollege
 
 <img src="https://raw.githubusercontent.com/MicaelliMedeiros/micaellimedeiros/master/image/computer-illustration.png" min-width="400px" max-width="400px" width="400px" align="right" alt="Computador iuriCode">
 
 <p align="left"> 
-  A series of unrelated files, just for testing and/or made during classes, bootcamps and others. <br>
+  A series of files made during classe. <br>
   Currently Informational Systems Bachelor Student at IFES - Campus Colatina.
 </p>
 
 <p align="left">
-  🦄 Linguagens: <strong>C</strong>, VBA and Python.
+  🦄 Linguagens: <strong>C</strong>, Java.
 </p>
 
 <p align="left">
-  💼 Ferramentas: <strong>Visual Studio</strong> and <strong>Microsoft Office.</strong>
+  💼 Ferramentas: <strong>Visual Studio</strong> and <strong>Netbeans.</strong>
 </p>
 
 <p align="left">
