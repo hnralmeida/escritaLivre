@@ -11,9 +11,9 @@ Professor: Eduardo Max Amaral
 #include<locale.h>
 #include<stdlib.h>
 #include<limits.h>
+#include <math.h>
 #include "grafo.h"
 
-#define INFINITY INT_MAX/2
 #define TAM 10
 
 /*
@@ -34,7 +34,7 @@ Tgraph* initializeGraph(Tgraph* graph){
 }
 
 // procura o vertice com nome passado
-Tvertex* searchCity(Tgraph* graph, string name){
+Tvertex* searchTile(Tgraph* graph, string name){
     if(graph->item == NULL) return NULL;
 	Tgraph* aux = graph;
 
@@ -92,7 +92,7 @@ void count(Tgraph** graph){
     }
 }
 
-Tgraph* insertCity(Tgraph** graph, string name, int code){
+Tgraph* insertTile(Tgraph** graph, string name, int code){
     int flag=0;
     if((*graph)->item==NULL){
         // substitui item pelo novo vetor (ja estava inicializado com NULL)
@@ -122,7 +122,7 @@ Tgraph* insertCity(Tgraph** graph, string name, int code){
     return (*graph);
 }
 
-void createCity(Tgraph** graph){
+void createTile(Tgraph** graph){
     string name; int code;
 	Tvertex* valid = NULL;
 
@@ -134,9 +134,9 @@ void createCity(Tgraph** graph){
 
 	// verifica se ja nao existe o valor passado na arvore
 
-	valid = searchCity((*graph), name); 
+	valid = searchTile((*graph), name); 
 
-	if (valid == NULL) (*graph) = insertCity(graph, name, code); // se nao estiver adicionado, adiciona o registro
+	if (valid == NULL) (*graph) = insertTile(graph, name, code); // se nao estiver adicionado, adiciona o registro
     else printf("Valor ja existe na lista");
 }
 
@@ -169,7 +169,7 @@ void printGraph(Tgraph* graph){
     }
 }
 
-void printCity(Tgraph* graph){
+void printTile(Tgraph* graph){
     Tgraph* aux = graph;
     Tvertex* vertex;
     if(aux->item==NULL) printf("\nCidade Vazia");
@@ -245,9 +245,9 @@ void createEdge(Tgraph** graph){
     printf("\nDigite a distancia entre as cidades: ");
 	scanf("%d", &distance);
 
-    city1 = searchCity((*graph), name1); 
+    city1 = searchTile((*graph), name1); 
 	if (city1 != NULL){
-        city2 = searchCity((*graph), name2); 
+        city2 = searchTile((*graph), name2); 
         // se nao estiver adicionado, adiciona o registro
         if (city2 != NULL){
             insertEdge(city1, city2, distance);
@@ -268,7 +268,7 @@ void search(Tgraph* graph){
 	scanf(" %[^\n]s", name);
 
 	// verifica se existe
-	valid = searchCity((graph), name); 
+	valid = searchTile((graph), name); 
 
     if(valid==NULL) printf("\nCidade nao existe");
     else{
@@ -285,7 +285,6 @@ int hasOpen(int open[], Tvertex* origin){
         if(!open[aux->vertex->code-1]) closed++;
         aux=aux->next;
     }
-    printf("\ntotal=%d, closed=%d", total, closed);
     if(total==closed) return 0;
     else return 1;
 }
@@ -293,56 +292,60 @@ int hasOpen(int open[], Tvertex* origin){
 Tvertex** mine(Tvertex* pre[], int open[], float dist[], Tvertex* origin, Tvertex* destiny){
     // Enquanto houver vertices abertos
     Tadjacent* aux1 = origin->adjacent;
-    Tvertex* shortWay=aux1->vertex, **aux2;
+    Tvertex* shortWay, **aux2;
     float shortPath=INFINITY;
-    int i, n; 
 
     // Fechar o nodo
-    open[origin->code-1]=0;
-    printf("\nClose %s", origin->tile);
-    
+    open[origin->code]=0;
+
     // Recalcular as estimativas de distancias
     while(aux1 != NULL){
-        if(open[aux1->vertex->code-1]){
-            // vertice aberto minimo e condicao de parada
-            if(destiny->code!=shortWay->code&&hasOpen(open, shortWay)){
-                dist[aux1->vertex->code-1] = aux1->distance+dist[origin->code-1];
-                pre[aux1->vertex->code-1] = origin;
+
+        // Calcular distancia até origem (G)
+        dist[aux1->vertex->code] = dist[origin->code]+1;
+
+        // Calcular distancia até destino (H)
+        int i1 = aux1->vertex->code/TAM;
+        int j1 = aux1->vertex->code%TAM;
+        int i2 = destiny->code/TAM;
+        int j2 = destiny->code%TAM;
+        aux1->distance = (float) ((i1-i2)*(i1-i2)+(j1-j2)*(j1-j2));
+
+        if(open[aux1->vertex->code]){
+            // Se o nodo for mais curto que o registrado como predecessor, atualiza o predecessor
+            if( (aux1->distance + dist[aux1->vertex->code]) < shortPath || aux1->vertex->code==destiny->code){
+                shortPath = (aux1->distance + dist[aux1->vertex->code]);
+                pre[aux1->vertex->code] = origin;
                 shortWay = aux1->vertex;
-                printf("\nMine %s to %s", origin->tile, shortWay->tile);
-                aux2 = mine(pre, open, dist, shortWay, destiny);
-            }else if(!hasOpen(open, shortWay)){
-                aux1 = aux1->next;
-                printf("\nNo Open");
-                continue;
-            }else if(destiny->code==shortWay->code){
-                printf("\nAchou: %d", dist[destiny->code-1]);
-                return pre;
             }
-        }        
+        }
         aux1 = aux1->next;
     }
     
+    // vertice aberto minimo e condicao de parada
+    if(destiny->code!=shortWay->code&&hasOpen(open, shortWay)){
+        aux2= mine(pre, open, dist, shortWay, destiny);
+    }
     return pre;
 }
 
-void djiskra(Tgraph* graph){
+void dijskra(Tgraph* graph){
     Tvertex *origin, *destiny, *aux, *prev;
     int i, n;
     string s;
     float MIN_DIST=0;
 
     // entrada de cidade
-	printf("\nQual o codigo da cidade de origem?\n");
+	printf("\nQual a coordenada de origem?\n");
 	scanf("%s", s);
 	// verifica se existe a cidade passada de origem
-	origin = searchCity((graph), s);
+	origin = searchTile((graph), s);
 
     // entrada de cidade
-	printf("\nQual o codigo da cidade de destino?\n");
+	printf("\nQual a coordenada de destino?\n");
 	scanf("%s", s);
 	// verifica se existe a cidade passada de origem
-	destiny = searchCity((graph), s);
+	destiny = searchTile((graph), s);
 
     Tvertex* pre[graph->size];
     int open[graph->size];
@@ -356,16 +359,16 @@ void djiskra(Tgraph* graph){
     }
 
     // modifica o nodo inicial
-    dist[origin->code-1]=0;
+    dist[origin->code]=0;
 
     // se existir a cidade, chama a subfuncao que escreve o menor caminho
     Tvertex** way = (Tvertex**) malloc((graph->size)*sizeof(Tvertex*));
-    if(origin==NULL) {
-        printf("\nCidade origem nao existe");
+    if(origin==NULL||origin->number_adjacent==0) {
+        printf("\nCoordenada origem nao pode ser acessada");
         return;
     }
-    else if(destiny==NULL) {
-        printf("\nCidade destino nao existe");
+    else if(destiny==NULL||destiny->number_adjacent==0) {
+        printf("\nCoordenada destino nao pode ser acessada");
         return;
     }
     else{        
@@ -376,21 +379,22 @@ void djiskra(Tgraph* graph){
     aux = destiny;
     printf("\n(");
     while(aux->code!=origin->code){
-        printf("%s, ", aux->tile);
+        printf("%s -> ", aux->tile);
         prev = aux;
-        aux = way[aux->code-1];
+        aux = way[aux->code];
         if(aux!=NULL){ 
             Tadjacent* auxAdj = aux->adjacent;
             while(auxAdj!=NULL&&auxAdj->vertex->code!=prev->code) auxAdj=auxAdj->next;
-            MIN_DIST += auxAdj->distance;
+            MIN_DIST++;
         }
     }
-    printf("%d - %s)\nDistancia Total: %.2f km", origin->code, origin->tile, MIN_DIST);
+    printf(" %s)\nPassos Totais: %.2f ", origin->tile, MIN_DIST);
 }
 
-Tgraph* initializeCities(Tgraph* graph){
+Tgraph* initializeTiles(Tgraph* graph){
     FILE* file;
-    int i, j, dist, tiles[TAM][TAM];
+    int i, j, tiles[TAM][TAM];
+    float dist;
     string r, s, line;
     file = fopen("entrada.txt", "r");
     char *arr, *arrayList[TAM];
@@ -416,7 +420,7 @@ Tgraph* initializeCities(Tgraph* graph){
     for (i=0; i<TAM; i++) {
         for(j=0; j<TAM; j++){
             sprintf(s, "%d,%d", i, j);
-            insertCity(&graph, s , i);
+            insertTile(&graph, s , i*TAM+j);
         }
     }
 
@@ -426,24 +430,24 @@ Tgraph* initializeCities(Tgraph* graph){
             sprintf(s, "%d,%d", i, j);
             if(tiles[i][j]) continue;
             
-            dist = 1;
+            dist = INFINITY;
             // Vê para cada vizinho se ele está livre
             if(!tiles[i-1][j]){
                 sprintf(r, "%d,%d", i-1, j);
-                insertEdge(searchCity(graph, r), searchCity(graph, s), dist );
+                insertEdge(searchTile(graph, r), searchTile(graph, s), dist );
             }
 
             if(!tiles[i][j+1]){
                 sprintf(r, "%d,%d", i, j+1);
-                insertEdge(searchCity(graph, r), searchCity(graph, s), dist );
+                insertEdge(searchTile(graph, r), searchTile(graph, s), dist );
             }
             if(!tiles[i][j-1]){
                 sprintf(r, "%d,%d", i, j-1);
-                insertEdge(searchCity(graph, r), searchCity(graph, s), dist );
+                insertEdge(searchTile(graph, r), searchTile(graph, s), dist );
             }
             if(!tiles[i+1][j]){
                 sprintf(r, "%d,%d", i+1, j);
-                insertEdge(searchCity(graph, r), searchCity(graph, s), dist );
+                insertEdge(searchTile(graph, r), searchTile(graph, s), dist );
             }
         }
 	}

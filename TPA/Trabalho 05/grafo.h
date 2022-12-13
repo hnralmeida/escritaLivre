@@ -47,11 +47,11 @@ void limparBuffer();
 // Funcao de inicializar grafo vazio
 Tgraph* initializeGraph(Tgraph* graph);
 // Iniciar o mapa exemplo
-Tgraph* initializeCities(Tgraph* graph);
+Tgraph* initializeTiles(Tgraph* graph);
 // Insertir cidades com nome
-void createCity(Tgraph** graph);
+void createTile(Tgraph** graph);
 // Imprimir somente cidades
-void printCity(Tgraph* graph);
+void printTile(Tgraph* graph);
 // Imprimir cidades e adjacencias
 void printGraph(Tgraph* graph);
 // Criar caminhos, arestas, entre cidades
@@ -59,6 +59,6 @@ void createEdge(Tgraph** graph);
 // Procurar e retorna a cidade, vertice, com nome correspondente e suas adjacencias
 void search(Tgraph* graph);
 // Procurar um caminho para percorrer
-void djiskra(Tgraph* graph);
+void dijskra(Tgraph* graph);
 
 #endif

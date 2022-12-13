@@ -31,17 +31,17 @@ void main(){
 	Tgraph* cidades;
 	setlocale(LC_ALL, "en-US");
 	cidades = initializeGraph(cidades);
-	cidades = initializeCities(cidades);
+	cidades = initializeTiles(cidades);
 
 	// LOOP PRINCIPAL, INTERAÇÃO COM O USUÁRIO
 	do {
 		op = menu();
 
 		switch(op){
-		   case 1: printCity(cidades); break;
+		   case 1: printTile(cidades); break;
 		   case 2: printGraph(cidades); break;
 		   case 3: search(cidades); break;
-		   case 4: djiskra(cidades); break;
+		   case 4: dijskra(cidades); break;
 		   default: break;
 		}//switch
 		printf("\nPressione qualquer tecla para continuar. . .");
